@@ -26,7 +26,8 @@ export async function getAdminData(from: Date, to: Date): Promise<AdminData> {
     supabase.from("professionals").select("*").order("name"),
     supabase
       .from("appointments")
-      .select("*, services(name), professionals(name)")
+      // service_id explícito: com appointment_services há dois caminhos até services e o embed fica ambíguo
+      .select("*, services!appointments_service_id_fkey(name), professionals(name)")
       .gte("starts_at", from.toISOString())
       .lt("starts_at", to.toISOString())
       .order("starts_at"),
@@ -39,6 +40,7 @@ export async function getAdminData(from: Date, to: Date): Promise<AdminData> {
     supabase.from("working_hours").select("*").order("weekday").order("start_time"),
     supabase.from("time_off").select("*").gte("ends_at", new Date().toISOString()).order("starts_at"),
   ])
+  if (appointments.error) console.error("Falha ao ler agendamentos", appointments.error.message)
   return {
     configured: true,
     settings: settings.data as Settings,

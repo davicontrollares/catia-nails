@@ -31,7 +31,7 @@ export default async function MeusAgendamentos() {
 
   const { data } = await supabase
     .from("appointments")
-    .select("*, services(name), professionals(name)")
+    .select("*, services!appointments_service_id_fkey(name), professionals(name)")
     .eq("client_id", user.id)
     .order("starts_at", { ascending: false })
   const list = (data ?? []) as Appointment[]
