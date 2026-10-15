@@ -1,11 +1,20 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import Image from "next/image"
+import Autoplay from "embla-carousel-autoplay"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
 export function GalleryCarousel({ photos }: { photos: { src: string; alt: string }[] }) {
+  // autoplay só para quem não pediu menos movimento no sistema
+  const [plugins, setPlugins] = useState<ReturnType<typeof Autoplay>[]>([])
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+    setPlugins([Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true })])
+  }, [])
+
   return (
-    <Carousel opts={{ align: "start", loop: true, dragFree: true }} className="w-full">
+    <Carousel key={plugins.length} opts={{ align: "start", loop: true, dragFree: true }} plugins={plugins} className="w-full">
       <CarouselContent className="-ml-3 md:-ml-4">
         {photos.map((p, i) => (
           <CarouselItem key={p.src} className="basis-[72%] pl-3 sm:basis-1/2 md:basis-1/3 md:pl-4 lg:basis-1/4">

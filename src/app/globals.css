@@ -53,7 +53,7 @@
 
 :root {
   /* Porcelana + ameixa-noir + rosé malva (único destaque) */
-  --background: oklch(0.977 0.006 15);
+  --background: oklch(0.975 0.015 0);
   --foreground: oklch(0.2 0.015 345);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2 0.015 345);
@@ -83,9 +83,10 @@
   --glass-strong: oklch(1 0 0 / 78%);
   --glass-edge: oklch(1 0 0 / 95%);
   --glass-shadow: 0 16px 40px -20px oklch(0.3 0.04 345 / 25%);
-  --mesh-1: oklch(0.92 0.035 5);
-  --mesh-2: oklch(0.95 0.02 30);
-  --mesh-3: oklch(0.93 0.03 340);
+  --mesh-1: oklch(0.92 0.05 0);
+  --mesh-2: oklch(0.95 0.03 40);
+  --mesh-3: oklch(0.94 0.04 350);
+  --mesh-4: oklch(0.93 0.045 10);
   --sidebar: var(--glass-bg);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -129,6 +130,7 @@
   --mesh-1: oklch(0.26 0.045 355);
   --mesh-2: oklch(0.22 0.02 20);
   --mesh-3: oklch(0.24 0.04 330);
+  --mesh-4: transparent;
 }
 
 @layer base {
@@ -166,7 +168,7 @@
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
-/* gradiente suave atrás da página (rosé, pêssego e lilás) */
+/* gradiente suave atrás da página (rosa bebê com toque pêssego) */
 .mesh-bg {
   position: fixed;
   inset: -10%;
@@ -175,6 +177,7 @@
     radial-gradient(45% 40% at 85% 5%, var(--mesh-1), transparent 70%),
     radial-gradient(40% 35% at 10% 20%, var(--mesh-3), transparent 70%),
     radial-gradient(50% 40% at 60% 95%, var(--mesh-2), transparent 70%),
+    radial-gradient(45% 35% at 20% 70%, var(--mesh-4), transparent 70%),
     var(--background);
 }
 @media (prefers-reduced-motion: no-preference) {
