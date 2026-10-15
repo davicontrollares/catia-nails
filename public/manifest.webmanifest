@@ -1,0 +1,11 @@
+{
+  "name": "Catia Rodrigues Nails",
+  "short_name": "Catia Nails",
+  "description": "Agende seu horário de unhas em gel e fibra de vidro.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8efed",
+  "theme_color": "#b05a66",
+  "lang": "pt-BR",
+  "icons": [{ "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}
