@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { CalendarHeart, Home, User } from "lucide-react"
+import { CalendarHeart, Home } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -12,9 +12,6 @@ export function SiteHeader() {
           Catia Rodrigues <span className="font-normal text-muted-foreground">Nails</span>
         </Link>
         <nav className="flex items-center gap-1">
-          <Link href="/meus-agendamentos" className={cn(buttonVariants({ variant: "ghost" }), "hidden sm:inline-flex")}>
-            Meus horários
-          </Link>
           <ThemeToggle />
           <Link href="/agendar" className={cn(buttonVariants(), "hidden sm:inline-flex")}>
             Agendar horário
@@ -28,7 +25,6 @@ export function SiteHeader() {
 const tabs = [
   { href: "/", label: "Início", icon: Home },
   { href: "/agendar", label: "Agendar", icon: CalendarHeart },
-  { href: "/meus-agendamentos", label: "Meus horários", icon: User },
 ]
 
 export function TabBar() {
