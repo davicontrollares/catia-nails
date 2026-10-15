@@ -1,8 +1,8 @@
 import type { Professional, Service, Settings, WorkingHour } from "./types"
 
-export const hasSupabase = Boolean(
-  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-)
+import { hasSupabase } from "./supabase/env"
+
+export { hasSupabase }
 
 // Só usado se o Supabase não estiver configurado: o site mostra a agenda como indisponível.
 const FALLBACK_SETTINGS: Settings = {
@@ -23,7 +23,7 @@ export { FALLBACK_SETTINGS }
 
 export async function getPublicData() {
   if (!hasSupabase) {
-    console.error("Supabase não configurado: defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.")
+    console.error("Supabase não configurado: defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY.")
     return { settings: FALLBACK_SETTINGS, services: [] as Service[], professionals: [] as Professional[], hours: [] as WorkingHour[] }
   }
   const { createClient } = await import("./supabase/server")

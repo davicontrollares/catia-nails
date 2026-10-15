@@ -1,16 +1,17 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
+import { hasSupabase, SUPABASE_KEY, SUPABASE_URL } from "@/lib/supabase/env"
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({ request })
   // Sem Supabase configurado não há login: o painel fica fechado.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+  if (!hasSupabase) {
     if (request.nextUrl.pathname.startsWith("/admin")) return NextResponse.redirect(new URL("/", request.url))
     return response
   }
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    SUPABASE_URL,
+    SUPABASE_KEY,
     {
       cookies: {
         getAll: () => request.cookies.getAll(),

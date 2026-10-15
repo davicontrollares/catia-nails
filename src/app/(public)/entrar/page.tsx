@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
+import { hasSupabase } from "@/lib/supabase/env"
 
 export default function EntrarPage() {
   return (
@@ -24,7 +25,7 @@ function LoginForm() {
   const [mode, setMode] = useState<"login" | "signup">("login")
   const [form, setForm] = useState({ name: "", phone: "", email: "", password: "" })
   const [pending, start] = useTransition()
-  const configured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL)
+  const configured = hasSupabase
   const redirectTo = () => `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`
 
   function submit(e: React.FormEvent) {

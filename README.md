@@ -26,7 +26,7 @@ npm run dev
 
 1. Crie um repositório no GitHub e envie este projeto (`git remote add origin ...` e `git push -u origin main`).
 2. Na Vercel, importe o repositório.
-3. Em Storage, adicione a integração Supabase. Ela cria o banco e preenche `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+3. Em Storage, adicione a integração Supabase. Ela cria o banco e preenche `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 4. No painel do Supabase, abra o SQL Editor e rode, nesta ordem:
    - `supabase/migrations/0001_init.sql`
    - `supabase/seed.sql`
@@ -47,7 +47,7 @@ where id = (select id from auth.users where email = 'SEU-EMAIL');
 | Nome | Uso |
 | --- | --- |
 | `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Chave pública do Supabase |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Chave pública do Supabase (ou `NEXT_PUBLIC_SUPABASE_ANON_KEY`) |
 | `RESEND_API_KEY` | Envio do e-mail de confirmação (opcional) |
 | `EMAIL_FROM` | Remetente, ex. `Bela Flor Nails <agendamento@seudominio.com.br>` |
 
