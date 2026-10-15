@@ -12,7 +12,7 @@ export function PageTitle({ title, subtitle, children }: { title: string; subtit
 
 export function Kpi({ label, value, hint }: { label: string; value: string; hint?: string }) {
   return (
-    <div className="glass rounded-3xl p-5">
+    <div className="border bg-card shadow-sm rounded-3xl p-5">
       <p className="text-sm text-muted-foreground">{label}</p>
       <p className="mt-1 text-2xl font-bold tracking-tight tabular-nums sm:text-3xl">{value}</p>
       {hint && <p className="mt-1 text-xs text-muted-foreground">{hint}</p>}

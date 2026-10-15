@@ -43,7 +43,7 @@ export function ServiceManager({ services }: { services: Service[] }) {
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((s) => (
-          <div key={s.id} className={cn("glass flex flex-col gap-3 rounded-3xl p-5", !s.active && "opacity-60")}>
+          <div key={s.id} className={cn("border bg-card shadow-sm flex flex-col gap-3 rounded-3xl p-5", !s.active && "opacity-60")}>
             <div className="flex items-start justify-between gap-2">
               <div>
                 <Badge variant="outline">{s.category}</Badge>
@@ -64,7 +64,7 @@ export function ServiceManager({ services }: { services: Service[] }) {
       </div>
 
       <Dialog open={!!draft} onOpenChange={(o) => !o && setDraft(null)}>
-        <DialogContent className="glass-strong rounded-3xl">
+        <DialogContent className="border bg-popover shadow-xl rounded-3xl">
           <DialogHeader>
             <DialogTitle>{draft?.id ? "Editar serviço" : "Novo serviço"}</DialogTitle>
           </DialogHeader>

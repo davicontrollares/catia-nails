@@ -3,9 +3,9 @@
 // Pagamento SIMULADO. Nenhum valor é cobrado: serve para mostrar o fluxo
 // antes de integrar Pix/Mercado Pago de verdade.
 
-import { useEffect, useState, useTransition } from "react"
+import { useEffect, useState } from "react"
 import { QRCodeSVG } from "qrcode.react"
-import { Check, Copy, CreditCard, Loader2, QrCode, Repeat, Store } from "lucide-react"
+import { Check, Copy, CreditCard, Loader2, QrCode, Store } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -13,7 +13,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { brl, cn } from "@/lib/utils"
-import { findLastBooking } from "./actions"
 
 export type PayMethod = "local" | "pix" | "mp"
 
@@ -167,61 +166,5 @@ export function CardDialog({ open, total, onPaid, onClose }: { open: boolean; to
         </form>
       </DialogContent>
     </Dialog>
-  )
-}
-
-/** "Repetir último atendimento": busca pelos serviços da última visita. */
-export function RepeatLast({
-  onFound,
-}: {
-  onFound: (data: { name: string; email: string; phone: string; serviceIds: string[] }) => void
-}) {
-  const [open, setOpen] = useState(false)
-  const [f, setF] = useState({ email: "", phone: "" })
-  const [pending, run] = useTransition()
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        className="mt-6 flex w-full items-center gap-4 rounded-2xl border border-dashed border-primary/40 bg-accent/40 px-5 py-4 text-left transition-colors hover:bg-accent/70"
-      >
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-background text-primary">
-          <Repeat className="size-5" />
-        </span>
-        <span>
-          <span className="block font-medium">Já é cliente? Repita o último atendimento</span>
-          <span className="text-sm text-muted-foreground">Informe e-mail e WhatsApp e seus serviços aparecem marcados.</span>
-        </span>
-      </button>
-    )
-  }
-
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        run(async () => {
-          const res = await findLastBooking(f)
-          if (!res.ok) return void toast.error(res.error)
-          toast.success("Serviços da última visita selecionados")
-          onFound({ name: res.name, email: f.email, phone: f.phone, serviceIds: res.serviceIds })
-        })
-      }}
-      className="mt-6 grid gap-3 rounded-2xl border bg-accent/40 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end"
-    >
-      <div className="grid gap-2">
-        <Label htmlFor="rep-email">E-mail</Label>
-        <Input id="rep-email" type="email" autoComplete="email" className="h-11 rounded-xl bg-background" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} required />
-      </div>
-      <div className="grid gap-2">
-        <Label htmlFor="rep-phone">WhatsApp</Label>
-        <Input id="rep-phone" type="tel" autoComplete="tel" placeholder="(17) 99999-9999" className="h-11 rounded-xl bg-background" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} required />
-      </div>
-      <Button type="submit" className="h-11" disabled={pending}>
-        {pending && <Loader2 className="animate-spin" />} Buscar
-      </Button>
-    </form>
   )
 }

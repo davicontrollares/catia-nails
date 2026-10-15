@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState, useTransition } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { addDays, format } from "date-fns"
@@ -16,12 +17,14 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { buildIcs, googleCalendarUrl, outlookCalendarUrl, type CalendarEvent } from "@/lib/calendar"
+import { serviceImage } from "@/lib/images"
 import type { Professional, Service } from "@/lib/types"
 import { brl, cn, duration, TZ } from "@/lib/utils"
-import { bookAppointment, getSlots } from "./actions"
-import { CardDialog, PAY_LABEL, PaymentChoice, PixDialog, RepeatLast, type PayMethod } from "./payment"
+import { bookAppointment, findLastBooking, getSlots } from "./actions"
+import { CardDialog, PAY_LABEL, PaymentChoice, PixDialog, type PayMethod } from "./payment"
 
-const STEPS = ["Serviços", "Data e hora", "Seus dados", "Pagamento"]
+const STEPS = ["Seus dados", "Serviços", "Data e hora", "Pagamento"]
+const VIEWS = ["dados", "servicos", "data", "pagamento"] as const
 const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: TZ })
 const fmtDay = (iso: string) =>
   new Date(iso).toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: TZ })
@@ -53,6 +56,8 @@ export function BookingWizard({
   const [done, setDone] = useState<string | null>(null)
   const [pay, setPay] = useState<PayMethod>("pix")
   const [payDialog, setPayDialog] = useState<"pix" | "mp" | null>(null)
+  const [repeated, setRepeated] = useState(false)
+  const view = VIEWS[step]
   const [loadingSlots, startSlots] = useTransition()
   const [submitting, startSubmit] = useTransition()
 
@@ -79,7 +84,7 @@ export function BookingWizard({
   }, [date, professional, totalMin])
 
   const canNext =
-    step === 0 ? chosen.length > 0 : step === 1 ? Boolean(slot) : step === 2 ? Boolean(form.name && form.email && form.phone) : true
+    view === "dados" ? Boolean(form.name && form.email && form.phone) : view === "servicos" ? chosen.length > 0 : view === "data" ? Boolean(slot) : true
   const last = STEPS.length - 1
 
   function book() {
@@ -94,6 +99,18 @@ export function BookingWizard({
   }
 
   function next() {
+    // ao sair do cadastro, procura o último atendimento e já marca os serviços
+    if (view === "dados" && !selected.length) {
+      startSubmit(async () => {
+        const res = await findLastBooking({ email: form.email, phone: form.phone })
+        if (res.ok) {
+          setSelected(res.serviceIds.filter((id) => services.some((s) => s.id === id)))
+          setRepeated(true)
+        }
+        setStep(1)
+      })
+      return
+    }
     if (step < last) return setStep(step + 1)
     if (pay === "local") book()
     else setPayDialog(pay)
@@ -161,8 +178,8 @@ export function BookingWizard({
 
   return (
     <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_360px] lg:items-start">
-      <div className="rounded-3xl border bg-card p-5 shadow-sm sm:p-8">
-        <ol className="grid grid-cols-3 gap-3">
+      <div className="rounded-3xl border bg-card p-4 shadow-sm sm:p-8">
+        <ol className="grid grid-cols-4 gap-2 sm:gap-3">
           {STEPS.map((label, i) => (
             <li key={label}>
               <button type="button" disabled={i > step} onClick={() => setStep(i)} className="w-full text-left disabled:cursor-default">
@@ -182,17 +199,16 @@ export function BookingWizard({
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8"
           >
-            {step === 0 && (
+            {view === "servicos" && (
               <>
                 <h1 className="font-display text-3xl sm:text-4xl">O que vamos fazer?</h1>
                 <p className="mt-2 text-muted-foreground">Escolha um ou mais serviços.</p>
-                <RepeatLast
-                  onFound={({ name, email, phone, serviceIds }) => {
-                    setSelected(serviceIds.filter((id) => services.some((s) => s.id === id)))
-                    setForm((f) => ({ ...f, name: f.name || name, email, phone }))
-                    setStep(1)
-                  }}
-                />
+                {repeated && chosen.length > 0 && (
+                  <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl bg-brand-soft px-4 py-3 text-sm">
+                    <span>Marcamos os serviços da sua última visita. Adicione ou tire o que quiser.</span>
+                    <Button variant="ghost" size="sm" onClick={() => setSelected([])}>Limpar</Button>
+                  </div>
+                )}
                 <div className="mt-6 grid gap-3">
                   {services.map((s) => {
                     const on = selected.includes(s.id)
@@ -201,18 +217,21 @@ export function BookingWizard({
                         key={s.id}
                         htmlFor={`svc-${s.id}`}
                         className={cn(
-                          "flex min-h-20 cursor-pointer items-center gap-4 rounded-2xl border bg-background px-5 py-4 font-normal transition-colors hover:border-primary/40",
-                          on && "border-primary bg-accent/60"
+                          "flex cursor-pointer items-center gap-3 rounded-2xl border bg-background p-2.5 pr-4 font-normal transition-colors hover:border-brand/50 sm:gap-4",
+                          on && "border-brand bg-brand-soft/60"
                         )}
                       >
-                        <Checkbox
-                          id={`svc-${s.id}`}
-                          checked={on}
-                          onCheckedChange={(v) => setSelected((cur) => (v ? [...cur, s.id] : cur.filter((x) => x !== s.id)))}
-                          className="size-5"
-                        />
+                        <span className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted">
+                          <Image src={serviceImage(s.name, s.category).src} alt="" fill sizes="64px" className="object-cover" />
+                          <Checkbox
+                            id={`svc-${s.id}`}
+                            checked={on}
+                            onCheckedChange={(v) => setSelected((cur) => (v ? [...cur, s.id] : cur.filter((x) => x !== s.id)))}
+                            className="absolute top-1.5 left-1.5 size-5 border-white bg-white/80 shadow-sm"
+                          />
+                        </span>
                         <span className="flex-1">
-                          <span className="block text-base font-medium">{s.name}</span>
+                          <span className="block text-[15px] leading-snug font-medium">{s.name}</span>
                           <span className="text-sm text-muted-foreground">{duration(s.duration_min)}</span>
                         </span>
                         <span className="font-semibold tabular-nums">{brl(Number(s.price))}</span>
@@ -223,7 +242,7 @@ export function BookingWizard({
               </>
             )}
 
-            {step === 1 && (
+            {view === "data" && (
               <>
                 <h1 className="font-display text-3xl sm:text-4xl">Quando fica bom?</h1>
                 <p className="mt-2 text-muted-foreground">Só aparecem horários livres para {duration(totalMin)} de atendimento.</p>
@@ -277,10 +296,10 @@ export function BookingWizard({
               </>
             )}
 
-            {step === 2 && (
+            {view === "dados" && (
               <>
-                <h1 className="font-display text-3xl sm:text-4xl">Seus dados</h1>
-                <p className="mt-2 text-muted-foreground">Usamos para confirmar o horário e avisar se algo mudar.</p>
+                <h1 className="font-display text-3xl sm:text-4xl">Vamos começar</h1>
+                <p className="mt-2 text-muted-foreground">Se você já veio antes, trazemos seus serviços da última visita.</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="grid gap-2 sm:col-span-2">
                     <Label htmlFor="name">Nome</Label>
@@ -302,7 +321,7 @@ export function BookingWizard({
               </>
             )}
 
-            {step === 3 && <PaymentChoice value={pay} onChange={setPay} total={totalPrice} />}
+            {view === "pagamento" && <PaymentChoice value={pay} onChange={setPay} total={totalPrice} />}
           </motion.div>
       </div>
 

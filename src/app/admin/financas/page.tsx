@@ -39,7 +39,7 @@ export default async function FinancasPage({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageTitle title="Finanças" subtitle={`Últimos ${PERIODS[String(days) as keyof typeof PERIODS]}`}>
-        <div className="glass flex rounded-full p-1">
+        <div className="border bg-card shadow-sm flex rounded-full p-1">
           {Object.entries(PERIODS).map(([k, label]) => (
             <Link
               key={k}

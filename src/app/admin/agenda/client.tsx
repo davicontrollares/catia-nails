@@ -57,14 +57,14 @@ export function AgendaList({ appointments }: { appointments: Appointment[] }) {
   }
 
   if (!appointments.length) {
-    return <div className="glass rounded-3xl p-10 text-center text-muted-foreground">Nenhum atendimento neste dia.</div>
+    return <div className="border bg-card shadow-sm rounded-3xl p-10 text-center text-muted-foreground">Nenhum atendimento neste dia.</div>
   }
 
   return (
     <>
       <div className="space-y-3">
         {appointments.map((a) => (
-          <div key={a.id} className="glass flex flex-col gap-3 rounded-3xl p-4 sm:flex-row sm:items-center">
+          <div key={a.id} className="border bg-card shadow-sm flex flex-col gap-3 rounded-3xl p-4 sm:flex-row sm:items-center">
             <div className="w-24 shrink-0">
               <p className="text-xl font-bold tabular-nums">{time(a.starts_at)}</p>
               <p className="text-xs text-muted-foreground tabular-nums">até {time(a.ends_at)}</p>
@@ -104,7 +104,7 @@ export function AgendaList({ appointments }: { appointments: Appointment[] }) {
       </div>
 
       <Dialog open={!!payFor} onOpenChange={(o) => !o && setPayFor(null)}>
-        <DialogContent className="glass-strong rounded-3xl">
+        <DialogContent className="border bg-popover shadow-xl rounded-3xl">
           <DialogHeader>
             <DialogTitle>Forma de pagamento</DialogTitle>
           </DialogHeader>
@@ -155,7 +155,7 @@ export function ManualAppointment({ services, professionals, day }: { services: 
     <>
       <Button onClick={() => setOpen(true)}><Plus /> Novo agendamento</Button>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="glass-strong rounded-3xl">
+        <DialogContent className="border bg-popover shadow-xl rounded-3xl">
           <DialogHeader>
             <DialogTitle>Agendamento de balcão</DialogTitle>
           </DialogHeader>

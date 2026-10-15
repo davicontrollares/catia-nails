@@ -28,7 +28,7 @@ export function AppSelect({
       <SelectTrigger id={id} aria-label={ariaLabel} className={cn("h-11 w-full rounded-xl bg-background/50 px-3", className)}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
-      <SelectContent className="glass-strong rounded-2xl">
+      <SelectContent className="border bg-popover shadow-xl rounded-2xl">
         {options.map((o) => (
           <SelectItem key={o.value} value={o.value} className="rounded-xl">
             {o.label}

@@ -26,7 +26,7 @@ export default async function AgendaPage({ searchParams }: { searchParams: Promi
         <ManualAppointment services={data.services} professionals={data.professionals} day={key(day)} />
       </PageTitle>
 
-      <div className="glass flex items-center gap-1 rounded-full p-1.5">
+      <div className="border bg-card shadow-sm flex items-center gap-1 rounded-full p-1.5">
         <Link href={`?dia=${key(addDays(day, -7))}`} className={buttonVariants({ variant: "ghost", size: "icon" })} aria-label="Semana anterior">
           <ChevronLeft />
         </Link>

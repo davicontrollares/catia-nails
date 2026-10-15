@@ -57,7 +57,7 @@ export default async function AdminHome() {
           <CardContent className="space-y-2">
             {todayList.length === 0 && <p className="text-sm text-muted-foreground">Sem atendimentos hoje.</p>}
             {todayList.map((a) => (
-              <div key={a.id} className="glass-subtle flex items-center justify-between rounded-2xl px-3 py-2 text-sm">
+              <div key={a.id} className="border bg-muted/60 flex items-center justify-between rounded-2xl px-3 py-2 text-sm">
                 <div>
                   <p className="font-medium tabular-nums">
                     {new Date(a.starts_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: TZ })} · {a.client_name}

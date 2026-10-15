@@ -29,7 +29,7 @@ export default async function ClientesPage() {
   return (
     <>
       <PageTitle title="Clientes" subtitle={`${clients.length} clientes nos últimos 12 meses`} />
-      <div className="glass overflow-hidden rounded-3xl p-2">
+      <div className="border bg-card shadow-sm overflow-hidden rounded-3xl p-2">
         <Table>
           <TableHeader>
             <TableRow>

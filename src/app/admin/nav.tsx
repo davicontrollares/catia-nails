@@ -31,7 +31,7 @@ export function AdminNav({ mobile }: { mobile?: boolean }) {
               mobile ? "h-10" : "h-11",
               active
                 ? "bg-primary text-primary-foreground shadow-md"
-                : cn("text-muted-foreground hover:bg-foreground/5 hover:text-foreground", mobile && "glass-subtle")
+                : cn("text-muted-foreground hover:bg-foreground/5 hover:text-foreground", mobile && "border bg-muted/60")
             )}
           >
             <Icon className="size-4" />

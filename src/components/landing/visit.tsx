@@ -14,14 +14,14 @@ export function Visit({ address, phone, whatsapp, hours }: { address: string; ph
   return (
     <section id="visite" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-24">
       <Reveal>
-        <h2 className="font-display text-4xl tracking-[-0.02em] md:text-6xl">Venha nos visitar</h2>
+        <h2 className="font-display text-4xl md:text-5xl">Venha nos visitar</h2>
       </Reveal>
 
       <div className="mt-12 grid items-start gap-10 lg:grid-cols-2">
         <Reveal className="space-y-8">
           {rows.map(({ icon: Icon, title, body, href }) => (
             <div key={title} className="flex gap-5">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-accent text-primary">
+              <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-brand-soft text-brand">
                 <Icon className="size-5" />
               </span>
               <div>

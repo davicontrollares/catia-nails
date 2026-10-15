@@ -32,15 +32,15 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
     >
       <div className="md:col-span-6 lg:col-span-5">
         <motion.p {...enter(0)} className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-          <Star className="size-4 fill-primary text-primary" />
+          <Star className="size-4 fill-brand text-brand" />
           5,0 no Google, mais de 100 avaliações
         </motion.p>
 
         <motion.h1
           {...enter(0.08)}
-          className="font-display text-[3.25rem] leading-[1.05] tracking-[-0.02em] text-balance lg:text-[5.25rem]"
+          className="font-display text-[2.9rem] leading-[1.02] text-balance lg:text-[4.75rem]"
         >
-          Unhas finas que parecem <em className="pb-1 text-primary">naturais.</em>
+          Unhas finas que parecem <span className="text-brand">naturais.</span>
         </motion.h1>
 
         <motion.p {...enter(0.18)} className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">

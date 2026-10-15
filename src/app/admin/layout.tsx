@@ -9,7 +9,7 @@ export const metadata = { title: "Painel · Catia Rodrigues Nails" }
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh lg:flex">
-      <aside className="glass sticky top-4 m-4 hidden h-[calc(100dvh-2rem)] w-64 shrink-0 flex-col rounded-[2rem] p-4 lg:flex">
+      <aside className="border bg-card shadow-sm sticky top-4 m-4 hidden h-[calc(100dvh-2rem)] w-64 shrink-0 flex-col rounded-[2rem] p-4 lg:flex">
         <Link href="/" className="mb-6 px-3 pt-2">
           <p className="text-lg font-semibold tracking-tight">Catia Rodrigues</p>
           <p className="text-sm text-muted-foreground">Painel</p>
@@ -33,7 +33,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </header>
         <main className="mx-auto max-w-6xl space-y-6 px-4 py-4 pb-16 lg:py-8 lg:pr-8 lg:pl-4">
           {!hasSupabase && (
-            <div className="glass-subtle rounded-2xl px-4 py-3 text-sm">
+            <div className="border bg-muted/60 rounded-2xl px-4 py-3 text-sm">
               Você está vendo dados de exemplo. Conecte o Supabase na Vercel para usar a agenda real.
             </div>
           )}
