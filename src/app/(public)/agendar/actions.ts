@@ -1,31 +1,13 @@
 "use server"
 
 import { z } from "zod"
-import { DEMO_PROFESSIONAL, DEMO_SERVICES, DEMO_SETTINGS, hasSupabase } from "@/lib/data"
+import { hasSupabase } from "@/lib/data"
 import { sendConfirmationEmail } from "@/lib/email"
-
-// Fuso de São Paulo é UTC-3 fixo (sem horário de verão desde 2019).
-const toUtc = (date: string, hhmm: string) => new Date(`${date}T${hhmm}:00-03:00`)
-
-function demoSlots(date: string, durationMin: number) {
-  const weekday = toUtc(date, "12:00").getUTCDay()
-  if (weekday < 2) return [] // domingo e segunda fechado
-  const out: string[] = []
-  for (const [start, end] of [["08:00", "12:00"], ["13:00", "18:00"]]) {
-    let t = toUtc(date, start).getTime()
-    const stop = toUtc(date, end).getTime()
-    while (t + durationMin * 60_000 <= stop) {
-      if (t > Date.now() + 2 * 3600_000) out.push(new Date(t).toISOString())
-      t += 30 * 60_000
-    }
-  }
-  return out
-}
 
 /** Horários livres para a soma das durações dos serviços escolhidos. */
 export async function getSlots(professionalId: string, date: string, durationMin: number) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || durationMin <= 0) return []
-  if (!hasSupabase) return demoSlots(date, durationMin)
+  if (!hasSupabase) return []
 
   const { createClient } = await import("@/lib/supabase/server")
   const supabase = await createClient()
@@ -55,11 +37,7 @@ export async function bookAppointment(input: BookingInput): Promise<{ ok: true; 
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message }
   const v = parsed.data
 
-  if (!hasSupabase) {
-    const chosen = DEMO_SERVICES.filter((x) => v.serviceIds.includes(x.id))
-    await notify("demo", v, chosen, DEMO_PROFESSIONAL.name, DEMO_SETTINGS)
-    return { ok: true, id: "demo" }
-  }
+  if (!hasSupabase) return { ok: false, error: "Agenda indisponível no momento." }
 
   const { createClient } = await import("@/lib/supabase/server")
   const supabase = await createClient()
@@ -130,8 +108,7 @@ export async function findLastBooking(
   if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message }
   const v = parsed.data
 
-  // modo demonstração: devolve um atendimento de exemplo
-  if (!hasSupabase) return { ok: true, name: "Cliente", serviceIds: ["d4", "d5"] }
+  if (!hasSupabase) return { ok: false, error: "Agenda indisponível no momento." }
 
   const { createClient } = await import("@/lib/supabase/server")
   const supabase = await createClient()

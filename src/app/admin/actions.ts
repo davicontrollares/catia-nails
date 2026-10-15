@@ -7,7 +7,7 @@ import { hasSupabase } from "@/lib/data"
 type Result = { ok: true } | { ok: false; error: string }
 
 async function owner() {
-  if (!hasSupabase) throw new Error("Modo demonstração: conecte o Supabase para salvar alterações.")
+  if (!hasSupabase) throw new Error("Supabase não configurado.")
   const { getSessionProfile } = await import("@/lib/supabase/server")
   const { supabase, profile } = await getSessionProfile()
   if (profile?.role !== "owner") throw new Error("Acesso negado")

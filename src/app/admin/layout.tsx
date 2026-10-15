@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <main className="mx-auto max-w-6xl space-y-6 px-4 py-4 pb-16 lg:py-8 lg:pr-8 lg:pl-4">
           {!hasSupabase && (
             <div className="border bg-muted/60 rounded-2xl px-4 py-3 text-sm">
-              Você está vendo dados de exemplo. Conecte o Supabase na Vercel para usar a agenda real.
+              Supabase não configurado: defina as variáveis na Vercel e refaça o deploy.
             </div>
           )}
           {children}

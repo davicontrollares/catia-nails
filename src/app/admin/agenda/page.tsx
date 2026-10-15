@@ -21,7 +21,7 @@ export default async function AgendaPage({ searchParams }: { searchParams: Promi
 
   return (
     <>
-      <LiveRefresh enabled={!data.demo} />
+      <LiveRefresh enabled={data.configured} />
       <PageTitle title="Agenda" subtitle={format(day, "EEEE, d 'de' MMMM", { locale: ptBR })}>
         <ManualAppointment services={data.services} professionals={data.professionals} day={key(day)} />
       </PageTitle>

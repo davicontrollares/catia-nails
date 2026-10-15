@@ -34,7 +34,6 @@ export function BookingWizard({
   professionals,
   maxDaysAhead,
   initialServiceId,
-  demo,
   address,
   whatsapp,
 }: {
@@ -42,7 +41,6 @@ export function BookingWizard({
   professionals: Professional[]
   maxDaysAhead: number
   initialServiceId?: string
-  demo: boolean
   address: string
   whatsapp: string | null
 }) {
@@ -183,7 +181,6 @@ export function BookingWizard({
             <a href={outlookCalendarUrl(event)} target="_blank" rel="noreferrer" className={buttonVariants({ variant: "outline", size: "sm" })}>Outlook</a>
           </div>
         </div>
-        {demo && <p className="mt-4 text-xs text-muted-foreground">Modo de demonstração: o horário não foi salvo.</p>}
         <Link href="/" className={cn(buttonVariants({ variant: "ghost" }), "mt-4")}>Voltar ao início</Link>
       </motion.div>
     )

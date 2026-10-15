@@ -4,50 +4,27 @@ export const hasSupabase = Boolean(
   process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 )
 
-// Usado só quando o Supabase ainda não está configurado (preview local).
-export const DEMO_SETTINGS: Settings = {
+// Só usado se o Supabase não estiver configurado: o site mostra a agenda como indisponível.
+const FALLBACK_SETTINGS: Settings = {
   id: 1,
   business_name: "Bela Flor Nails",
-  tagline: "Especialista em fibra de vidro · +5 mil atendimentos desde 2015",
-  address: "R. São Rafael, 96 - Vila São Pedro, São José do Rio Preto - SP",
-  whatsapp: "5517996341375",
-  instagram: "belaflornails",
-  facebook: "studiobelaflor",
+  tagline: null,
+  address: null,
+  whatsapp: null,
+  instagram: null,
+  facebook: null,
   min_notice_hours: 2,
   max_days_ahead: 45,
   cancel_notice_hours: 12,
   slot_step_min: 30,
 }
 
-export const DEMO_PROFESSIONAL: Professional = {
-  id: "00000000-0000-0000-0000-000000000001",
-  name: "Bela Flor",
-  bio: "Nail designer desde 2015, especialista em alongamento em fibra de vidro e banho em gel.",
-  photo_url: null,
-  commission_pct: 0,
-  active: true,
-}
-
-const s = (id: string, name: string, description: string, category: string, duration_min: number, price: number, sort: number): Service =>
-  ({ id, name, description, category, duration_min, price, active: true, sort })
-
-export const DEMO_SERVICES: Service[] = [
-  s("d1", "Alongamento Fibra de Vidro", "Alongamento com aparência natural, acabamento fino e alta durabilidade.", "Alongamento", 150, 220, 1),
-  s("d2", "Manutenção de Alongamento", "Manutenção a cada 20 a 25 dias para manter o alongamento perfeito.", "Alongamento", 90, 130, 2),
-  s("d3", "Banho em Gel", "Camada de gel sobre a unha natural para fortalecer e dar brilho.", "Gel", 90, 120, 3),
-  s("d4", "Esmaltação em Gel", "Esmaltação que dura semanas sem descascar.", "Gel", 60, 70, 4),
-  s("d5", "Mão e Pé", "Cutilagem e esmaltação tradicional.", "Manicure", 90, 70, 5),
-  s("d6", "Massagem Relaxante", "Massagem relaxante para o corpo.", "Estética", 60, 100, 6),
-]
-
-export const DEMO_HOURS: WorkingHour[] = [2, 3, 4, 5, 6].flatMap((weekday) => [
-  { id: `w${weekday}a`, professional_id: DEMO_PROFESSIONAL.id, weekday, start_time: "08:00:00", end_time: "12:00:00" },
-  { id: `w${weekday}b`, professional_id: DEMO_PROFESSIONAL.id, weekday, start_time: "13:00:00", end_time: "18:00:00" },
-])
+export { FALLBACK_SETTINGS }
 
 export async function getPublicData() {
   if (!hasSupabase) {
-    return { settings: DEMO_SETTINGS, services: DEMO_SERVICES, professionals: [DEMO_PROFESSIONAL], hours: DEMO_HOURS, demo: true }
+    console.error("Supabase não configurado: defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY.")
+    return { settings: FALLBACK_SETTINGS, services: [] as Service[], professionals: [] as Professional[], hours: [] as WorkingHour[] }
   }
   const { createClient } = await import("./supabase/server")
   const supabase = await createClient()
@@ -58,11 +35,10 @@ export async function getPublicData() {
     supabase.from("working_hours").select("*").order("weekday").order("start_time"),
   ])
   return {
-    settings: (settings.data as Settings) ?? DEMO_SETTINGS,
+    settings: (settings.data as Settings) ?? FALLBACK_SETTINGS,
     services: (services.data as Service[]) ?? [],
     professionals: (professionals.data as Professional[]) ?? [],
     hours: (hours.data as WorkingHour[]) ?? [],
-    demo: false,
   }
 }
 

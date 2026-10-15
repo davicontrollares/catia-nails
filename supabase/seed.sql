@@ -1,4 +1,4 @@
--- Dados de exemplo: Bela Flor Nails (preços aproximados, ajustar no painel)
+-- Dados iniciais: Bela Flor Nails (preços e horários editáveis no painel)
 
 insert into settings (business_name, tagline, address, whatsapp, instagram, facebook)
 values (
@@ -33,10 +33,6 @@ select '00000000-0000-0000-0000-000000000001', d, t.s, t.e
 from generate_series(2, 6) d,
      (values ('08:00'::time, '12:00'::time), ('13:00'::time, '18:00'::time)) t(s, e);
 
-insert into expenses (category, description, amount, spent_on) values
-  ('Aluguel', 'Aluguel do studio', 1200, date_trunc('month', current_date)::date),
-  ('Produtos', 'Géis, fibras e esmaltes', 480, current_date - 10),
-  ('Marketing', 'Impulsionamento Instagram', 150, current_date - 5);
 
 -- Depois de criar sua conta no app, rode para virar dona:
 -- update profiles set role = 'owner' where id = (select id from auth.users where email = 'SEU-EMAIL');
