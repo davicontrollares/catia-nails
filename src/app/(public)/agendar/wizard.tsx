@@ -6,7 +6,7 @@ import Link from "next/link"
 import { motion } from "framer-motion"
 import { addDays, format } from "date-fns"
 import { ptBR } from "react-day-picker/locale"
-import { ArrowLeft, ArrowRight, CalendarPlus, Check, Download, Loader2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, CalendarPlus, Check, Download, Loader2, MessageCircle } from "lucide-react"
 import { toast } from "sonner"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -36,6 +36,7 @@ export function BookingWizard({
   initialServiceId,
   demo,
   address,
+  whatsapp,
 }: {
   services: Service[]
   professionals: Professional[]
@@ -43,6 +44,7 @@ export function BookingWizard({
   initialServiceId?: string
   demo: boolean
   address: string
+  whatsapp: string | null
 }) {
   const professional = professionals[0]
   const [step, setStep] = useState(0)
@@ -128,6 +130,14 @@ export function BookingWizard({
       end: new Date(new Date(slot).getTime() + totalMin * 60_000),
     }
     const icsHref = `data:text/calendar;charset=utf-8,${encodeURIComponent(buildIcs(event))}`
+    // mensagem pronta para a cliente confirmar com o studio
+    const waText = [
+      `Olá! Sou ${form.name} e acabei de agendar pelo site:`,
+      `${chosen.map((s) => s.name).join(" + ")}`,
+      `${fmtDay(slot)} às ${fmtTime(slot)}`,
+      `Total: ${brl(totalPrice)} (${pay === "local" ? "pagar no studio" : `${PAY_LABEL[pay]}, pago`})`,
+    ].join(String.fromCharCode(10))
+    const waHref = whatsapp ? `https://wa.me/${whatsapp}?text=${encodeURIComponent(waText)}` : null
     return (
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -152,7 +162,18 @@ export function BookingWizard({
           A confirmação foi enviada para <span className="font-medium text-foreground">{form.email}</span>.
         </p>
 
-        <div className="mt-6 rounded-2xl bg-muted/60 p-4">
+        {waHref && (
+          <a
+            href={waHref}
+            target="_blank"
+            rel="noreferrer"
+            className={cn(buttonVariants({ size: "lg" }), "mt-6 h-12 w-full bg-[#25D366] text-white hover:bg-[#1fb857]")}
+          >
+            <MessageCircle /> Confirmar pelo WhatsApp
+          </a>
+        )}
+
+        <div className="mt-4 rounded-2xl bg-muted/60 p-4">
           <p className="flex items-center justify-center gap-2 text-sm font-medium">
             <CalendarPlus className="size-4" /> Salvar na sua agenda
           </p>

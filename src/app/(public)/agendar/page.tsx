@@ -14,6 +14,7 @@ export default async function AgendarPage({ searchParams }: { searchParams: Prom
       initialServiceId={servico}
       demo={demo}
       address={settings.address ?? ""}
+      whatsapp={settings.whatsapp}
     />
   )
 }
