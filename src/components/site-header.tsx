@@ -1,4 +1,7 @@
+"use client"
+
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { CalendarHeart, Home } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { buttonVariants } from "@/components/ui/button"
@@ -37,6 +40,9 @@ const tabs = [
 ]
 
 export function TabBar() {
+  const pathname = usePathname()
+  // no checkout a barra de total e Continuar ocupa o rodapé
+  if (pathname.startsWith("/agendar")) return null
   return (
     <nav className="pb-safe fixed inset-x-0 bottom-0 z-40 px-6 sm:hidden" aria-label="Navegação">
       <div className="glass-strong mx-auto flex max-w-sm justify-around rounded-full p-1.5">

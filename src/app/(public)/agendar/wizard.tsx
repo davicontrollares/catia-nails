@@ -195,7 +195,7 @@ export function BookingWizard({
   ]
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1fr_360px] lg:items-start">
+    <div className="mx-auto grid max-w-6xl gap-6 pb-12 lg:pb-0 lg:grid-cols-[1fr_360px] lg:items-start">
       <div className="rounded-3xl border bg-card p-4 shadow-sm sm:p-8">
         <ol className="grid grid-cols-4 gap-2 sm:gap-3">
           {STEPS.map((label, i) => (
@@ -357,7 +357,7 @@ export function BookingWizard({
           <span className="font-medium">Total</span>
           <span className="text-xl font-semibold tabular-nums">{brl(totalPrice)}</span>
         </div>
-        <div className="mt-6 flex gap-2">
+        <div className="mt-6 hidden gap-2 lg:flex">
           {step > 0 && (
             <Button variant="outline" size="lg" className="h-12" onClick={() => setStep(step - 1)} aria-label="Voltar">
               <ArrowLeft />
@@ -370,6 +370,25 @@ export function BookingWizard({
           </Button>
         </div>
       </aside>
+
+      <div className="pb-safe fixed inset-x-0 bottom-0 z-40 px-3 lg:hidden">
+        <div className="glass-strong mx-auto flex max-w-xl items-center gap-2 rounded-3xl p-2 pl-4">
+          <div className="mr-auto min-w-0">
+            <p className="text-[11px] text-muted-foreground">{chosen.length ? `${chosen.length} ${chosen.length > 1 ? "serviços" : "serviço"}${totalMin ? ` · ${duration(totalMin)}` : ""}` : "Total"}</p>
+            <p className="font-semibold tabular-nums">{brl(totalPrice)}</p>
+          </div>
+          {step > 0 && (
+            <Button variant="outline" size="lg" className="h-12 shrink-0" onClick={() => setStep(step - 1)} aria-label="Voltar">
+              <ArrowLeft />
+            </Button>
+          )}
+          <Button size="lg" className="h-12 min-w-0 flex-1 basis-0 sm:flex-none sm:basis-auto" disabled={!canNext || submitting} onClick={next}>
+            {submitting && <Loader2 className="animate-spin" />}
+            {step < last ? "Continuar" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar agendamento"}
+            {step < last && <ArrowRight />}
+          </Button>
+        </div>
+      </div>
 
       <PixDialog open={payDialog === "pix"} total={totalPrice} onPaid={book} onClose={() => setPayDialog(null)} />
       <CardDialog open={payDialog === "mp"} total={totalPrice} onPaid={book} onClose={() => setPayDialog(null)} />

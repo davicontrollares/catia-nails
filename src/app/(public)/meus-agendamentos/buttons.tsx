@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import { ConfirmDialog } from "@/components/confirm-dialog"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 
@@ -10,12 +11,11 @@ export function CancelButton({ id }: { id: string }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   return (
-    <Button
-      variant="destructive"
-      size="sm"
-      disabled={pending}
-      onClick={() => {
-        if (!confirm("Cancelar este horário?")) return
+    <ConfirmDialog
+      title="Cancelar este horário?"
+      description="O horário fica livre para outra cliente."
+      confirmLabel="Cancelar horário"
+      onConfirm={() => {
         start(async () => {
           const { error } = await createClient().rpc("cancel_appointment", { p_id: id })
           if (error) toast.error(error.message)
@@ -25,9 +25,17 @@ export function CancelButton({ id }: { id: string }) {
           }
         })
       }}
-    >
-      Cancelar
-    </Button>
+      trigger={(open) => (
+        <Button
+          variant="destructive"
+          size="sm"
+          disabled={pending}
+          onClick={open}
+        >
+          Cancelar
+        </Button>
+      )}
+    />
   )
 }
 

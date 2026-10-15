@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { Download, Trash2 } from "lucide-react"
 import { toast } from "sonner"
+import { ConfirmDialog } from "@/components/confirm-dialog"
 import { Button } from "@/components/ui/button"
 import { AppSelect } from "@/components/app-select"
 import { Input } from "@/components/ui/input"
@@ -50,22 +51,29 @@ export function RemoveExpense({ id }: { id: string }) {
   const router = useRouter()
   const [pending, start] = useTransition()
   return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      aria-label="Excluir despesa"
-      disabled={pending}
-      onClick={() => {
-        if (!confirm("Excluir esta despesa?")) return
+    <ConfirmDialog
+      title="Excluir esta despesa?"
+      description="Ela sai do relatório de finanças e não dá para desfazer."
+      confirmLabel="Excluir"
+      onConfirm={() => {
         start(async () => {
           const res = await removeExpense(id)
           if (!res.ok) toast.error(res.error)
           else router.refresh()
         })
       }}
-    >
-      <Trash2 />
-    </Button>
+      trigger={(open) => (
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label="Excluir despesa"
+          disabled={pending}
+          onClick={open}
+        >
+          <Trash2 />
+        </Button>
+      )}
+    />
   )
 }
 

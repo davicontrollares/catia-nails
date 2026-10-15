@@ -86,7 +86,46 @@ export function HoursEditor({ professionalId, initial }: { professionalId: strin
         <CardDescription>Horário de atendimento de cada dia. Use o ícone de copiar para repetir um horário nos outros dias.</CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
+        <div className="grid gap-3 md:hidden">
+          {ORDER.map((wd) => {
+            const d = days[wd]
+            return (
+              <div key={wd} className={cn("rounded-2xl border p-3", !d.open && "text-muted-foreground")}>
+                <div className="flex items-center justify-between gap-3">
+                  <label className="flex min-h-11 cursor-pointer items-center gap-3">
+                    <Switch checked={d.open} onCheckedChange={(v) => set(wd, { open: v })} aria-label={`${DAYS[wd]} aberto`} />
+                    <span className="font-medium">{DAYS[wd]}</span>
+                  </label>
+                  {d.open ? (
+                    <Button variant="ghost" size="icon" aria-label="Aplicar a todos os dias abertos" onClick={() => applyToAll(wd)}><Copy /></Button>
+                  ) : (
+                    <span className="text-sm">Fechado</span>
+                  )}
+                </div>
+                {d.open && (
+                  <div className="mt-3 grid gap-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      <AppSelect aria-label="Abre" value={d.start} onChange={(v) => set(wd, { start: v })} options={TIMES} className="h-11 w-full" />
+                      <AppSelect aria-label="Fecha" value={d.end} onChange={(v) => set(wd, { end: v })} options={TIMES} className="h-11 w-full" />
+                    </div>
+                    <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm">
+                      <Switch checked={d.lunch} onCheckedChange={(v) => set(wd, { lunch: v })} aria-label="Pausa para almoço" />
+                      Pausa para almoço
+                    </label>
+                    {d.lunch && (
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
+                        <AppSelect aria-label="Almoço início" value={d.lunchStart} onChange={(v) => set(wd, { lunchStart: v })} options={TIMES} className="h-11 w-full" />
+                        <span className="text-xs text-muted-foreground">às</span>
+                        <AppSelect aria-label="Almoço fim" value={d.lunchEnd} onChange={(v) => set(wd, { lunchEnd: v })} options={TIMES} className="h-11 w-full" />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        <Table className="hidden md:table">
           <TableHeader>
             <TableRow>
               <TableHead className="w-36">Dia</TableHead>
