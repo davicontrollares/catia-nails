@@ -11,8 +11,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-dvh lg:flex">
       <aside className="glass sticky top-4 m-4 hidden h-[calc(100dvh-2rem)] w-64 shrink-0 flex-col rounded-[2rem] p-4 lg:flex">
         <Link href="/" className="mb-6 px-3 pt-2">
-          <p className="font-serif text-xl italic">Catia Rodrigues</p>
-          <p className="text-xs font-semibold tracking-widest text-primary">PAINEL DA DONA</p>
+          <p className="text-lg font-semibold tracking-tight">Catia Rodrigues</p>
+          <p className="text-sm text-muted-foreground">Painel</p>
         </Link>
         <AdminNav />
         <div className="mt-auto flex items-center justify-between px-2">
@@ -26,7 +26,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="min-w-0 flex-1">
         <header className="sticky top-0 z-30 space-y-3 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 backdrop-blur-xl lg:hidden">
           <div className="flex items-center justify-between px-4">
-            <p className="font-serif text-lg italic">Painel</p>
+            <p className="text-lg font-semibold tracking-tight">Painel</p>
             <ThemeToggle />
           </div>
           <AdminNav mobile />

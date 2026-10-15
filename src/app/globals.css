@@ -7,8 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-serif: var(--font-cormorant, "Cormorant Garamond"), Georgia, serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", var(--font-inter, Inter), system-ui, sans-serif;
+  --font-sans: var(--font-geist, "Geist"), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -50,38 +49,36 @@
 }
 
 :root {
-  --background: oklch(0.985 0.007 80);
-  --foreground: oklch(0.27 0.025 40);
-  --card: oklch(1 0 0 / 62%);
-  --card-foreground: oklch(0.27 0.025 40);
-  --popover: oklch(0.995 0.004 80 / 92%);
-  --popover-foreground: oklch(0.27 0.025 40);
-  --primary: oklch(0.6 0.075 22);
-  --primary-foreground: oklch(0.99 0.004 80);
-  --secondary: oklch(1 0 0 / 65%);
-  --secondary-foreground: oklch(0.3 0.025 40);
-  --muted: oklch(0.95 0.01 60 / 70%);
-  --muted-foreground: oklch(0.5 0.02 45);
-  --accent: oklch(0.94 0.025 30 / 70%);
-  --accent-foreground: oklch(0.32 0.04 30);
+  /* neutro off-white + off-black, rosa profundo como único destaque */
+  --background: oklch(0.982 0.003 350);
+  --foreground: oklch(0.19 0.008 350);
+  --card: oklch(1 0 0 / 72%);
+  --card-foreground: oklch(0.19 0.008 350);
+  --popover: oklch(0.995 0.002 350 / 94%);
+  --popover-foreground: oklch(0.19 0.008 350);
+  --primary: oklch(0.55 0.15 6);
+  --primary-foreground: oklch(0.99 0.003 350);
+  --secondary: oklch(0.95 0.006 350);
+  --secondary-foreground: oklch(0.22 0.008 350);
+  --muted: oklch(0.95 0.006 350);
+  --muted-foreground: oklch(0.47 0.012 350);
+  --accent: oklch(0.94 0.03 6);
+  --accent-foreground: oklch(0.35 0.1 6);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.45 0.03 50 / 12%);
-  --input: oklch(0.45 0.03 50 / 16%);
-  --ring: oklch(0.6 0.075 22 / 50%);
-  --gold: oklch(0.74 0.075 80);
-  --chart-1: oklch(0.6 0.075 22);
-  --chart-2: oklch(0.74 0.075 80);
-  --chart-3: oklch(0.78 0.04 40);
-  --chart-4: oklch(0.45 0.04 40);
-  --chart-5: oklch(0.88 0.03 30);
+  --border: oklch(0.19 0.008 350 / 10%);
+  --input: oklch(0.19 0.008 350 / 15%);
+  --ring: oklch(0.55 0.15 6 / 45%);
+  --chart-1: oklch(0.55 0.15 6);
+  --chart-2: oklch(0.72 0.1 6);
+  --chart-3: oklch(0.85 0.05 6);
+  --chart-4: oklch(0.35 0.01 350);
+  --chart-5: oklch(0.7 0.01 350);
   --radius: 1rem;
-  --glass-bg: oklch(1 0 0 / 58%);
-  --glass-strong: oklch(1 0 0 / 80%);
+  --glass-bg: oklch(1 0 0 / 62%);
+  --glass-strong: oklch(1 0 0 / 82%);
   --glass-edge: oklch(1 0 0 / 95%);
-  --glass-shadow: 0 12px 48px -16px oklch(0.45 0.05 40 / 22%);
-  --mesh-1: oklch(0.93 0.035 25);
-  --mesh-2: oklch(0.95 0.035 80);
-  --mesh-3: oklch(0.94 0.02 350);
+  --glass-shadow: 0 12px 40px -18px oklch(0.3 0.05 350 / 20%);
+  --mesh-1: oklch(0.95 0.025 6);
   --sidebar: var(--glass-bg);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -93,37 +90,34 @@
 }
 
 .dark {
-  --background: oklch(0.16 0.015 15);
-  --foreground: oklch(0.96 0.008 20);
-  --card: oklch(0.25 0.02 15 / 50%);
-  --card-foreground: oklch(0.96 0.008 20);
-  --popover: oklch(0.22 0.02 15 / 88%);
-  --popover-foreground: oklch(0.96 0.008 20);
-  --primary: oklch(0.75 0.1 12);
-  --primary-foreground: oklch(0.18 0.02 15);
-  --secondary: oklch(1 0 0 / 8%);
-  --secondary-foreground: oklch(0.96 0.008 20);
-  --muted: oklch(1 0 0 / 7%);
-  --muted-foreground: oklch(0.74 0.02 15);
-  --accent: oklch(0.75 0.1 12 / 18%);
-  --accent-foreground: oklch(0.96 0.008 20);
+  --background: oklch(0.17 0.006 350);
+  --foreground: oklch(0.96 0.004 350);
+  --card: oklch(0.23 0.008 350 / 70%);
+  --card-foreground: oklch(0.96 0.004 350);
+  --popover: oklch(0.22 0.008 350 / 94%);
+  --popover-foreground: oklch(0.96 0.004 350);
+  --primary: oklch(0.72 0.13 6);
+  --primary-foreground: oklch(0.17 0.006 350);
+  --secondary: oklch(0.26 0.008 350);
+  --secondary-foreground: oklch(0.96 0.004 350);
+  --muted: oklch(0.26 0.008 350);
+  --muted-foreground: oklch(0.72 0.01 350);
+  --accent: oklch(0.72 0.13 6 / 16%);
+  --accent-foreground: oklch(0.96 0.004 350);
   --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(0.75 0.1 12 / 60%);
-  --gold: oklch(0.8 0.09 80);
-  --chart-1: oklch(0.75 0.1 12);
-  --chart-2: oklch(0.8 0.09 80);
-  --chart-3: oklch(0.68 0.08 30);
-  --chart-4: oklch(0.62 0.08 340);
-  --chart-5: oklch(0.5 0.03 20);
-  --glass-bg: oklch(0.26 0.02 15 / 45%);
-  --glass-strong: oklch(0.24 0.02 15 / 72%);
-  --glass-edge: oklch(1 0 0 / 14%);
-  --glass-shadow: 0 10px 40px -12px oklch(0 0 0 / 60%);
-  --mesh-1: oklch(0.32 0.07 10);
-  --mesh-2: oklch(0.28 0.05 60);
-  --mesh-3: oklch(0.26 0.06 330);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.13 6 / 55%);
+  --chart-1: oklch(0.72 0.13 6);
+  --chart-2: oklch(0.6 0.1 6);
+  --chart-3: oklch(0.45 0.06 6);
+  --chart-4: oklch(0.85 0.01 350);
+  --chart-5: oklch(0.55 0.01 350);
+  --glass-bg: oklch(0.24 0.008 350 / 55%);
+  --glass-strong: oklch(0.22 0.008 350 / 80%);
+  --glass-edge: oklch(1 0 0 / 12%);
+  --glass-shadow: 0 12px 40px -18px oklch(0 0 0 / 60%);
+  --mesh-1: oklch(0.24 0.04 6);
 }
 
 @layer base {
@@ -163,30 +157,12 @@
 
 .mesh-bg {
   position: fixed;
-  inset: -20%;
+  inset: 0;
   z-index: -1;
-  background:
-    radial-gradient(40% 40% at 20% 20%, var(--mesh-1), transparent 70%),
-    radial-gradient(45% 45% at 80% 30%, var(--mesh-2), transparent 70%),
-    radial-gradient(50% 50% at 50% 85%, var(--mesh-3), transparent 70%),
-    var(--background);
-  animation: mesh 24s ease-in-out infinite alternate;
-}
-@keyframes mesh {
-  to { transform: translate3d(3%, -4%, 0) rotate(6deg) scale(1.05); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .mesh-bg { animation: none; }
+  background: radial-gradient(60% 50% at 85% 0%, var(--mesh-1), transparent 70%), var(--background);
 }
 @media (prefers-reduced-transparency: reduce) {
   :root { --glass-bg: var(--background); --glass-strong: var(--background); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(4%, -6%, 0) scale(1.08); }
-}
-@keyframes marquee {
-  to { transform: translateX(-50%); }
-}
 html { scroll-behavior: smooth; }

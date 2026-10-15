@@ -7,9 +7,9 @@ import { cn } from "@/lib/utils"
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 px-4 pt-[max(0.75rem,env(safe-area-inset-top))]">
-      <div className="glass mx-auto flex h-14 max-w-5xl items-center justify-between rounded-full pr-2 pl-5">
-        <Link href="/" className="font-serif text-lg italic tracking-tight">
-          Catia Rodrigues <span className="font-sans text-sm font-semibold not-italic text-primary">NAILS</span>
+      <div className="glass mx-auto flex h-14 max-w-7xl items-center justify-between rounded-full pr-2 pl-5">
+        <Link href="/" className="text-[15px] font-semibold tracking-tight">
+          Catia Rodrigues <span className="font-normal text-muted-foreground">Nails</span>
         </Link>
         <nav className="flex items-center gap-1">
           <Link href="/meus-agendamentos" className={cn(buttonVariants({ variant: "ghost" }), "hidden sm:inline-flex")}>
@@ -17,7 +17,7 @@ export function SiteHeader() {
           </Link>
           <ThemeToggle />
           <Link href="/agendar" className={cn(buttonVariants(), "hidden sm:inline-flex")}>
-            Agendar
+            Agendar horário
           </Link>
         </nav>
       </div>
