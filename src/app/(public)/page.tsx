@@ -72,7 +72,8 @@ export default async function Home() {
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-8">
             <p className="text-3xl leading-[1.3] font-medium tracking-[-0.025em] text-balance md:text-[2.6rem]">
-              Na Bela Flor o foco é alongamento em fibra de vidro e banho em gel,<span className="text-muted-foreground"> com unhas finas, bem acabadas e que duram.</span>
+              A Bela Flor faz unhas desde 2015 e já passou de 5 mil atendimentos. O foco é alongamento em fibra de vidro e banho
+              em gel,<span className="text-muted-foreground"> com unhas finas, bem acabadas e que duram.</span>
             </p>
           </Reveal>
           <Reveal delay={0.1} className="md:col-span-3 md:col-start-10">
@@ -81,6 +82,20 @@ export default async function Home() {
             </div>
           </Reveal>
         </div>
+        <Reveal delay={0.05}>
+          <dl className="mt-14 grid grid-cols-3 gap-6 md:max-w-2xl">
+            {[
+              ["2015", "atendendo desde"],
+              ["5 mil+", "atendimentos"],
+              ["5,0", "nota no Google"],
+            ].map(([v, l]) => (
+              <div key={l} className="flex flex-col-reverse">
+                <dt className="mt-1 text-sm text-muted-foreground">{l}</dt>
+                <dd className="text-3xl font-semibold tracking-tight tabular-nums md:text-4xl">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       </section>
 
       {/* Dúvidas */}

@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRef } from "react"
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, MapPin } from "lucide-react"
+import { ArrowRight, Star } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { IMAGES } from "@/lib/images"
 import { cn } from "@/lib/utils"
@@ -32,8 +32,8 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
     >
       <div className="md:col-span-6 lg:col-span-5">
         <motion.p {...enter(0)} className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="size-4 text-brand" />
-          São José do Rio Preto, SP
+          <Star className="size-4 fill-brand text-brand" />
+          5,0 no Google, mais de 100 avaliações
         </motion.p>
 
         <motion.h1
@@ -44,7 +44,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
         </motion.h1>
 
         <motion.p {...enter(0.18)} className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-          Alongamento em fibra de vidro, banho em gel e esmaltação, com hora marcada e confirmação na hora.
+          Alongamento em fibra de vidro e banho em gel na Bela Flor, em São José do Rio Preto.
         </motion.p>
 
         <motion.div {...enter(0.28)} className="mt-9 flex flex-col gap-3 sm:flex-row">
