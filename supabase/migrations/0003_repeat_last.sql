@@ -1,4 +1,4 @@
--- Catia Rodrigues Nails: repetir o último atendimento.
+-- Bela Flor Nails: repetir o último atendimento.
 -- A cliente informa e-mail e telefone; só devolve os serviços e o nome,
 -- e só quando os dois batem com o mesmo agendamento.
 

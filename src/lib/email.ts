@@ -20,7 +20,7 @@ export async function sendConfirmationEmail(c: Confirmation) {
   const key = process.env.RESEND_API_KEY
   if (!key) return { skipped: true }
 
-  const from = process.env.EMAIL_FROM ?? "Catia Rodrigues Nails <onboarding@resend.dev>"
+  const from = process.env.EMAIL_FROM ?? "Bela Flor Nails <onboarding@resend.dev>"
   const when = c.event.start.toLocaleString("pt-BR", {
     weekday: "long",
     day: "numeric",
@@ -58,7 +58,7 @@ function confirmationHtml(c: Confirmation & { when: string }) {
 <html lang="pt-BR"><body style="margin:0;background:#f8efed;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#2b1d1f">
   <div style="max-width:520px;margin:0 auto;padding:32px 16px">
     <div style="background:#ffffffcc;border:1px solid #ecd9d6;border-radius:28px;padding:32px;text-align:center">
-      <p style="font-family:Georgia,serif;font-style:italic;font-size:22px;margin:0 0 4px">Catia Rodrigues <span style="font-style:normal;font-family:inherit;font-size:13px;color:#a14d5a;font-weight:700">NAILS</span></p>
+      <p style="font-family:Georgia,serif;font-style:italic;font-size:22px;margin:0 0 4px">Bela Flor <span style="font-style:normal;font-family:inherit;font-size:13px;color:#a14d5a;font-weight:700">NAILS</span></p>
       <h1 style="font-size:24px;margin:24px 0 8px">Seu horário está confirmado</h1>
       <p style="margin:0 0 24px;color:#6b5558">Olá, ${escapeHtml(c.clientName.split(" ")[0])}. Seu horário está reservado.</p>
       <div style="background:#f8efed;border-radius:20px;padding:20px;text-align:left;font-size:15px;line-height:1.7">

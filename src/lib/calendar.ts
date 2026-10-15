@@ -43,11 +43,11 @@ export function buildIcs(e: CalendarEvent) {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Catia Rodrigues Nails//Agendamento//PT-BR",
+    "PRODID:-//Bela Flor Nails//Agendamento//PT-BR",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
-    `UID:${e.id}@catiarodriguesnails`,
+    `UID:${e.id}@belaflornails`,
     `DTSTAMP:${utcStamp(new Date())}`,
     `DTSTART:${utcStamp(e.start)}`,
     `DTEND:${utcStamp(e.end)}`,

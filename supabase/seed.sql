@@ -1,19 +1,19 @@
--- Dados de exemplo: Catia Rodrigues Nails (preços aproximados, ajustar no painel)
+-- Dados de exemplo: Bela Flor Nails (preços aproximados, ajustar no painel)
 
 insert into settings (business_name, tagline, address, whatsapp, instagram, facebook)
 values (
-  'Catia Rodrigues Nails',
-  'Especialista em fibra de vidro · +5 mil atendimentos desde 2015',
-  'R. São Rafael, 96 - Vila São Pedro, São José do Rio Preto - SP, 15091-030',
-  '5517996341375',
-  'catiarodriguesnails',
-  'studiocatiarodrigues'
+  'Bela Flor Nails',
+  'Studio de unhas em gel e fibra de vidro',
+  'Av. Exemplo, 100 - Centro, São José do Rio Preto - SP',
+  '5517999990000',
+  null,
+  null
 ) on conflict (id) do nothing;
 
 with p as (
   insert into professionals (id, name, bio, commission_pct)
-  values ('00000000-0000-0000-0000-000000000001', 'Catia Rodrigues',
-          'Nail designer desde 2015, especialista em alongamento em fibra de vidro e banho em gel.', 0)
+  values ('00000000-0000-0000-0000-000000000001', 'Bela Flor',
+          'Especialista em alongamento em fibra de vidro e banho em gel.', 0)
   returning id
 ), s as (
   insert into services (name, description, category, duration_min, price, sort) values

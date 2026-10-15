@@ -22,7 +22,7 @@ export function SiteFooter({
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 text-sm md:grid-cols-12 md:px-6">
         <div className="md:col-span-4">
           <p className="font-display text-2xl">
-            Catia Rodrigues <span className="font-normal text-brand">Nails</span>
+            Bela Flor <span className="font-normal text-brand">Nails</span>
           </p>
           <p className="mt-3 max-w-xs text-muted-foreground">Alongamento em fibra de vidro, banho em gel e esmaltação em gel em São José do Rio Preto.</p>
           <div className="mt-5 flex gap-2">

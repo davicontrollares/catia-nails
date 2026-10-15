@@ -1,4 +1,4 @@
--- Catia Rodrigues Nails: schema inicial
+-- Bela Flor Nails: schema inicial
 -- Rodar no Supabase SQL Editor (ou `supabase db push`).
 
 create extension if not exists btree_gist;

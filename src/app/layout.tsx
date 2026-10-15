@@ -8,11 +8,11 @@ import "./globals.css"
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] })
 
 export const metadata: Metadata = {
-  title: "Catia Rodrigues Nails · Agendamento online",
+  title: "Bela Flor Nails · Agendamento online",
   description:
     "Alongamento em fibra de vidro, banho em gel e esmaltação em gel em São José do Rio Preto. Agende seu horário online.",
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "Catia Nails", statusBarStyle: "black-translucent" },
+  appleWebApp: { capable: true, title: "Bela Flor", statusBarStyle: "black-translucent" },
   icons: { icon: "/icons/icon.svg", apple: "/icons/icon.svg" },
 }
 

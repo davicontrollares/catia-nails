@@ -121,7 +121,7 @@ export function BookingWizard({
   if (done && slot) {
     const event: CalendarEvent = {
       id: done,
-      title: `${chosen.map((s) => s.name).join(" + ")} · Catia Rodrigues Nails`,
+      title: `${chosen.map((s) => s.name).join(" + ")} · Bela Flor Nails`,
       description: `Atendimento com ${professional.name}.`,
       location: address,
       start: new Date(slot),

@@ -63,7 +63,7 @@ export function PaymentChoice({ value, onChange, total }: { value: PayMethod; on
 
 /** Tela de Pix simulada: QR code, copia e cola e contagem regressiva. */
 export function PixDialog({ open, total, onPaid, onClose }: { open: boolean; total: number; onPaid: () => void; onClose: () => void }) {
-  const code = `SIMULACAO-PIX|CATIA-RODRIGUES-NAILS|VALOR=${total.toFixed(2)}`
+  const code = `SIMULACAO-PIX|BELA-FLOR-NAILS|VALOR=${total.toFixed(2)}`
   const [left, setLeft] = useState(600)
   useEffect(() => {
     if (!open) return

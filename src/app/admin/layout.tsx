@@ -4,14 +4,14 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { hasSupabase } from "@/lib/data"
 import { AdminNav } from "./nav"
 
-export const metadata = { title: "Painel · Catia Rodrigues Nails" }
+export const metadata = { title: "Painel · Bela Flor Nails" }
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-dvh lg:flex">
       <aside className="border bg-card shadow-sm sticky top-4 m-4 hidden h-[calc(100dvh-2rem)] w-64 shrink-0 flex-col rounded-[2rem] p-4 lg:flex">
         <Link href="/" className="mb-6 px-3 pt-2">
-          <p className="text-lg font-semibold tracking-tight">Catia Rodrigues</p>
+          <p className="text-lg font-semibold tracking-tight">Bela Flor</p>
           <p className="text-sm text-muted-foreground">Painel</p>
         </Link>
         <AdminNav />

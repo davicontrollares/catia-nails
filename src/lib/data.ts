@@ -7,12 +7,12 @@ export const hasSupabase = Boolean(
 // Usado só quando o Supabase ainda não está configurado (preview local).
 export const DEMO_SETTINGS: Settings = {
   id: 1,
-  business_name: "Catia Rodrigues Nails",
-  tagline: "Especialista em fibra de vidro · +5 mil atendimentos desde 2015",
-  address: "R. São Rafael, 96 - Vila São Pedro, São José do Rio Preto - SP",
-  whatsapp: "5517996341375",
-  instagram: "catiarodriguesnails",
-  facebook: "studiocatiarodrigues",
+  business_name: "Bela Flor Nails",
+  tagline: "Studio de unhas em gel e fibra de vidro",
+  address: "Av. Exemplo, 100 - Centro, São José do Rio Preto - SP",
+  whatsapp: "5517999990000",
+  instagram: null,
+  facebook: null,
   min_notice_hours: 2,
   max_days_ahead: 45,
   cancel_notice_hours: 12,
@@ -21,8 +21,8 @@ export const DEMO_SETTINGS: Settings = {
 
 export const DEMO_PROFESSIONAL: Professional = {
   id: "00000000-0000-0000-0000-000000000001",
-  name: "Catia Rodrigues",
-  bio: "Nail designer desde 2015, especialista em alongamento em fibra de vidro e banho em gel.",
+  name: "Bela Flor",
+  bio: "Especialista em alongamento em fibra de vidro e banho em gel.",
   photo_url: null,
   commission_pct: 0,
   active: true,

@@ -1,4 +1,4 @@
--- Catia Rodrigues Nails: vários serviços no mesmo agendamento.
+-- Bela Flor Nails: vários serviços no mesmo agendamento.
 -- Rodar no SQL Editor depois do 0001_init.sql.
 
 alter table appointments add column if not exists service_label text;

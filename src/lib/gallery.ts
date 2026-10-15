@@ -12,7 +12,7 @@ export async function getGalleryPhotos(): Promise<Img[]> {
     const files = (await readdir(path.join(process.cwd(), "public", "instagram")))
       .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
       .sort()
-    if (files.length) return files.map((f, i) => ({ src: `/instagram/${f}`, alt: `Trabalho da Catia Rodrigues ${i + 1}` }))
+    if (files.length) return files.map((f, i) => ({ src: `/instagram/${f}`, alt: `Trabalho da Bela Flor ${i + 1}` }))
   } catch {
     // pasta ausente: segue com as fotos de exemplo
   }

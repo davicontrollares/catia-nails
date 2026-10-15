@@ -1,7 +1,7 @@
 import { getPublicData } from "@/lib/data"
 import { BookingWizard } from "./wizard"
 
-export const metadata = { title: "Agendar · Catia Rodrigues Nails" }
+export const metadata = { title: "Agendar · Bela Flor Nails" }
 
 export default async function AgendarPage({ searchParams }: { searchParams: Promise<{ servico?: string }> }) {
   const { servico } = await searchParams

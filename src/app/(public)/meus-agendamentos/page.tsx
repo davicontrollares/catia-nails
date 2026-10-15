@@ -9,7 +9,7 @@ import { STATUS_LABEL, type Appointment } from "@/lib/types"
 import { brl, TZ } from "@/lib/utils"
 import { CancelButton, SignOutButton } from "./buttons"
 
-export const metadata = { title: "Meus horários · Catia Rodrigues Nails" }
+export const metadata = { title: "Meus horários · Bela Flor Nails" }
 
 const fmt = (iso: string) =>
   new Date(iso).toLocaleString("pt-BR", { weekday: "short", day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit", timeZone: TZ })
