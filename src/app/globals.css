@@ -7,6 +7,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-display: var(--font-bodoni, "Bodoni Moda"), "Didot", Georgia, serif;
   --font-sans: var(--font-geist, "Geist"), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -78,7 +79,9 @@
   --glass-strong: oklch(1 0 0 / 82%);
   --glass-edge: oklch(1 0 0 / 95%);
   --glass-shadow: 0 12px 40px -18px oklch(0.3 0.05 350 / 20%);
-  --mesh-1: oklch(0.95 0.025 6);
+  --mesh-1: oklch(0.93 0.045 8);
+  --mesh-2: oklch(0.95 0.035 55);
+  --mesh-3: oklch(0.94 0.035 320);
   --sidebar: var(--glass-bg);
   --sidebar-foreground: var(--foreground);
   --sidebar-primary: var(--primary);
@@ -117,7 +120,9 @@
   --glass-strong: oklch(0.22 0.008 350 / 80%);
   --glass-edge: oklch(1 0 0 / 12%);
   --glass-shadow: 0 12px 40px -18px oklch(0 0 0 / 60%);
-  --mesh-1: oklch(0.24 0.04 6);
+  --mesh-1: oklch(0.28 0.06 8);
+  --mesh-2: oklch(0.24 0.035 40);
+  --mesh-3: oklch(0.25 0.05 320);
 }
 
 @layer base {
@@ -155,11 +160,22 @@
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
+/* gradiente suave atrás da página (rosé, pêssego e lilás) */
 .mesh-bg {
   position: fixed;
-  inset: 0;
+  inset: -10%;
   z-index: -1;
-  background: radial-gradient(60% 50% at 85% 0%, var(--mesh-1), transparent 70%), var(--background);
+  background:
+    radial-gradient(45% 40% at 85% 5%, var(--mesh-1), transparent 70%),
+    radial-gradient(40% 35% at 10% 20%, var(--mesh-3), transparent 70%),
+    radial-gradient(50% 40% at 60% 95%, var(--mesh-2), transparent 70%),
+    var(--background);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .mesh-bg { animation: mesh 30s ease-in-out infinite alternate; }
+}
+@keyframes mesh {
+  to { transform: translate3d(2%, -3%, 0) scale(1.04); }
 }
 @media (prefers-reduced-transparency: reduce) {
   :root { --glass-bg: var(--background); --glass-strong: var(--background); }

@@ -15,13 +15,13 @@ export default async function DisponibilidadePage() {
     <>
       <PageTitle
         title="Disponibilidade"
-        subtitle={`Horários que as clientes podem agendar · antecedência mínima ${data.settings.min_notice_hours}h · até ${data.settings.max_days_ahead} dias à frente`}
+        subtitle={`Clientes podem marcar com ${data.settings.min_notice_hours}h de antecedência e até ${data.settings.max_days_ahead} dias à frente.`}
       />
-      <div className="grid gap-4 lg:grid-cols-5">
-        <div className="lg:col-span-3">
+      <div className="grid items-start gap-4 xl:grid-cols-5">
+        <div className="xl:col-span-3">
           <HoursEditor professionalId={pro.id} initial={data.workingHours.filter((w) => w.professional_id === pro.id)} />
         </div>
-        <div className="lg:col-span-2">
+        <div className="xl:col-span-2">
           <TimeOffEditor professionalId={pro.id} items={data.timeOff} />
         </div>
       </div>

@@ -30,6 +30,8 @@ npm run dev
 4. No painel do Supabase, abra o SQL Editor e rode, nesta ordem:
    - `supabase/migrations/0001_init.sql`
    - `supabase/seed.sql`
+   - `supabase/migrations/0002_multi_service.sql` (vários serviços no mesmo agendamento)
+   - `supabase/migrations/0003_repeat_last.sql` (repetir o último atendimento)
 5. Em Authentication > URL Configuration, coloque a URL da Vercel em Site URL e `https://SEU-DOMINIO/auth/callback` em Redirect URLs.
 6. Para o e-mail de confirmação, crie uma conta no [Resend](https://resend.com), verifique o domínio e adicione na Vercel `RESEND_API_KEY` e `EMAIL_FROM`.
 7. Crie sua conta no site em `/entrar` e rode no SQL Editor para virar dona:
@@ -50,4 +52,8 @@ where id = (select id from auth.users where email = 'SEU-EMAIL');
 
 ## Fotos
 
-As fotos vêm do Pexels (`src/lib/images.ts`). Troque pelas fotos do studio quando tiver.
+Coloque as fotos do Instagram da Catia em `public/instagram/` (.jpg, .png ou .webp). A carrossel da página inicial usa essas fotos automaticamente. Enquanto a pasta estiver vazia, aparecem as fotos de exemplo do Pexels (`src/lib/images.ts`).
+
+## Pagamento
+
+O passo de pagamento (Pix e cartão via Mercado Pago) é uma simulação: nenhum valor é cobrado. Para cobrar de verdade, é preciso integrar a API do Mercado Pago (Pix e Checkout) com as credenciais da conta da Catia.

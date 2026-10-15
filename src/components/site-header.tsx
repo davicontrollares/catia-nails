@@ -6,12 +6,21 @@ import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 px-4 pt-[max(0.75rem,env(safe-area-inset-top))]">
-      <div className="glass mx-auto flex h-14 max-w-7xl items-center justify-between rounded-full pr-2 pl-5">
-        <Link href="/" className="text-[15px] font-semibold tracking-tight">
-          Catia Rodrigues <span className="font-normal text-muted-foreground">Nails</span>
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/70 pt-[env(safe-area-inset-top)] backdrop-blur-xl backdrop-saturate-150">
+      <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 md:px-6">
+        <Link href="/" className="font-display text-xl tracking-tight md:text-2xl">
+          Catia Rodrigues <span className="text-primary italic">Nails</span>
         </Link>
         <nav className="flex items-center gap-1">
+          {[
+            ["/#servicos", "Serviços"],
+            ["/#sobre", "Sobre"],
+            ["/#visite", "Contato"],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} className={cn(buttonVariants({ variant: "ghost" }), "hidden text-muted-foreground hover:text-foreground md:inline-flex")}>
+              {label}
+            </Link>
+          ))}
           <ThemeToggle />
           <Link href="/agendar" className={cn(buttonVariants(), "hidden sm:inline-flex")}>
             Agendar horário

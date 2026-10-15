@@ -1,19 +1,22 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { GalleryCarousel } from "@/components/landing/gallery-carousel"
 import { Hero } from "@/components/landing/hero"
 import { Reveal } from "@/components/landing/reveal"
+import { Visit } from "@/components/landing/visit"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { buttonVariants } from "@/components/ui/button"
 import { getPublicData } from "@/lib/data"
+import { getGalleryPhotos } from "@/lib/gallery"
 import { IMAGES } from "@/lib/images"
 import type { Service } from "@/lib/types"
-import { brl, cn, duration } from "@/lib/utils"
+import { brl, cn, duration, formatPhone, summarizeHours } from "@/lib/utils"
 
 export const revalidate = 60
 
 export default async function Home() {
-  const { settings, services } = await getPublicData()
+  const [{ settings, services, hours }, photos] = await Promise.all([getPublicData(), getGalleryPhotos()])
 
   const groups = services.reduce<Record<string, Service[]>>((acc, s) => {
     ;(acc[s.category] ??= []).push(s)
@@ -39,12 +42,6 @@ export default async function Home() {
     },
   ]
 
-  const gallery = [
-    { img: IMAGES.gallery[0], cls: "md:col-span-2 md:row-span-2", ratio: "aspect-[4/5] md:aspect-auto md:h-full" },
-    { img: IMAGES.gallery[1], cls: "", ratio: "aspect-[4/5] md:aspect-square" },
-    { img: IMAGES.gallery[2], cls: "", ratio: "aspect-[4/5] md:aspect-square" },
-    { img: IMAGES.gallery[3], cls: "md:col-span-2", ratio: "aspect-[4/5] md:aspect-[2/1]" },
-  ]
 
   return (
     <div className="-mx-4 -mt-6">
@@ -52,21 +49,7 @@ export default async function Home() {
 
       {/* Galeria: bento de 4 fotos, rolagem lateral no celular */}
       <section aria-label="Galeria" className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
-        <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] md:grid md:grid-cols-4 md:gap-4 md:overflow-visible">
-          {gallery.map(({ img, cls, ratio }, i) => (
-            <Reveal key={img.src} delay={i * 0.06} className={cn("w-[72vw] shrink-0 snap-center md:w-auto", cls)}>
-              <div className={cn("relative overflow-hidden rounded-3xl bg-muted", ratio)}>
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 72vw"
-                  className="object-cover transition-transform duration-700 ease-out hover:scale-[1.03]"
-                />
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <GalleryCarousel photos={photos} />
         {settings.instagram && (
           <a
             href={`https://instagram.com/${settings.instagram}`}
@@ -89,7 +72,7 @@ export default async function Home() {
 
         <div className="md:col-span-7 md:pl-6">
           <Reveal>
-            <h2 className="text-4xl font-semibold tracking-[-0.035em] md:text-5xl">Serviços e valores</h2>
+            <h2 className="font-display text-4xl tracking-[-0.02em] md:text-6xl">Serviços e valores</h2>
             <p className="mt-4 max-w-[52ch] text-muted-foreground">Toque no serviço para ver os horários livres.</p>
           </Reveal>
 
@@ -122,10 +105,10 @@ export default async function Home() {
       </section>
 
       {/* Sobre: texto grande, sem card */}
-      <section className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-28">
+      <section id="sobre" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-28">
         <div className="grid gap-12 md:grid-cols-12">
           <Reveal className="md:col-span-8">
-            <p className="text-3xl leading-[1.25] font-medium tracking-[-0.025em] text-balance md:text-[2.75rem]">
+            <p className="font-display text-3xl leading-[1.3] text-balance md:text-[2.75rem]">
               Catia faz unhas desde 2015 e já passou de 5 mil atendimentos. O foco é alongamento em fibra de vidro e banho
               em gel,<span className="text-muted-foreground"> com unhas finas, bem acabadas e que duram.</span>
             </p>
@@ -155,7 +138,7 @@ export default async function Home() {
       {/* Dúvidas */}
       <section className="mx-auto max-w-3xl px-4 py-16 md:py-24">
         <Reveal>
-          <h2 className="text-4xl font-semibold tracking-[-0.035em] md:text-5xl">Dúvidas frequentes</h2>
+          <h2 className="font-display text-4xl tracking-[-0.02em] md:text-6xl">Dúvidas frequentes</h2>
         </Reveal>
         <Reveal delay={0.08}>
           <Accordion className="mt-8">
@@ -169,6 +152,13 @@ export default async function Home() {
         </Reveal>
       </section>
 
+      <Visit
+        address={settings.address ?? ""}
+        phone={formatPhone(settings.whatsapp)}
+        whatsapp={settings.whatsapp}
+        hours={summarizeHours(hours)}
+      />
+
       {/* Chamada final sobre foto */}
       <section className="px-4 py-10 md:px-6">
         <Reveal>
@@ -176,7 +166,7 @@ export default async function Home() {
             <Image src={IMAGES.cta.src} alt={IMAGES.cta.alt} fill sizes="100vw" className="object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
             <div className="relative p-6 text-white md:p-12">
-              <h2 className="max-w-lg text-4xl font-semibold tracking-[-0.035em] text-balance md:text-6xl">
+              <h2 className="max-w-lg font-display text-4xl tracking-[-0.02em] text-balance md:text-6xl">
                 Escolha um horário livre.
               </h2>
               <Link
@@ -190,38 +180,6 @@ export default async function Home() {
         </Reveal>
       </section>
 
-      <footer className="mx-auto grid max-w-7xl gap-8 px-4 pt-16 pb-36 text-sm md:grid-cols-3 md:px-6 md:pb-16">
-        <div>
-          <p className="font-semibold">{settings.business_name}</p>
-          <p className="mt-2 text-muted-foreground">Atendimento com hora marcada.</p>
-        </div>
-        <div>
-          <p className="font-medium">Endereço</p>
-          <a
-            className="mt-2 block text-muted-foreground hover:text-foreground"
-            href={`https://maps.google.com/?q=${encodeURIComponent(settings.address ?? "")}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {settings.address}
-          </a>
-        </div>
-        <div>
-          <p className="font-medium">Contato</p>
-          <div className="mt-2 flex flex-col gap-1 text-muted-foreground">
-            {settings.whatsapp && (
-              <a className="hover:text-foreground" href={`https://wa.me/${settings.whatsapp}`} target="_blank" rel="noreferrer">
-                WhatsApp
-              </a>
-            )}
-            {settings.instagram && (
-              <a className="hover:text-foreground" href={`https://instagram.com/${settings.instagram}`} target="_blank" rel="noreferrer">
-                Instagram
-              </a>
-            )}
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import type { Professional, Service, Settings } from "./types"
+import type { Professional, Service, Settings, WorkingHour } from "./types"
 
 export const hasSupabase = Boolean(
   process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -40,21 +40,28 @@ export const DEMO_SERVICES: Service[] = [
   s("d6", "Massagem Relaxante", "Massagem relaxante para o corpo.", "Estética", 60, 100, 6),
 ]
 
+export const DEMO_HOURS: WorkingHour[] = [2, 3, 4, 5, 6].flatMap((weekday) => [
+  { id: `w${weekday}a`, professional_id: DEMO_PROFESSIONAL.id, weekday, start_time: "08:00:00", end_time: "12:00:00" },
+  { id: `w${weekday}b`, professional_id: DEMO_PROFESSIONAL.id, weekday, start_time: "13:00:00", end_time: "18:00:00" },
+])
+
 export async function getPublicData() {
   if (!hasSupabase) {
-    return { settings: DEMO_SETTINGS, services: DEMO_SERVICES, professionals: [DEMO_PROFESSIONAL], demo: true }
+    return { settings: DEMO_SETTINGS, services: DEMO_SERVICES, professionals: [DEMO_PROFESSIONAL], hours: DEMO_HOURS, demo: true }
   }
   const { createClient } = await import("./supabase/server")
   const supabase = await createClient()
-  const [settings, services, professionals] = await Promise.all([
+  const [settings, services, professionals, hours] = await Promise.all([
     supabase.from("settings").select("*").eq("id", 1).single(),
     supabase.from("services").select("*").eq("active", true).order("sort"),
     supabase.from("professionals").select("*").eq("active", true).order("name"),
+    supabase.from("working_hours").select("*").order("weekday").order("start_time"),
   ])
   return {
     settings: (settings.data as Settings) ?? DEMO_SETTINGS,
     services: (services.data as Service[]) ?? [],
     professionals: (professionals.data as Professional[]) ?? [],
+    hours: (hours.data as WorkingHour[]) ?? [],
     demo: false,
   }
 }

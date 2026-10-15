@@ -1,0 +1,2 @@
+Coloque aqui as fotos do Instagram da Catia (.jpg, .jpeg, .png ou .webp).
+Elas aparecem na carrossel da página inicial em ordem alfabética do nome do arquivo.

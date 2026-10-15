@@ -23,7 +23,7 @@ export default async function AdminHome() {
   const todayKey = dayKey(new Date())
   const todayList = data.appointments.filter((a) => dayKey(a.starts_at) === todayKey && a.status !== "cancelled")
   const week = past.filter((a) => new Date(a.starts_at) >= addDays(today, -6))
-  const byService = groupSum(past.filter((a) => a.status === "completed"), (a) => a.services?.name ?? "—", (a) => Number(a.price))
+  const byService = groupSum(past.filter((a) => a.status === "completed"), (a) => a.service_label ?? a.services?.name ?? "-", (a) => Number(a.price))
   const byHour = groupSum(
     past.filter((a) => a.status !== "cancelled"),
     (a) => `${new Date(a.starts_at).toLocaleTimeString("pt-BR", { hour: "2-digit", timeZone: TZ })}h`,
@@ -62,7 +62,7 @@ export default async function AdminHome() {
                   <p className="font-medium tabular-nums">
                     {new Date(a.starts_at).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: TZ })} · {a.client_name}
                   </p>
-                  <p className="text-muted-foreground">{a.services?.name}</p>
+                  <p className="text-muted-foreground">{a.service_label ?? a.services?.name}</p>
                 </div>
                 <Badge variant="outline">{STATUS_LABEL[a.status]}</Badge>
               </div>

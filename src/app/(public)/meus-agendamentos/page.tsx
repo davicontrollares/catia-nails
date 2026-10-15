@@ -66,7 +66,7 @@ export default async function MeusAgendamentos() {
             <Card key={a.id}>
               <CardContent className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="font-medium">{a.services?.name}</p>
+                  <p className="font-medium">{a.service_label ?? a.services?.name}</p>
                   <p className="text-sm text-muted-foreground">{fmt(a.starts_at)} · {a.professionals?.name}</p>
                 </div>
                 <CancelButton id={a.id} />
@@ -82,7 +82,7 @@ export default async function MeusAgendamentos() {
           {past.map((a) => (
             <div key={a.id} className="glass-subtle flex items-center justify-between rounded-2xl px-4 py-3 text-sm">
               <div>
-                <p className="font-medium">{a.services?.name}</p>
+                <p className="font-medium">{a.service_label ?? a.services?.name}</p>
                 <p className="text-muted-foreground">{fmt(a.starts_at)}</p>
               </div>
               <div className="text-right">

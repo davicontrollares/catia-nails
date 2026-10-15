@@ -28,7 +28,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
   return (
     <section
       ref={ref}
-      className="mx-auto grid min-h-[calc(100dvh-5rem)] max-w-7xl items-center gap-10 px-4 pt-6 pb-12 md:grid-cols-12 md:gap-8 md:px-6"
+      className="mx-auto grid min-h-[calc(100dvh-4.5rem)] max-w-7xl items-center gap-10 px-4 pt-8 pb-12 md:grid-cols-12 md:gap-8 md:px-6"
     >
       <div className="md:col-span-6 lg:col-span-5">
         <motion.p {...enter(0)} className="mb-6 flex items-center gap-2 text-sm text-muted-foreground">
@@ -38,9 +38,9 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
 
         <motion.h1
           {...enter(0.08)}
-          className="text-5xl leading-[1.02] font-semibold tracking-[-0.045em] text-balance lg:text-7xl"
+          className="font-display text-[3.25rem] leading-[1.05] tracking-[-0.02em] text-balance lg:text-[5.25rem]"
         >
-          Unhas finas que parecem <span className="text-primary">naturais.</span>
+          Unhas finas que parecem <em className="pb-1 text-primary">naturais.</em>
         </motion.h1>
 
         <motion.p {...enter(0.18)} className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
@@ -48,7 +48,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
         </motion.p>
 
         <motion.div {...enter(0.28)} className="mt-9 flex flex-col gap-3 sm:flex-row">
-          <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "group h-13 px-7 text-base")}>
+          <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "group h-13 bg-foreground px-7 text-base text-background hover:bg-foreground/85")}>
             Agendar horário
             <ArrowRight className="transition-transform group-hover:translate-x-1" />
           </Link>
@@ -57,7 +57,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
               href={`https://wa.me/${whatsapp}`}
               target="_blank"
               rel="noreferrer"
-              className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-13 px-7 text-base")}
+              className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-13 bg-background/50 px-7 text-base backdrop-blur")}
             >
               WhatsApp
             </a>
@@ -71,7 +71,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
           initial={{ opacity: 0, scale: 1.04 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease }}
-          className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-muted md:aspect-[5/6]"
+          className="relative aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-3xl bg-muted shadow-2xl shadow-primary/15 md:aspect-[5/6]"
         >
           <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
         </motion.div>

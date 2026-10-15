@@ -32,7 +32,7 @@ export default async function FinancasPage({ searchParams }: { searchParams: Pro
   })
 
   const csvRows = [
-    ...done.map((a) => ({ data: dayKey(a.starts_at), tipo: "Receita", descricao: `${a.services?.name} (${a.client_name})`, forma: a.payment_method ? PAYMENT_LABEL[a.payment_method] : "", valor: Number(a.price) })),
+    ...done.map((a) => ({ data: dayKey(a.starts_at), tipo: "Receita", descricao: `${a.service_label ?? a.services?.name} (${a.client_name})`, forma: a.payment_method ? PAYMENT_LABEL[a.payment_method] : "", valor: Number(a.price) })),
     ...data.expenses.map((e) => ({ data: e.spent_on, tipo: "Despesa", descricao: `${e.category}: ${e.description ?? ""}`, forma: "", valor: -Number(e.amount) })),
   ].sort((a, b) => a.data.localeCompare(b.data))
 

@@ -72,7 +72,7 @@ export function AgendaList({ appointments }: { appointments: Appointment[] }) {
             <div className="min-w-0 flex-1">
               <p className="font-semibold">{a.client_name}</p>
               <p className="text-sm text-muted-foreground">
-                {a.services?.name} · {brl(Number(a.price))}
+                {a.service_label ?? a.services?.name} · {brl(Number(a.price))}
                 {a.payment_method && ` · ${PAYMENT_LABEL[a.payment_method]}`}
               </p>
               {a.notes && <p className="mt-1 text-sm italic text-muted-foreground">{`"${a.notes}"`}</p>}

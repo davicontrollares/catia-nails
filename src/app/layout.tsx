@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next"
-import { Geist } from "next/font/google"
+import { Bodoni_Moda, Geist } from "next/font/google"
 import { ThemeProvider } from "next-themes"
 import { MotionConfig } from "@/components/motion"
 import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 
 const geist = Geist({ variable: "--font-geist", subsets: ["latin"] })
+const bodoni = Bodoni_Moda({ variable: "--font-bodoni", subsets: ["latin"], style: ["normal", "italic"] })
 
 export const metadata: Metadata = {
   title: "Catia Rodrigues Nails · Agendamento online",
@@ -26,7 +27,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={geist.variable} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${geist.variable} ${bodoni.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="mesh-bg" aria-hidden />

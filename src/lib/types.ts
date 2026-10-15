@@ -59,6 +59,7 @@ export type Appointment = {
   client_phone: string
   professional_id: string
   service_id: string
+  service_label?: string | null
   starts_at: string
   ends_at: string
   status: AppointmentStatus

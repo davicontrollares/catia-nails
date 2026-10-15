@@ -2,7 +2,7 @@
 const px = (id: number, path?: string) =>
   `https://images.pexels.com/photos/${id}/${path ?? `pexels-photo-${id}.jpeg`}`
 
-type Img = { src: string; alt: string }
+export type Img = { src: string; alt: string }
 
 export const IMAGES = {
   hero: { src: px(20758448, "pexels-photo-20758448/free-photo-of-pink-flower-on-hand-with-polished-nails.jpeg"), alt: "Mão com unhas rosa claro segurando uma flor" },
