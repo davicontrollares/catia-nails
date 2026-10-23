@@ -477,17 +477,17 @@ export function BookingWizard({
       </aside>
 
       <div className="pb-safe fixed inset-x-0 bottom-0 z-40 px-3 lg:hidden">
-        <div className="glass-strong mx-auto flex max-w-xl items-center gap-2 rounded-[1.75rem] p-2 pl-4">
+        <div className="mx-auto flex max-w-xl items-center gap-2 rounded-[1.75rem] border border-foreground/10 bg-background/92 p-2 pl-4 shadow-xl shadow-foreground/15 backdrop-blur-xl backdrop-saturate-150">
           <div className="mr-auto min-w-0">
-            <p className="text-[11px] text-muted-foreground">{chosen.length ? `${chosen.length} ${chosen.length > 1 ? "serviços" : "serviço"}${totalMin ? ` · ${duration(totalMin)}` : ""}` : "Total"}</p>
-            <p className="font-semibold tabular-nums">{brl(totalPrice)}</p>
+            <p className="text-[11px] font-medium text-foreground/70">{chosen.length ? `${chosen.length} ${chosen.length > 1 ? "serviços" : "serviço"}${totalMin ? ` · ${duration(totalMin)}` : ""}` : "Total"}</p>
+            <p className="text-base font-bold text-foreground tabular-nums">{brl(totalPrice)}</p>
           </div>
           {step > 0 && (
-            <Button variant="outline" size="lg" className="h-12 shrink-0" onClick={() => setStep(step - 1)} aria-label="Voltar">
+            <Button variant="outline" size="lg" className="h-12 shrink-0 rounded-full bg-background" onClick={() => setStep(step - 1)} aria-label="Voltar">
               <ArrowLeft />
             </Button>
           )}
-          <Button size="lg" className="h-12 min-w-0 flex-1 basis-0 sm:flex-none sm:basis-auto" disabled={!canNext || submitting} onClick={next}>
+          <Button size="lg" className="h-12 min-w-0 flex-1 basis-0 rounded-full disabled:bg-foreground/15 disabled:text-foreground/55 disabled:opacity-100 sm:flex-none sm:basis-auto" disabled={!canNext || submitting} onClick={next}>
             {submitting && <Loader2 className="animate-spin" />}
             {step === 0 ? "Escolher horário" : step === 1 ? "Continuar" : step === 2 ? "Ir para o pagamento" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar horário"}
             {step < last && <ArrowRight />}
