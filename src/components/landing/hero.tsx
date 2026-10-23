@@ -26,42 +26,55 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
 
   return (
     <section ref={ref} className="mx-auto max-w-7xl px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-0">
-      {/* Mobile */}
-      <div className="relative isolate flex min-h-[calc(100dvh-9.5rem)] flex-col justify-end overflow-hidden rounded-[2rem] bg-muted md:hidden">
+      {/* Mobile: foto cheia e cartão translúcido de reserva embaixo */}
+      <div className="relative isolate min-h-[calc(100dvh-8.5rem)] overflow-hidden rounded-[2.25rem] bg-muted md:hidden">
         <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover object-[center_20%]" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[oklch(0.2_0.03_350/0.88)] via-[oklch(0.2_0.03_350/0.3)] to-transparent" />
-        <div className="p-6 pb-7 text-white">
-          <motion.p {...enter(0)} className="mb-4 flex items-center gap-1.5 text-xs tracking-wide text-white/85">
-            <Star className="size-3.5 fill-white text-white" />
-            5,0 no Google · mais de 100 avaliações
-          </motion.p>
-          <motion.h1 {...enter(0.08)} className="font-display text-[2.6rem] leading-[1.05] text-balance">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-transparent to-black/30" />
+        <div className="absolute inset-x-0 top-12 px-6 text-center text-white">
+          <motion.h1 {...enter(0)} className="font-display text-[2.5rem] leading-[1.05] text-balance">
             Unhas finas que parecem naturais.
           </motion.h1>
-          <motion.p {...enter(0.16)} className="mt-3 text-[0.95rem] leading-relaxed text-white/85">
-            Alongamento em fibra de vidro e banho em gel, em São José do Rio Preto.
+          <motion.p {...enter(0.1)} className="mt-3 font-display text-base italic opacity-90">
+            Nail studio · São José do Rio Preto
           </motion.p>
-          <motion.div {...enter(0.24)} className="mt-6 flex gap-2.5">
+        </div>
+        <motion.div
+          {...enter(0.2)}
+          className="absolute inset-x-3 bottom-3 rounded-[1.75rem] border border-white/50 bg-white/45 p-4 text-neutral-900 backdrop-blur-xl backdrop-saturate-150 dark:border-white/15 dark:bg-black/45 dark:text-white"
+        >
+          <div className="flex items-center gap-3.5">
+            <div className="relative size-[88px] shrink-0 overflow-hidden rounded-2xl bg-muted">
+              <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="88px" className="object-cover" />
+            </div>
+            <div className="min-w-0">
+              <span className="inline-block rounded-full bg-white/80 px-3 py-1 text-[0.7rem] font-bold text-neutral-900 dark:bg-white/15 dark:text-white">Agenda aberta</span>
+              <p className="mt-2 font-display text-lg leading-tight">Fibra de vidro e banho em gel</p>
+              <p className="mt-1 flex items-center gap-1 text-xs opacity-80">
+                <Star className="size-3 fill-current" /> 5,0 no Google
+              </p>
+            </div>
+          </div>
+          <div className="mt-3.5 flex flex-wrap gap-1.5">
+            {["Serviço", "Data e hora", "Dados"].map((c) => (
+              <span key={c} className="rounded-full bg-white/70 px-3 py-1.5 text-xs font-semibold text-neutral-900 dark:bg-white/15 dark:text-white">{c}</span>
+            ))}
+          </div>
+          <div className="mt-3.5 flex gap-2.5">
             <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-pink text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
               Agendar horário
             </Link>
             {whatsapp && (
-              <a
-                href={`https://wa.me/${whatsapp}`}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Chamar no WhatsApp"
-                className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-neutral-900"
-              >
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chamar no WhatsApp" className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-neutral-900">
                 <MessageCircle className="size-5" />
               </a>
             )}
-          </motion.div>
-        </div>
+          </div>
+          <p className="mt-2.5 text-center text-[0.7rem] opacity-75">Confirmação por e-mail. Cancele ou remarque pelo site.</p>
+        </motion.div>
       </div>
 
       {/* Desktop: faixa larga, texto sobre creme e foto à direita */}
-      <div className="relative hidden min-h-[36rem] overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[oklch(0.975_0.02_40)] via-[oklch(0.96_0.03_20)] to-[oklch(0.93_0.05_5)] md:block lg:min-h-[40rem]">
+      <div className="relative hidden min-h-[36rem] overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[oklch(0.975_0.02_40)] via-[oklch(0.96_0.03_20)] to-[oklch(0.93_0.05_5)] dark:from-[oklch(0.13_0.008_60)] dark:via-[oklch(0.15_0.008_60)] dark:to-[oklch(0.2_0.015_60)] md:block lg:min-h-[40rem]">
         <motion.div
           style={{ y: imgY }}
           initial={{ opacity: 0, scale: 1.05 }}
@@ -91,7 +104,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             <motion.div {...enter(0.3)} className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/agendar"
-                className={cn(buttonVariants({ size: "lg" }), "h-13 rounded-md bg-foreground px-9 text-xs font-semibold tracking-[0.22em] text-background uppercase hover:bg-foreground/85")}
+                className={cn(buttonVariants({ size: "lg" }), "h-13 rounded-md bg-foreground px-9 text-xs font-semibold tracking-[0.22em] text-background uppercase hover:bg-foreground/85 dark:bg-pink dark:text-neutral-900 dark:hover:bg-pink/85")}
               >
                 Agendar horário
               </Link>

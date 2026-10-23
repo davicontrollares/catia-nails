@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, ArrowUpRight, BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
 import { GalleryCarousel } from "@/components/landing/gallery-carousel"
+import { Experience } from "@/components/landing/experience"
 import { Hero } from "@/components/landing/hero"
 import { Reveal } from "@/components/landing/reveal"
 import { ServiceCards } from "@/components/landing/service-cards"
@@ -87,6 +88,8 @@ export default async function Home() {
         </Reveal>
         <ServiceCards services={services} />
       </section>
+
+      <Experience />
 
       {/* Sobre: texto grande, sem card */}
       <section id="sobre" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-28">
