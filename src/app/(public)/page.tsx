@@ -57,7 +57,7 @@ export default async function Home() {
               <li key={title as string} className="flex flex-col items-center gap-2 px-4 py-6 text-center">
                 <I className="size-6 text-brand" strokeWidth={1.5} />
                 <p className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase">{title as string}</p>
-                <p className="text-xs text-muted-foreground">{text as string}</p>
+                <p className="hidden text-xs text-muted-foreground md:block">{text as string}</p>
               </li>
             )
           })}

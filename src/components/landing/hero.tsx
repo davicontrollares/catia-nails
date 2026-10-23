@@ -51,7 +51,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Chamar no WhatsApp"
-                className="glass-strong flex size-13 shrink-0 items-center justify-center rounded-full text-foreground"
+                className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-neutral-900"
               >
                 <MessageCircle className="size-5" />
               </a>
