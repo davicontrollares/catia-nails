@@ -48,7 +48,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
               <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="64px" className="object-cover" />
             </div>
             <div className="min-w-0 flex-1">
-              <span className="inline-block rounded-full bg-pink/60 px-3 py-0.5 text-[0.68rem] font-semibold">Agenda aberta</span>
+              <span className="inline-block rounded-full bg-brand-soft px-3 py-0.5 text-foreground text-[0.68rem] font-semibold">Agenda aberta</span>
               <p className="mt-1 font-display text-lg leading-tight">Fibra de vidro e banho em gel</p>
             </div>
             <span className="flex shrink-0 items-center gap-1 text-xs font-semibold">
@@ -66,11 +66,11 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             </div>
           </div>
           <div className="mt-3.5 flex gap-2.5">
-            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-pink text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
+            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-pink text-base font-semibold text-white shadow-md shadow-pink/30 hover:bg-pink/90")}>
               Agendar horário
             </Link>
             {whatsapp && (
-              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chamar no WhatsApp" className="flex size-13 shrink-0 items-center justify-center rounded-full bg-pink/40">
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chamar no WhatsApp" className="flex size-13 shrink-0 items-center justify-center rounded-full bg-neutral-900/10 dark:bg-white/15">
                 <MessageCircle className="size-5" />
               </a>
             )}
@@ -110,7 +110,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             <motion.div {...enter(0.3)} className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/agendar"
-                className={cn(buttonVariants({ size: "lg" }), "h-13 rounded-full bg-foreground px-9 text-xs font-semibold tracking-[0.22em] text-background uppercase hover:bg-foreground/85 dark:bg-pink dark:text-neutral-900 dark:hover:bg-pink/85")}
+                className={cn(buttonVariants({ size: "lg" }), "h-13 rounded-full bg-foreground px-9 text-xs font-semibold tracking-[0.22em] text-background uppercase hover:bg-foreground/85 dark:bg-pink dark:text-white dark:hover:bg-pink/90")}
               >
                 Agendar horário
               </Link>
@@ -143,7 +143,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
               <span key={c} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-foreground/80">{c}</span>
             ))}
           </div>
-          <Link href="/agendar" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-pink text-sm font-semibold text-neutral-900 transition hover:bg-pink/85">
+          <Link href="/agendar" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-pink text-sm font-semibold text-white shadow-md shadow-pink/30 transition hover:bg-pink/90">
             <Sparkles className="size-4" /> Agendar agora
           </Link>
         </motion.div>

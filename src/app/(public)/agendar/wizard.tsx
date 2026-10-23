@@ -181,7 +181,7 @@ export function BookingWizard({
         className="mx-auto max-w-xl"
       >
         <div className="text-center">
-          <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-pink text-neutral-900">
+          <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-pink text-white">
             <Check className="size-8" />
           </div>
           <h1 className="mt-5 font-display text-4xl leading-tight sm:text-5xl">Tudo certo, {firstName}</h1>
@@ -319,7 +319,7 @@ export function BookingWizard({
                         <span className="block text-[15px] leading-snug font-semibold">{s.name}</span>
                         <span className="text-sm text-muted-foreground">{durationLabel(s)} · {brl(Number(s.price))}</span>
                       </span>
-                      <span className={cn("flex size-11 shrink-0 items-center justify-center rounded-full transition-colors", on ? "bg-pink text-neutral-900" : "bg-brand-soft text-foreground")}>
+                      <span className={cn("flex size-11 shrink-0 items-center justify-center rounded-full transition-colors", on ? "bg-pink text-white" : "bg-brand-soft text-foreground")}>
                         {on ? <Check className="size-5" /> : <Plus className="size-5" />}
                       </span>
                     </button>
@@ -334,7 +334,7 @@ export function BookingWizard({
               <h1 className="font-display text-3xl sm:text-4xl">Quando fica bom?</h1>
               <button type="button" onClick={nextFree} disabled={loadingSlots} className="mt-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/70 px-4 py-3 text-left">
                 <span className="text-sm font-semibold">Mostrar o próximo horário livre</span>
-                <span className="flex h-9 shrink-0 items-center rounded-full bg-pink px-4 text-sm font-semibold text-neutral-900">
+                <span className="flex h-9 shrink-0 items-center rounded-full bg-pink px-4 text-sm font-semibold text-white">
                   {loadingSlots ? <Loader2 className="size-4 animate-spin" /> : "Ver"}
                 </span>
               </button>

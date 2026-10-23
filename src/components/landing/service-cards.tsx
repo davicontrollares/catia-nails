@@ -52,7 +52,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
                     sizes="(min-width: 1024px) 25vw, 50vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
-                  <span className="absolute right-2.5 bottom-2.5 flex size-11 items-center justify-center rounded-full bg-pink text-neutral-900 shadow-lg shadow-black/10 transition-transform group-hover:-translate-y-0.5">
+                  <span className="absolute right-2.5 bottom-2.5 flex size-11 items-center justify-center rounded-full bg-pink text-white shadow-lg shadow-pink/30 transition-transform group-hover:-translate-y-0.5">
                     <Plus className="size-4" />
                   </span>
                 </div>
