@@ -2,7 +2,6 @@ import { BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
 import { About } from "@/components/landing/about"
 import { Experience } from "@/components/landing/experience"
 import { Hero } from "@/components/landing/hero"
-import { HowItWorks } from "@/components/landing/how-it-works"
 import { Reveal } from "@/components/landing/reveal"
 import { Showcase } from "@/components/landing/showcase"
 import { Reviews } from "@/components/landing/reviews"
@@ -72,8 +71,6 @@ export default async function Home() {
         </Reveal>
         <ServiceCards services={services} />
       </section>
-
-      <HowItWorks />
 
       <Experience />
 
