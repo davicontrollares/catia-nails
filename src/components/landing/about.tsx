@@ -14,7 +14,7 @@ export function About() {
     <section id="sobre" className="scroll-mt-24 bg-brand-soft py-16 md:py-28">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 md:grid-cols-12 md:gap-0 md:px-6">
         <Reveal className="md:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden bg-muted">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-muted">
             <Image src={IMAGES.about.src} alt={IMAGES.about.alt} fill sizes="(min-width: 768px) 40vw, 100vw" className="object-cover" />
           </div>
         </Reveal>

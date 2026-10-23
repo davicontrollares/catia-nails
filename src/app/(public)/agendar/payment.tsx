@@ -33,7 +33,7 @@ export function PaymentSegmented({ value, onChange }: { value: PayMethod; onChan
   const order: PayMethod[] = ["local", "pix", "mp"]
   const short: Record<PayMethod, string> = { local: "No studio", pix: "Pix", mp: "Cartão" }
   return (
-    <div role="radiogroup" aria-label="Forma de pagamento" className="grid grid-cols-3 gap-1 border bg-card p-1">
+    <div role="radiogroup" aria-label="Forma de pagamento" className="grid grid-cols-3 gap-1 rounded-2xl border bg-card p-1">
       {order.map((id) => (
         <button
           key={id}
@@ -42,7 +42,7 @@ export function PaymentSegmented({ value, onChange }: { value: PayMethod; onChan
           aria-checked={value === id}
           onClick={() => onChange(id)}
           className={cn(
-            "h-11 text-sm font-semibold transition-colors",
+            "h-11 rounded-xl text-sm font-semibold transition-colors",
             value === id ? "bg-foreground text-background" : "text-foreground hover:bg-muted"
           )}
         >
@@ -64,12 +64,12 @@ export function PaymentChoice({ value, onChange, total }: { value: PayMethod; on
             key={id}
             htmlFor={`pay-${id}`}
             className={cn(
-              "flex min-h-20 cursor-pointer items-center gap-4 border bg-background px-5 py-4 font-normal transition-colors hover:border-primary/40",
+              "flex min-h-20 cursor-pointer items-center gap-4 rounded-2xl border bg-background/70 px-5 py-4 font-normal transition-colors hover:border-primary/40",
               value === id && "border-primary bg-accent/60"
             )}
           >
             <RadioGroupItem id={`pay-${id}`} value={id} />
-            <span className="flex size-11 shrink-0 items-center justify-center bg-brand-soft text-brand">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
               <Icon className="size-5" />
             </span>
             <span className="flex-1">
@@ -79,7 +79,7 @@ export function PaymentChoice({ value, onChange, total }: { value: PayMethod; on
           </Label>
         ))}
       </RadioGroup>
-      <p className="mt-4 bg-muted/60 px-4 py-3 text-xs text-muted-foreground">
+      <p className="mt-4 rounded-xl bg-muted/60 px-4 py-3 text-xs text-muted-foreground">
         Demonstração: o pagamento online é simulado e nenhum valor é cobrado.
       </p>
     </>

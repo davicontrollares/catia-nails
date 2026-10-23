@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-sm">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/55 pt-[env(safe-area-inset-top)] backdrop-blur-xl backdrop-saturate-150">
       <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 md:px-6">
         <Link href="/" className="font-display text-lg md:text-xl">
           Bela Flor <span className="font-normal text-brand">Nails</span>

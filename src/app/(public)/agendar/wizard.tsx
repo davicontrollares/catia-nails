@@ -190,7 +190,7 @@ export function BookingWizard({
           </p>
         </div>
 
-        <div className="mt-8 border bg-card shadow-xl shadow-brand/10">
+        <div className="glass mt-8 overflow-hidden rounded-[2rem] shadow-xl shadow-brand/10">
           <div className="flex">
             <div className="flex w-28 shrink-0 flex-col items-center justify-center bg-brand-soft px-2 py-6 text-center sm:w-36">
               <span className="text-[11px] font-bold tracking-[0.16em] text-muted-foreground uppercase">{part({ weekday: "short" }).replace(".", "")}</span>
@@ -221,9 +221,9 @@ export function BookingWizard({
         )}
 
         <div className="mt-4 grid grid-cols-3 gap-2.5">
-          <a href={googleCalendarUrl(event)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center border bg-card text-sm font-semibold hover:bg-muted">Google</a>
-          <a href={icsHref} download="agendamento.ics" className="flex h-12 items-center justify-center gap-1.5 border bg-card text-sm font-semibold hover:bg-muted"><Download className="size-4" /> iPhone</a>
-          <a href={outlookCalendarUrl(event)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center border bg-card text-sm font-semibold hover:bg-muted">Outlook</a>
+          <a href={googleCalendarUrl(event)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center rounded-2xl border bg-card/70 text-sm font-semibold hover:bg-muted">Google</a>
+          <a href={icsHref} download="agendamento.ics" className="flex h-12 items-center justify-center gap-1.5 rounded-2xl border bg-card/70 text-sm font-semibold hover:bg-muted"><Download className="size-4" /> iPhone</a>
+          <a href={outlookCalendarUrl(event)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center rounded-2xl border bg-card/70 text-sm font-semibold hover:bg-muted">Outlook</a>
         </div>
         <p className="mt-2.5 flex items-center justify-center gap-1.5 text-center text-xs text-muted-foreground"><CalendarPlus className="size-3.5" /> Salve na sua agenda para não esquecer.</p>
 
@@ -245,7 +245,7 @@ export function BookingWizard({
 
   return (
     <div className="mx-auto grid max-w-6xl gap-6 pb-12 lg:pb-0 lg:grid-cols-[1fr_360px] lg:items-start">
-      <div className="min-w-0 border bg-card p-4 shadow-sm sm:p-8">
+      <div className="glass min-w-0 rounded-[2rem] p-4 sm:p-8">
         <div className="flex items-center justify-between text-sm">
           <p className="font-semibold">Reservar</p>
           <p className="text-muted-foreground">{step + 1} de {STEPS.length}</p>
@@ -254,7 +254,7 @@ export function BookingWizard({
           {STEPS.map((label, i) => (
             <li key={label}>
               <button type="button" disabled={i > step} onClick={() => setStep(i)} aria-label={label} className="block w-full py-1 disabled:cursor-default">
-                <span className={cn("block h-1 transition-colors", i <= step ? "bg-foreground" : "bg-border")} />
+                <span className={cn("block h-1 rounded-full transition-colors", i <= step ? "bg-foreground" : "bg-border")} />
               </button>
             </li>
           ))}
@@ -262,12 +262,12 @@ export function BookingWizard({
 
         {step > 0 && (
           <div className="mt-6 grid gap-2">
-            <button type="button" onClick={() => setStep(0)} className="flex items-center justify-between gap-4 border bg-background px-4 py-3 text-left text-sm">
+            <button type="button" onClick={() => setStep(0)} className="flex items-center justify-between gap-4 rounded-2xl border bg-background/70 px-4 py-3 text-left text-sm">
               <span className="min-w-0"><span className="block text-xs text-muted-foreground">Serviço</span><span className="block truncate font-medium">{chosen.map((s) => s.name).join(", ")}</span></span>
               <span className="shrink-0 text-xs font-semibold text-brand underline">Alterar</span>
             </button>
             {step > 1 && slot && (
-              <button type="button" onClick={() => setStep(1)} className="flex items-center justify-between gap-4 border bg-background px-4 py-3 text-left text-sm">
+              <button type="button" onClick={() => setStep(1)} className="flex items-center justify-between gap-4 rounded-2xl border bg-background/70 px-4 py-3 text-left text-sm">
                 <span className="min-w-0"><span className="block text-xs text-muted-foreground">Quando</span><span className="block font-medium first-letter:uppercase">{fmtDay(slot)} às {fmtTime(slot)}</span></span>
                 <span className="shrink-0 text-xs font-semibold text-brand underline">Alterar</span>
               </button>
@@ -310,9 +310,9 @@ export function BookingWizard({
                       type="button"
                       aria-pressed={on}
                       onClick={() => setSelected((cur) => (on ? cur.filter((x) => x !== s.id) : [...cur, s.id]))}
-                      className={cn("flex items-center gap-3.5 border bg-background p-2.5 pr-3 text-left transition-colors hover:border-brand/50", on && "border-brand")}
+                      className={cn("flex items-center gap-3.5 rounded-2xl border bg-background/70 p-2.5 pr-3 text-left transition-colors hover:border-brand/50", on && "border-brand bg-brand-soft/50")}
                     >
-                      <span className="relative size-16 shrink-0 overflow-hidden bg-muted">
+                      <span className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted">
                         <Image src={serviceImage(s.name, s.category).src} alt="" fill sizes="64px" className="object-cover" />
                       </span>
                       <span className="min-w-0 flex-1">
@@ -332,7 +332,7 @@ export function BookingWizard({
           {view === "data" && (
             <>
               <h1 className="font-display text-3xl sm:text-4xl">Quando fica bom?</h1>
-              <button type="button" onClick={nextFree} disabled={loadingSlots} className="mt-5 flex w-full items-center justify-between gap-3 border border-brand/40 bg-brand-soft px-4 py-3 text-left">
+              <button type="button" onClick={nextFree} disabled={loadingSlots} className="mt-5 flex w-full items-center justify-between gap-3 rounded-2xl border border-brand/30 bg-brand-soft/70 px-4 py-3 text-left">
                 <span className="text-sm font-semibold">Mostrar o próximo horário livre</span>
                 <span className="flex h-9 shrink-0 items-center rounded-full bg-pink px-4 text-sm font-semibold text-neutral-900">
                   {loadingSlots ? <Loader2 className="size-4 animate-spin" /> : "Ver"}
@@ -341,11 +341,11 @@ export function BookingWizard({
 
               <div className="mt-6 min-w-0">
                 <div className="flex items-center justify-between">
-                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} disabled={month <= new Date(today.getFullYear(), today.getMonth(), 1)} aria-label="Mês anterior" className="flex size-11 items-center justify-center border bg-background disabled:opacity-30">
+                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} disabled={month <= new Date(today.getFullYear(), today.getMonth(), 1)} aria-label="Mês anterior" className="flex size-11 items-center justify-center rounded-full border bg-background/70 disabled:opacity-30">
                     <ChevronLeft className="size-5" />
                   </button>
                   <p className="font-display text-xl capitalize">{format(month, "MMMM 'de' yyyy", { locale: ptBR })}</p>
-                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} disabled={new Date(month.getFullYear(), month.getMonth() + 1, 1) > lastDay} aria-label="Próximo mês" className="flex size-11 items-center justify-center border bg-background disabled:opacity-30">
+                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} disabled={new Date(month.getFullYear(), month.getMonth() + 1, 1) > lastDay} aria-label="Próximo mês" className="flex size-11 items-center justify-center rounded-full border bg-background/70 disabled:opacity-30">
                     <ChevronRight className="size-5" />
                   </button>
                 </div>
@@ -364,7 +364,7 @@ export function BookingWizard({
                         disabled={off}
                         aria-pressed={Boolean(on)}
                         onClick={() => { setDate(d); setSlot(undefined) }}
-                        className={cn("flex aspect-square min-h-11 items-center justify-center text-[15px] tabular-nums transition-colors", on ? "bg-foreground font-bold text-background" : off ? "text-muted-foreground/35" : "bg-background font-medium hover:bg-brand-soft")}
+                        className={cn("flex aspect-square min-h-11 items-center justify-center rounded-xl text-[15px] tabular-nums transition-colors", on ? "bg-foreground font-bold text-background" : off ? "text-muted-foreground/35" : "bg-background/70 font-medium hover:bg-brand-soft")}
                       >
                         {d.getDate()}
                       </button>
@@ -375,13 +375,13 @@ export function BookingWizard({
 
               <div className="mt-7">
                 {!date ? (
-                  <p className="border border-dashed p-5 text-sm text-muted-foreground">Escolha um dia para ver os horários livres.</p>
+                  <p className="rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">Escolha um dia para ver os horários livres.</p>
                 ) : loadingSlots || slots === null ? (
                   <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                    {Array.from({ length: 8 }, (_, i) => <Skeleton key={i} className="h-12" />)}
+                    {Array.from({ length: 8 }, (_, i) => <Skeleton key={i} className="h-12 rounded-xl" />)}
                   </div>
                 ) : slots.length === 0 ? (
-                  <div className="space-y-3 border border-dashed p-5 text-sm text-muted-foreground">
+                  <div className="space-y-3 rounded-2xl border border-dashed p-5 text-sm text-muted-foreground">
                     <p>Nenhum horário livre neste dia. Tente outro dia ou entre na lista de espera.</p>
                     <WaitlistButton date={format(date, "yyyy-MM-dd")} serviceIds={selected} />
                   </div>
@@ -402,7 +402,7 @@ export function BookingWizard({
                                 role="radio"
                                 aria-checked={slot === x}
                                 onClick={() => setSlot(x)}
-                                className={cn("h-12 border font-semibold tabular-nums transition-colors", slot === x ? "border-foreground bg-foreground text-background" : "bg-background hover:border-brand/60")}
+                                className={cn("h-12 rounded-xl border font-semibold tabular-nums transition-colors", slot === x ? "border-foreground bg-foreground text-background" : "bg-background/70 hover:border-brand/60")}
                               >
                                 {fmtTime(x)}
                               </button>
@@ -425,20 +425,20 @@ export function BookingWizard({
               <div className="mt-6 grid gap-5">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Nome completo</Label>
-                  <Input id="name" autoComplete="name" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+                  <Input id="name" autoComplete="name" className="h-14 rounded-2xl border-foreground/15 bg-background/70 px-4 text-base" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="phone">WhatsApp</Label>
-                  <Input id="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="(17) 99999-9999" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                  <Input id="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="(17) 99999-9999" className="h-14 rounded-2xl border-foreground/15 bg-background/70 px-4 text-base" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">E-mail</Label>
-                  <Input id="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@email.com" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                  <Input id="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@email.com" className="h-14 rounded-2xl border-foreground/15 bg-background/70 px-4 text-base" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
                   <p className="text-xs text-muted-foreground">A confirmação chega por aqui.</p>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="notes">Algo que devemos saber? <span className="font-normal text-muted-foreground">(opcional)</span></Label>
-                  <Textarea id="notes" rows={3} className="rounded-none border-foreground/25 bg-card px-4 py-3 text-base" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+                  <Textarea id="notes" rows={3} className="rounded-2xl border-foreground/15 bg-background/70 px-4 py-3 text-base" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
                 </div>
               </div>
             </>
@@ -448,7 +448,7 @@ export function BookingWizard({
         </motion.div>
       </div>
 
-      <aside className="hidden border bg-card p-6 shadow-sm lg:sticky lg:top-28 lg:block">
+      <aside className="glass hidden rounded-[2rem] p-6 lg:sticky lg:top-28 lg:block">
         <h2 className="font-display text-2xl">Resumo</h2>
         <dl className="mt-4 divide-y text-sm">
           {summary.map(([k, v]) => (

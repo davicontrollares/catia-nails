@@ -19,7 +19,7 @@ export function Experience() {
           <p className="text-[0.7rem] font-semibold tracking-[0.22em] uppercase opacity-70">Mais que unhas</p>
           <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">É uma experiência</h2>
           <p className="mt-4 max-w-xs text-sm leading-relaxed opacity-80">Dos clássicos às ideias mais ousadas, criamos unhas tão únicas quanto você.</p>
-          <Link href="/agendar" className="mt-7 inline-flex h-12 items-center gap-2 rounded-md bg-foreground px-7 text-xs font-semibold tracking-[0.2em] text-background uppercase">
+          <Link href="/agendar" className="mt-7 inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-7 text-xs font-semibold tracking-[0.2em] text-background uppercase">
             Agendar horário <ArrowUpRight className="size-4" />
           </Link>
         </Reveal>
@@ -27,7 +27,7 @@ export function Experience() {
           {ITEMS.map((it, i) => (
             <Reveal key={it.title} delay={i * 0.06}>
               <Link href="/agendar" className="group block">
-                <div className="relative aspect-[3/4] overflow-hidden bg-muted">
+                <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-muted md:rounded-3xl">
                   <Image src={it.img.src} alt={it.img.alt} fill sizes="(min-width: 768px) 22vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
                 </div>
                 <p className="mt-3 text-xs font-semibold tracking-[0.18em] uppercase md:text-sm">{it.title}</p>
