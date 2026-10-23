@@ -26,50 +26,56 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
 
   return (
     <section ref={ref} className="mx-auto max-w-7xl px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-0">
-      {/* Mobile: foto cheia e cartão translúcido de reserva embaixo */}
+      {/* Mobile: marca no meio da foto e cartão de reserva embaixo */}
       <div className="relative isolate min-h-[calc(100dvh-8.5rem)] overflow-hidden rounded-[2.25rem] bg-muted md:hidden">
-        <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover object-[center_20%]" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/45 via-transparent to-black/30" />
-        <div className="absolute inset-x-0 top-12 px-6 text-center text-white">
-          <motion.h1 {...enter(0)} className="font-display text-[2.5rem] leading-[1.05] text-balance">
-            Unhas finas que parecem naturais.
+        <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover object-[center_25%]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/55 via-black/25 to-black/50" />
+        <div className="absolute inset-x-0 top-[22%] px-6 text-center text-white">
+          <motion.h1 {...enter(0)} className="font-display text-[3.1rem] leading-[1.02] font-light text-balance dark:font-light">
+            Bela Flor
+            <span className="block text-[1.6rem] tracking-[0.3em] uppercase opacity-90">Nails</span>
           </motion.h1>
-          <motion.p {...enter(0.1)} className="mt-3 font-display text-base italic opacity-90">
-            Nail studio · São José do Rio Preto
+          <motion.p {...enter(0.1)} className="mt-5 text-sm tracking-wide opacity-85">
+            Unhas finas que parecem naturais
           </motion.p>
         </div>
         <motion.div
           {...enter(0.2)}
-          className="absolute inset-x-3 bottom-3 rounded-[1.75rem] border border-white/50 bg-white/45 p-4 text-neutral-900 backdrop-blur-xl backdrop-saturate-150 dark:border-white/15 dark:bg-black/45 dark:text-white"
+          className="absolute inset-x-3 bottom-3 rounded-[1.75rem] border border-white/60 bg-white/85 p-4 text-neutral-900 backdrop-blur-md dark:border-white/10 dark:bg-[oklch(0.22_0.01_60/0.9)] dark:text-white"
         >
           <div className="flex items-center gap-3.5">
-            <div className="relative size-[88px] shrink-0 overflow-hidden rounded-2xl bg-muted">
-              <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="88px" className="object-cover" />
+            <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl bg-muted">
+              <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="64px" className="object-cover" />
             </div>
-            <div className="min-w-0">
-              <span className="inline-block rounded-full bg-white/80 px-3 py-1 text-[0.7rem] font-bold text-neutral-900 dark:bg-white/15 dark:text-white">Agenda aberta</span>
-              <p className="mt-2 font-display text-lg leading-tight">Fibra de vidro e banho em gel</p>
-              <p className="mt-1 flex items-center gap-1 text-xs opacity-80">
-                <Star className="size-3 fill-current" /> 5,0 no Google
-              </p>
+            <div className="min-w-0 flex-1">
+              <span className="inline-block rounded-full bg-neutral-900/8 px-3 py-0.5 text-[0.68rem] font-semibold dark:bg-white/15">Agenda aberta</span>
+              <p className="mt-1 font-display text-lg leading-tight">Fibra de vidro e banho em gel</p>
             </div>
+            <span className="flex shrink-0 items-center gap-1 text-xs font-semibold">
+              <Star className="size-3.5 fill-current" /> 5,0
+            </span>
           </div>
-          <div className="mt-3.5 flex flex-wrap gap-1.5">
-            {["Serviço", "Data e hora", "Dados"].map((c) => (
-              <span key={c} className="rounded-full bg-white/70 px-3 py-1.5 text-xs font-semibold text-neutral-900 dark:bg-white/15 dark:text-white">{c}</span>
-            ))}
+          <div className="mt-3.5 grid grid-cols-2 gap-3 border-t border-neutral-900/10 pt-3.5 text-xs dark:border-white/15">
+            <div>
+              <p className="opacity-60">Passo a passo</p>
+              <p className="mt-0.5 font-semibold">Serviço, horário, dados</p>
+            </div>
+            <div className="border-l border-neutral-900/10 pl-3 dark:border-white/15">
+              <p className="opacity-60">Confirmação</p>
+              <p className="mt-0.5 font-semibold">Por e-mail</p>
+            </div>
           </div>
           <div className="mt-3.5 flex gap-2.5">
-            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-pink text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
+            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-neutral-900 text-base font-semibold text-white hover:bg-neutral-800 dark:bg-pink dark:text-neutral-900 dark:hover:bg-pink/85")}>
               Agendar horário
             </Link>
             {whatsapp && (
-              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chamar no WhatsApp" className="flex size-13 shrink-0 items-center justify-center rounded-full bg-white text-neutral-900">
+              <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" aria-label="Chamar no WhatsApp" className="flex size-13 shrink-0 items-center justify-center rounded-full bg-neutral-900/8 dark:bg-white/15">
                 <MessageCircle className="size-5" />
               </a>
             )}
           </div>
-          <p className="mt-2.5 text-center text-[0.7rem] opacity-75">Confirmação por e-mail. Cancele ou remarque pelo site.</p>
+          <p className="mt-2.5 text-center text-[0.68rem] opacity-65">Cancele ou remarque pelo site, sem complicação.</p>
         </motion.div>
       </div>
 

@@ -1,6 +1,5 @@
 import Image from "next/image"
-import Link from "next/link"
-import { ArrowRight, ArrowUpRight, BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
+import { ArrowUpRight, BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
 import { GalleryCarousel } from "@/components/landing/gallery-carousel"
 import { Experience } from "@/components/landing/experience"
 import { Hero } from "@/components/landing/hero"
@@ -8,11 +7,10 @@ import { Reveal } from "@/components/landing/reveal"
 import { ServiceCards } from "@/components/landing/service-cards"
 import { Visit } from "@/components/landing/visit"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { buttonVariants } from "@/components/ui/button"
 import { getPublicData } from "@/lib/data"
 import { getGalleryPhotos } from "@/lib/gallery"
 import { IMAGES } from "@/lib/images"
-import { cn, formatPhone, summarizeHours } from "@/lib/utils"
+import { formatPhone, summarizeHours } from "@/lib/utils"
 
 export const revalidate = 60
 
@@ -65,6 +63,17 @@ export default async function Home() {
         </ul>
       </section>
 
+      {/* Serviços como produtos */}
+      <section id="servicos" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-24">
+        <Reveal className="mb-10 max-w-2xl">
+          <h2 className="font-display text-4xl md:text-5xl">Serviços e valores</h2>
+          <p className="mt-3 text-muted-foreground">Escolha um serviço para ver os horários livres. Dá para juntar mais de um no mesmo horário.</p>
+        </Reveal>
+        <ServiceCards services={services} />
+      </section>
+
+      <Experience />
+
       {/* Galeria em carrossel */}
       <section aria-label="Galeria" className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
         <GalleryCarousel photos={photos} />
@@ -79,17 +88,6 @@ export default async function Home() {
           </a>
         )}
       </section>
-
-      {/* Serviços como produtos */}
-      <section id="servicos" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-24">
-        <Reveal className="mb-10 max-w-2xl">
-          <h2 className="font-display text-4xl md:text-5xl">Serviços e valores</h2>
-          <p className="mt-3 text-muted-foreground">Escolha um serviço para ver os horários livres. Dá para juntar mais de um no mesmo horário.</p>
-        </Reveal>
-        <ServiceCards services={services} />
-      </section>
-
-      <Experience />
 
       {/* Sobre: texto grande, sem card */}
       <section id="sobre" className="mx-auto max-w-7xl scroll-mt-24 px-4 py-16 md:px-6 md:py-28">
@@ -145,27 +143,6 @@ export default async function Home() {
         whatsapp={settings.whatsapp}
         hours={summarizeHours(hours)}
       />
-
-      {/* Chamada final sobre foto */}
-      <section className="px-4 py-10 md:px-6">
-        <Reveal>
-          <div className="relative mx-auto flex min-h-[28rem] max-w-7xl items-end overflow-hidden rounded-3xl bg-muted md:min-h-[34rem]">
-            <Image src={IMAGES.cta.src} alt={IMAGES.cta.alt} fill sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-            <div className="relative p-6 text-white md:p-12">
-              <h2 className="max-w-lg font-display text-4xl text-balance md:text-6xl">
-                Escolha um horário livre.
-              </h2>
-              <Link
-                href="/agendar"
-                className={cn(buttonVariants({ size: "lg" }), "group mt-8 h-13 bg-white px-7 text-base text-neutral-900 hover:bg-white/90")}
-              >
-                Agendar horário <ArrowRight className="transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </section>
 
     </div>
   )
