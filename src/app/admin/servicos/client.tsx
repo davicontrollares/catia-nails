@@ -11,9 +11,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
-import { duration } from "@/lib/utils"
 import type { Service } from "@/lib/types"
-import { brl, cn } from "@/lib/utils"
+import { brl, cn, durationLabel } from "@/lib/utils"
 import { saveService } from "../actions"
 
 type Draft = Omit<Service, "id" | "sort"> & { id?: string }
@@ -55,7 +54,7 @@ export function ServiceManager({ services }: { services: Service[] }) {
             </div>
             <p className="line-clamp-2 text-sm text-muted-foreground">{s.description}</p>
             <div className="mt-auto flex items-center justify-between text-sm">
-              <span className="flex items-center gap-1 text-muted-foreground"><Clock className="size-4" /> {duration(s.duration_min)}</span>
+              <span className="flex items-center gap-1 text-muted-foreground"><Clock className="size-4" /> {durationLabel(s)}</span>
               <span className="text-lg font-semibold">{brl(Number(s.price))}</span>
             </div>
             {!s.active && <Badge variant="secondary" className="w-fit">Inativo</Badge>}
@@ -78,7 +77,7 @@ export function ServiceManager({ services }: { services: Service[] }) {
                 <Label htmlFor="s-desc">Descrição</Label>
                 <Textarea id="s-desc" className="rounded-xl" value={draft.description ?? ""} onChange={(e) => setDraft({ ...draft, description: e.target.value })} />
               </div>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
                 <div className="space-y-1.5">
                   <Label htmlFor="s-cat">Categoria</Label>
                   <Input id="s-cat" required className="h-11 rounded-xl" value={draft.category} onChange={(e) => setDraft({ ...draft, category: e.target.value })} />
@@ -86,6 +85,10 @@ export function ServiceManager({ services }: { services: Service[] }) {
                 <div className="space-y-1.5">
                   <Label htmlFor="s-dur">Duração (min)</Label>
                   <Input id="s-dur" type="number" min={5} step={5} required className="h-11 rounded-xl" value={draft.duration_min} onChange={(e) => setDraft({ ...draft, duration_min: Number(e.target.value) })} />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="s-max">Até (min)</Label>
+                  <Input id="s-max" type="number" min={draft.duration_min} step={5} placeholder="igual" className="h-11 rounded-xl" value={draft.duration_max_min ?? ""} onChange={(e) => setDraft({ ...draft, duration_max_min: e.target.value ? Number(e.target.value) : null })} />
                 </div>
                 <div className="space-y-1.5">
                   <Label htmlFor="s-price">Preço (R$)</Label>

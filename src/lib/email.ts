@@ -76,3 +76,28 @@ function confirmationHtml(c: Confirmation & { when: string }) {
   </div>
 </body></html>`
 }
+
+/** Avisa a cliente da lista de espera que abriu um horário. */
+export async function sendWaitlistEmail(to: string, clientName: string, link: string, businessName: string) {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return { skipped: true }
+  const from = process.env.EMAIL_FROM ?? "Bela Flor Nails <onboarding@resend.dev>"
+  const name = escapeHtml(clientName)
+  const html = `<!doctype html>
+<html lang="pt-BR"><body style="margin:0;background:#f8efed;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#2b1d1f">
+  <div style="max-width:520px;margin:0 auto;padding:32px 16px">
+    <div style="background:#ffffffcc;border:1px solid #ecd9d6;border-radius:28px;padding:32px;text-align:center">
+      <h1 style="margin:0 0 12px;font-size:24px">Abriu um horário, ${name}</h1>
+      <p style="margin:0 0 24px;line-height:1.5">Você estava na nossa lista de espera e uma vaga acabou de abrir na ${escapeHtml(businessName)}. Quem confirmar primeiro fica com ela.</p>
+      <a href="${link}" style="display:inline-block;padding:12px 24px;border-radius:999px;text-decoration:none;font-weight:600;background:#a14d5a;color:#fff">Escolher meu horário</a>
+    </div>
+  </div>
+</body></html>`
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ from, to: [to], subject: "Abriu um horário para você", html }),
+  })
+  if (!res.ok) console.error("Resend falhou:", res.status, await res.text())
+  return { skipped: false, ok: res.ok }
+}

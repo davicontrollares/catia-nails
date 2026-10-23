@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { CalendarDays, Clock, LayoutDashboard, Scissors, Settings, Users, Wallet } from "lucide-react"
+import { BellRing, CalendarDays, Clock, LayoutDashboard, Scissors, Settings, Users, Wallet } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export const ADMIN_LINKS = [
@@ -11,6 +11,7 @@ export const ADMIN_LINKS = [
   { href: "/admin/disponibilidade", label: "Disponibilidade", icon: Clock },
   { href: "/admin/servicos", label: "Serviços", icon: Scissors },
   { href: "/admin/financas", label: "Finanças", icon: Wallet },
+  { href: "/admin/espera", label: "Lista de espera", icon: BellRing },
   { href: "/admin/clientes", label: "Clientes", icon: Users },
   { href: "/admin/configuracoes", label: "Configurações", icon: Settings },
 ]

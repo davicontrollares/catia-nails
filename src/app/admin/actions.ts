@@ -33,6 +33,7 @@ const serviceSchema = z.object({
   description: z.string().trim().optional().nullable(),
   category: z.string().trim().min(1),
   duration_min: z.coerce.number().int().min(5),
+  duration_max_min: z.coerce.number().int().min(5).nullable().optional(),
   price: z.coerce.number().min(0),
   active: z.boolean(),
 })
@@ -66,7 +67,15 @@ const statusSchema = z.object({
 export async function setAppointmentStatus(input: z.input<typeof statusSchema>) {
   return run(async () => {
     const { id, ...row } = statusSchema.parse(input)
-    return (await owner()).from("appointments").update(row).eq("id", id)
+    const supabase = await owner()
+    const patch: Record<string, unknown> = { ...row }
+    if (row.status === "completed") {
+      // atendimento terminou antes do tempo reservado: libera o resto do horário na agenda
+      const { data: a } = await supabase.from("appointments").select("starts_at, ends_at").eq("id", id).single()
+      const now = new Date()
+      if (a && now > new Date(a.starts_at) && now < new Date(a.ends_at)) patch.ends_at = now.toISOString()
+    }
+    return supabase.from("appointments").update(patch).eq("id", id)
   })
 }
 
@@ -82,12 +91,12 @@ export async function createManualAppointment(input: z.input<typeof manualSchema
   return run(async () => {
     const v = manualSchema.parse(input)
     const supabase = await owner()
-    const { data: svc } = await supabase.from("services").select("duration_min, price").eq("id", v.service_id).single()
+    const { data: svc } = await supabase.from("services").select("duration_min, duration_max_min, price").eq("id", v.service_id).single()
     if (!svc) throw new Error("Serviço não encontrado")
     const start = new Date(v.starts_at)
     const res = await supabase.from("appointments").insert({
       ...v,
-      ends_at: new Date(start.getTime() + svc.duration_min * 60_000).toISOString(),
+      ends_at: new Date(start.getTime() + (svc.duration_max_min ?? svc.duration_min) * 60_000).toISOString(),
       price: svc.price,
     })
     if (res.error?.message.includes("no_overlap")) throw new Error("Já existe um atendimento nesse horário.")
@@ -158,4 +167,29 @@ const settingsSchema = z.object({
 
 export async function saveSettings(input: z.input<typeof settingsSchema>) {
   return run(async () => (await owner()).from("settings").update(settingsSchema.parse(input)).eq("id", 1))
+}
+
+// ------------------------------------------------------- lista de espera
+export async function removeWaitlistEntry(id: string) {
+  return run(async () => (await owner()).from("waitlist").delete().eq("id", id))
+}
+
+export async function markWaitlistNotified(id: string) {
+  return run(async () => (await owner()).from("waitlist").update({ notified_at: new Date().toISOString() }).eq("id", id))
+}
+
+/** Avisa por e-mail e marca como avisada. O botão de WhatsApp abre a conversa no celular da dona. */
+export async function notifyWaitlistByEmail(id: string) {
+  return run(async () => {
+    const supabase = await owner()
+    const { data: w } = await supabase.from("waitlist").select("client_name, client_email").eq("id", id).single()
+    if (!w?.client_email) throw new Error("Essa cliente não deixou e-mail.")
+    const { data: settings } = await supabase.from("settings").select("business_name").eq("id", 1).single()
+    const { sendWaitlistEmail } = await import("@/lib/email")
+    const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://belaflor.controllares.com.br"
+    const res = await sendWaitlistEmail(w.client_email, w.client_name, `${site}/agendar`, settings?.business_name ?? "Bela Flor Nails")
+    if (res.skipped) throw new Error("Envio de e-mail não configurado.")
+    if (!res.ok) throw new Error("Não foi possível enviar o e-mail.")
+    return supabase.from("waitlist").update({ notified_at: new Date().toISOString() }).eq("id", id)
+  })
 }

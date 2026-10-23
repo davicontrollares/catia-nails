@@ -16,6 +16,17 @@ export function duration(min: number) {
   return h ? `${h}h${m ? ` ${m}min` : ""}` : `${m}min`
 }
 
+type Timed = { duration_min: number; duration_max_min?: number | null }
+
+/** Tempo que a agenda reserva: o máximo do serviço, quando ele tem faixa de duração. */
+export const reserveMin = (s: Timed) => s.duration_max_min ?? s.duration_min
+
+/** "1h" para duração fixa, "2h a 4h" para faixa. */
+export const durationLabel = (s: Timed) =>
+  s.duration_max_min && s.duration_max_min > s.duration_min
+    ? `${duration(s.duration_min)} a ${duration(s.duration_max_min)}`
+    : duration(s.duration_min)
+
 const DAYS = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"]
 
 /** Resume o expediente: "Terça a sábado, 08:00 às 18:00". */

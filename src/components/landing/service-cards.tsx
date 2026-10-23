@@ -4,7 +4,7 @@ import { Clock, Plus } from "lucide-react"
 import { Reveal } from "@/components/landing/reveal"
 import { serviceImage } from "@/lib/images"
 import type { Service } from "@/lib/types"
-import { brl, duration } from "@/lib/utils"
+import { brl, durationLabel } from "@/lib/utils"
 
 /** Serviços como produtos: foto, nome, duração, preço e atalho para agendar. */
 export function ServiceCards({ services }: { services: Service[] }) {
@@ -32,7 +32,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
                   <p className="text-xs font-medium tracking-wide text-brand">{s.category}</p>
                   <h3 className="mt-1 text-lg font-semibold tracking-tight">{s.name}</h3>
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                    <Clock className="size-3.5" /> {duration(s.duration_min)}
+                    <Clock className="size-3.5" /> {durationLabel(s)}
                   </p>
                 </div>
                 <p className="text-lg font-semibold whitespace-nowrap tabular-nums">{brl(Number(s.price))}</p>

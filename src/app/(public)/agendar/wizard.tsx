@@ -19,8 +19,9 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { buildIcs, googleCalendarUrl, outlookCalendarUrl, type CalendarEvent } from "@/lib/calendar"
 import { serviceImage } from "@/lib/images"
 import type { Professional, Service } from "@/lib/types"
-import { brl, cn, duration, TZ } from "@/lib/utils"
+import { brl, cn, duration, durationLabel, reserveMin, TZ } from "@/lib/utils"
 import { bookAppointment, getSlots } from "./actions"
+import { WaitlistButton } from "./waitlist"
 import { CardDialog, PAY_LABEL, PaymentChoice, PixDialog, type PayMethod } from "./payment"
 
 const STEPS = ["Serviços", "Data e hora", "Seus dados", "Pagamento"]
@@ -61,7 +62,7 @@ export function BookingWizard({
   const [submitting, startSubmit] = useTransition()
 
   const chosen = useMemo(() => services.filter((s) => selected.includes(s.id)), [services, selected])
-  const totalMin = chosen.reduce((t, s) => t + s.duration_min, 0)
+  const totalMin = chosen.reduce((t, s) => t + reserveMin(s), 0)
   const totalPrice = chosen.reduce((t, s) => t + Number(s.price), 0)
 
   // mudar serviços muda a duração, então o horário escolhido deixa de valer
@@ -231,7 +232,7 @@ export function BookingWizard({
                         </span>
                         <span className="flex-1">
                           <span className="block text-[15px] leading-snug font-medium">{s.name}</span>
-                          <span className="text-sm text-muted-foreground">{duration(s.duration_min)}</span>
+                          <span className="text-sm text-muted-foreground">{durationLabel(s)}</span>
                         </span>
                         <span className="font-semibold tabular-nums">{brl(Number(s.price))}</span>
                       </Label>
@@ -264,9 +265,10 @@ export function BookingWizard({
                         {Array.from({ length: 9 }, (_, i) => <Skeleton key={i} className="h-11 rounded-xl" />)}
                       </div>
                     ) : slots.length === 0 ? (
-                      <p className="rounded-2xl border border-dashed p-6 text-sm text-muted-foreground">
-                        Nenhum horário livre neste dia. Tente outra data.
-                      </p>
+                      <div className="space-y-3 rounded-2xl border border-dashed p-6 text-sm text-muted-foreground">
+                        <p>Nenhum horário livre neste dia. Tente outra data ou entre na lista de espera.</p>
+                        <WaitlistButton date={format(date, "yyyy-MM-dd")} serviceIds={selected} />
+                      </div>
                     ) : (
                       <>
                         <p className="mb-3 text-sm font-medium first-letter:uppercase">{format(date, "EEEE, d 'de' MMMM", { locale: ptBR })}</p>

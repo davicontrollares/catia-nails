@@ -6,7 +6,7 @@ import { Phone, Plus } from "lucide-react"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { AppSelect } from "@/components/app-select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -90,7 +90,7 @@ export function AgendaList({ appointments }: { appointments: Appointment[] }) {
               </a>
               {a.status === "confirmed" && (
                 <>
-                  <Button size="sm" disabled={pending} onClick={() => setPayFor(a)}>Concluir</Button>
+                  <Button size="sm" disabled={pending} onClick={() => setPayFor(a)}>Encerrar</Button>
                   <Button size="sm" variant="secondary" disabled={pending} onClick={() => update(a, "no_show")}>Faltou</Button>
                   <Button size="sm" variant="destructive" disabled={pending} onClick={() => update(a, "cancelled")}>Cancelar</Button>
                 </>
@@ -107,6 +107,7 @@ export function AgendaList({ appointments }: { appointments: Appointment[] }) {
         <DialogContent className="border bg-popover shadow-xl rounded-3xl">
           <DialogHeader>
             <DialogTitle>Forma de pagamento</DialogTitle>
+            <DialogDescription>Se o atendimento acabou antes do tempo reservado, o resto do horário volta a ficar livre no site.</DialogDescription>
           </DialogHeader>
           <div className="grid grid-cols-2 gap-2">
             {(Object.keys(PAYMENT_LABEL) as PaymentMethod[]).map((m) => (

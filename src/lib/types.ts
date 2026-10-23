@@ -22,6 +22,7 @@ export type Service = {
   description: string | null
   category: string
   duration_min: number
+  duration_max_min?: number | null
   price: number
   active: boolean
   sort: number

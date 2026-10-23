@@ -53,7 +53,7 @@ export async function bookAppointment(input: BookingInput): Promise<{ ok: true; 
   if (error) return { ok: false, error: error.message }
 
   const [{ data: chosen }, { data: pro }, { data: settings }] = await Promise.all([
-    supabase.from("services").select("name, price, duration_min").in("id", v.serviceIds).order("sort"),
+    supabase.from("services").select("name, price, duration_min, duration_max_min").in("id", v.serviceIds).order("sort"),
     supabase.from("professionals").select("name").eq("id", v.professionalId).single(),
     supabase.from("settings").select("*").eq("id", 1).single(),
   ])
@@ -64,13 +64,13 @@ export async function bookAppointment(input: BookingInput): Promise<{ ok: true; 
 async function notify(
   id: string,
   v: BookingInput,
-  chosen: { name: string; price: number; duration_min: number }[],
+  chosen: { name: string; price: number; duration_min: number; duration_max_min: number | null }[],
   professionalName: string,
   settings: { business_name: string; address: string | null; whatsapp: string | null }
 ) {
   const start = new Date(v.startsAt)
   const label = chosen.map((s) => s.name).join(" + ")
-  const minutes = chosen.reduce((t, s) => t + s.duration_min, 0)
+  const minutes = chosen.reduce((t, s) => t + (s.duration_max_min ?? s.duration_min), 0)
   const price = chosen.reduce((t, s) => t + Number(s.price), 0)
   try {
     await sendConfirmationEmail({
@@ -117,4 +117,30 @@ export async function findLastBooking(
   const row = (data as { client_name: string; service_ids: string[] | null }[])[0]
   if (!row?.service_ids?.length) return { ok: false, error: "Não encontramos atendimentos com esse e-mail e telefone." }
   return { ok: true, name: row.client_name, serviceIds: row.service_ids }
+}
+
+const waitlistSchema = z.object({
+  name: z.string().trim().min(2, "Informe seu nome"),
+  phone: z.string().trim().regex(/^\(?\d{2}\)?\s?9?\d{4}-?\d{4}$/, "WhatsApp inválido"),
+  email: z.string().trim().email("E-mail inválido").optional().or(z.literal("")),
+  date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  serviceIds: z.array(z.string()).max(10),
+})
+
+/** Coloca a cliente na lista de espera de um dia lotado. */
+export async function joinWaitlist(input: z.input<typeof waitlistSchema>): Promise<{ ok: true } | { ok: false; error: string }> {
+  const parsed = waitlistSchema.safeParse(input)
+  if (!parsed.success) return { ok: false, error: parsed.error.issues[0].message }
+  const v = parsed.data
+  if (!hasSupabase) return { ok: false, error: "Agenda indisponível no momento." }
+  const { createClient } = await import("@/lib/supabase/server")
+  const supabase = await createClient()
+  const { error } = await supabase.rpc("join_waitlist", {
+    p_name: v.name,
+    p_phone: v.phone,
+    p_email: v.email || null,
+    p_services: v.serviceIds,
+    p_date: v.date ?? null,
+  })
+  return error ? { ok: false, error: error.message } : { ok: true }
 }
