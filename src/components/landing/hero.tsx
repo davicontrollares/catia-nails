@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRef } from "react"
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, MessageCircle, Star } from "lucide-react"
+import { ArrowRight, CalendarCheck, MessageCircle, Sparkles, Star } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { IMAGES } from "@/lib/images"
 import { cn } from "@/lib/utils"
@@ -43,7 +43,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             Alongamento em fibra de vidro e banho em gel, em São José do Rio Preto.
           </motion.p>
           <motion.div {...enter(0.24)} className="mt-6 flex gap-2.5">
-            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 bg-white text-base text-neutral-900 hover:bg-white/90")}>
+            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "h-13 flex-1 rounded-full bg-pink text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
               Agendar horário
             </Link>
             {whatsapp && (
@@ -74,7 +74,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             Alongamento em fibra de vidro e banho em gel, com acabamento fino e atendimento com hora marcada.
           </motion.p>
           <motion.div {...enter(0.28)} className="mt-9 flex gap-3">
-            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "group h-13 bg-foreground px-8 text-base text-background hover:bg-foreground/85")}>
+            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "group h-13 rounded-full bg-pink px-8 text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
               Agendar horário
               <ArrowRight className="transition-transform group-hover:translate-x-1" />
             </Link>
@@ -106,6 +106,24 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
             className="relative aspect-[5/6] overflow-hidden rounded-[2.5rem] bg-muted shadow-2xl shadow-primary/15"
           >
             <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="50vw" className="object-cover" />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease, delay: 0.6 }}
+            className="glass-strong absolute right-6 bottom-8 w-72 rounded-[1.75rem] p-5"
+          >
+            <p className="flex items-center gap-2 text-sm font-semibold">
+              <CalendarCheck className="size-4 text-brand" /> Seu horário em 1 minuto
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              {["Serviço", "Data e hora", "Dados"].map((c) => (
+                <span key={c} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-foreground/80">{c}</span>
+              ))}
+            </div>
+            <Link href="/agendar" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-pink text-sm font-semibold text-neutral-900 transition hover:bg-pink/85">
+              <Sparkles className="size-4" /> Agendar agora
+            </Link>
           </motion.div>
           <motion.div
             style={{ y: detailY }}

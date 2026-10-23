@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
+import { Plus } from "lucide-react"
 import Autoplay from "embla-carousel-autoplay"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 
@@ -27,6 +29,13 @@ export function GalleryCarousel({ photos }: { photos: { src: string; alt: string
                 priority={i < 2}
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
               />
+              <Link
+                href="/agendar"
+                aria-label="Agendar horário"
+                className="glass-strong absolute right-3 bottom-3 flex size-11 items-center justify-center rounded-full text-foreground transition-transform hover:-translate-y-0.5"
+              >
+                <Plus className="size-5" />
+              </Link>
             </div>
           </CarouselItem>
         ))}
