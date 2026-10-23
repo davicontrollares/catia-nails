@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowRight, ArrowUpRight } from "lucide-react"
+import { ArrowRight, ArrowUpRight, BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
 import { GalleryCarousel } from "@/components/landing/gallery-carousel"
 import { Hero } from "@/components/landing/hero"
 import { Reveal } from "@/components/landing/reveal"
@@ -42,6 +42,27 @@ export default async function Home() {
   return (
     <div className="-mx-4 -mt-6">
       <Hero whatsapp={settings.whatsapp} />
+
+      {/* Benefícios do agendamento */}
+      <section aria-label="Como funciona" className="mx-auto max-w-7xl px-4 md:px-6">
+        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border bg-border md:grid-cols-4">
+          {[
+            [CalendarCheck, "Agenda online", "Horários livres a qualquer hora"],
+            [Mail, "Confirmação por e-mail", "Com botão para salvar na agenda"],
+            [CreditCard, "Pagamento flexível", "No studio, com Pix ou cartão"],
+            [BellRing, "Lista de espera", "Avisamos quando abrir uma vaga"],
+          ].map(([Icon, title, text]) => {
+            const I = Icon as typeof CalendarCheck
+            return (
+              <li key={title as string} className="flex flex-col items-center gap-1.5 bg-card/80 px-4 py-6 text-center backdrop-blur">
+                <I className="size-6 text-brand" strokeWidth={1.5} />
+                <p className="text-sm font-semibold">{title as string}</p>
+                <p className="text-xs text-muted-foreground">{text as string}</p>
+              </li>
+            )
+          })}
+        </ul>
+      </section>
 
       {/* Galeria em carrossel */}
       <section aria-label="Galeria" className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">

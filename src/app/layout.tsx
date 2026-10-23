@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next"
-import { Plus_Jakarta_Sans } from "next/font/google"
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google"
 import { ThemeProvider } from "next-themes"
 import { MotionConfig } from "@/components/motion"
 import { Toaster } from "@/components/ui/sonner"
 import "./globals.css"
 
 const jakarta = Plus_Jakarta_Sans({ variable: "--font-jakarta", subsets: ["latin"], weight: ["300", "400", "500", "600", "700"] })
+
+const playfair = Playfair_Display({ variable: "--font-serif", subsets: ["latin"], weight: ["500", "600", "700"] })
 
 export const metadata: Metadata = {
   title: "Bela Flor Nails · Agendamento online",
@@ -26,7 +28,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={jakarta.variable} suppressHydrationWarning>
+    <html lang="pt-BR" className={`${jakarta.variable} ${playfair.variable}`} suppressHydrationWarning>
       <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="mesh-bg" aria-hidden />
