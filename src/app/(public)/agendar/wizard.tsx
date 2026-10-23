@@ -221,7 +221,7 @@ export function BookingWizard({
                           on && "border-brand bg-brand-soft/60"
                         )}
                       >
-                        <span className="relative size-16 shrink-0 overflow-hidden rounded-xl bg-muted">
+                        <span className="relative size-16 shrink-0 overflow-hidden bg-muted">
                           <Image src={serviceImage(s.name, s.category).src} alt="" fill sizes="64px" className="object-cover" />
                           <Checkbox
                             id={`svc-${s.id}`}

@@ -47,7 +47,7 @@ export function Visit({ address, phone, whatsapp, hours }: { address: string; ph
         </Reveal>
 
         <Reveal delay={0.08}>
-          <div className="aspect-[4/3] overflow-hidden rounded-3xl border bg-muted shadow-sm">
+          <div className="aspect-[4/3] overflow-hidden border bg-muted shadow-sm">
             <iframe
               title={`Mapa: ${address}`}
               src={`https://www.google.com/maps?q=${q}&output=embed`}

@@ -44,7 +44,7 @@ export function ServiceCards({ services }: { services: Service[] }) {
           return (
             <Reveal key={s.id} delay={(i % 4) * 0.05} className="w-[62%] shrink-0 snap-start sm:w-[42%] md:w-[31%] lg:w-[24%]">
               <Link href={`/agendar?servico=${s.id}`} className="group block">
-                <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted sm:rounded-[1.75rem]">
+                <div className="relative aspect-[4/5] overflow-hidden bg-muted">
                   <Image
                     src={img.src}
                     alt={img.alt}

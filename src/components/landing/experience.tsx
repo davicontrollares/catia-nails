@@ -27,7 +27,7 @@ export function Experience() {
           {ITEMS.map((it, i) => (
             <Reveal key={it.title} delay={i * 0.06}>
               <Link href="/agendar" className="group block">
-                <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-muted md:rounded-2xl">
+                <div className="relative aspect-[3/4] overflow-hidden bg-muted">
                   <Image src={it.img.src} alt={it.img.alt} fill sizes="(min-width: 768px) 22vw, 33vw" className="object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
                 </div>
                 <p className="mt-3 text-xs font-semibold tracking-[0.18em] uppercase md:text-sm">{it.title}</p>

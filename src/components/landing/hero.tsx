@@ -27,7 +27,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
   return (
     <section ref={ref} className="mx-auto max-w-7xl px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-0">
       {/* Mobile: marca no meio da foto e cartão de reserva rosa embaixo */}
-      <div className="relative isolate min-h-[calc(100dvh-8.5rem)] overflow-hidden rounded-[2.25rem] bg-muted md:hidden">
+      <div className="relative isolate min-h-[calc(100dvh-8.5rem)] overflow-hidden bg-muted md:hidden">
         <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover object-[center_70%]" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-b from-[oklch(0.5_0.13_355/0.55)] via-[oklch(0.5_0.13_355/0.1)] to-[oklch(0.4_0.12_355/0.55)]" />
         <div className="absolute inset-x-0 top-[17%] px-6 text-center text-white">
@@ -41,10 +41,10 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
         </div>
         <motion.div
           {...enter(0.2)}
-          className="absolute inset-x-3 bottom-3 rounded-[1.75rem] border border-white/70 bg-white/80 p-4 text-neutral-900 shadow-xl shadow-[oklch(0.4_0.12_355/0.3)] backdrop-blur-md dark:border-white/10 dark:bg-[oklch(0.22_0.03_350/0.92)] dark:text-white"
+          className="absolute inset-x-3 bottom-3 border border-white/70 bg-white/80 p-4 text-neutral-900 shadow-xl shadow-[oklch(0.4_0.12_355/0.3)] backdrop-blur-md dark:border-white/10 dark:bg-[oklch(0.22_0.03_350/0.92)] dark:text-white"
         >
           <div className="flex items-center gap-3.5">
-            <div className="relative size-16 shrink-0 overflow-hidden rounded-2xl bg-muted">
+            <div className="relative size-16 shrink-0 overflow-hidden bg-muted">
               <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="64px" className="object-cover" />
             </div>
             <div className="min-w-0 flex-1">
@@ -80,7 +80,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
       </div>
 
       {/* Desktop: faixa larga, texto sobre creme e foto à direita */}
-      <div className="relative hidden min-h-[36rem] overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[oklch(0.975_0.02_40)] via-[oklch(0.96_0.03_20)] to-[oklch(0.93_0.05_5)] dark:from-[oklch(0.22_0.03_350)] dark:via-[oklch(0.24_0.04_355)] dark:to-[oklch(0.29_0.06_355)] md:block lg:min-h-[40rem]">
+      <div className="relative hidden min-h-[36rem] overflow-hidden bg-gradient-to-r from-[oklch(0.975_0.02_40)] via-[oklch(0.96_0.03_20)] to-[oklch(0.93_0.05_5)] dark:from-[oklch(0.22_0.03_350)] dark:via-[oklch(0.24_0.04_355)] dark:to-[oklch(0.29_0.06_355)] md:block lg:min-h-[40rem]">
         <motion.div
           style={{ y: imgY }}
           initial={{ opacity: 0, scale: 1.05 }}
@@ -133,7 +133,7 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease, delay: 0.6 }}
-          className="glass-strong absolute right-10 bottom-16 w-72 rounded-[1.75rem] p-5"
+          className="glass-strong absolute right-10 bottom-16 w-72 p-5"
         >
           <p className="flex items-center gap-2 text-sm font-semibold">
             <CalendarCheck className="size-4 text-brand" /> Seu horário em 1 minuto
