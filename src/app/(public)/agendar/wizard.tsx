@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef, useState, useTransition } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
-import { addDays, format } from "date-fns"
+import { addDays, format, isSameDay } from "date-fns"
 import { ptBR } from "react-day-picker/locale"
-import { ArrowLeft, ArrowRight, CalendarPlus, Check, Download, Loader2, MessageCircle, Plus } from "lucide-react"
+import { ArrowLeft, ArrowRight, CalendarPlus, Check, ChevronLeft, ChevronRight, Download, Loader2, MessageCircle, Plus } from "lucide-react"
 import { toast } from "sonner"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,10 +19,10 @@ import type { Professional, Service } from "@/lib/types"
 import { brl, cn, duration, durationLabel, reserveMin, TZ } from "@/lib/utils"
 import { bookAppointment, getSlots } from "./actions"
 import { WaitlistButton } from "./waitlist"
-import { CardDialog, PAY_LABEL, PaymentSegmented, PixDialog, type PayMethod } from "./payment"
+import { CardDialog, PAY_LABEL, PaymentChoice, PixDialog, type PayMethod } from "./payment"
 
-const STEPS = ["Serviço", "Horário", "Confirmar"]
-const VIEWS = ["servicos", "data", "confirmar"] as const
+const STEPS = ["Serviço", "Horário", "Dados", "Pagamento"]
+const VIEWS = ["servicos", "data", "dados", "pagamento"] as const
 const hourOf = (iso: string) => Number(new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", hour12: false, timeZone: TZ }).slice(0, 2))
 const PERIODS: [string, (h: number) => boolean][] = [
   ["Manhã", (h) => h < 12],
@@ -60,6 +60,10 @@ export function BookingWizard({
   const [done, setDone] = useState<string | null>(null)
   const [pay, setPay] = useState<PayMethod>("local")
   const [cat, setCat] = useState("Todos")
+  const [month, setMonth] = useState(() => {
+    const d = new Date()
+    return new Date(d.getFullYear(), d.getMonth(), 1)
+  })
   const autoPick = useRef(false)
   const [payDialog, setPayDialog] = useState<"pix" | "mp" | null>(null)
   const view = VIEWS[step]
@@ -91,11 +95,18 @@ export function BookingWizard({
     })
   }, [date, professional, totalMin])
 
-  const days = useMemo(() => {
-    const base = new Date()
-    base.setHours(0, 0, 0, 0)
-    return Array.from({ length: Math.min(maxDaysAhead, 30) + 1 }, (_, i) => addDays(base, i))
-  }, [maxDaysAhead])
+  const today = useMemo(() => {
+    const d = new Date()
+    d.setHours(0, 0, 0, 0)
+    return d
+  }, [])
+  const lastDay = useMemo(() => addDays(today, maxDaysAhead), [today, maxDaysAhead])
+  const days = useMemo(() => Array.from({ length: Math.min(maxDaysAhead, 30) + 1 }, (_, i) => addDays(today, i)), [today, maxDaysAhead])
+  const monthCells = useMemo(() => {
+    const first = new Date(month.getFullYear(), month.getMonth(), 1)
+    const count = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate()
+    return [...Array.from({ length: first.getDay() }, () => null), ...Array.from({ length: count }, (_, i) => new Date(month.getFullYear(), month.getMonth(), i + 1))]
+  }, [month])
   const categories = useMemo(() => [...new Set(services.map((s) => s.category))], [services])
   const shown = cat === "Todos" ? services : services.filter((s) => s.category === cat)
 
@@ -120,7 +131,7 @@ export function BookingWizard({
   }
 
   const canNext =
-    view === "confirmar" ? Boolean(form.name && form.email && form.phone) : view === "servicos" ? chosen.length > 0 : Boolean(slot)
+    view === "dados" ? Boolean(form.name && form.email && form.phone) : view === "servicos" ? chosen.length > 0 : view === "data" ? Boolean(slot) : true
   const last = STEPS.length - 1
 
   function book() {
@@ -234,12 +245,12 @@ export function BookingWizard({
 
   return (
     <div className="mx-auto grid max-w-6xl gap-6 pb-12 lg:pb-0 lg:grid-cols-[1fr_360px] lg:items-start">
-      <div className="border bg-card p-4 shadow-sm sm:p-8">
+      <div className="min-w-0 border bg-card p-4 shadow-sm sm:p-8">
         <div className="flex items-center justify-between text-sm">
           <p className="font-semibold">Reservar</p>
           <p className="text-muted-foreground">{step + 1} de {STEPS.length}</p>
         </div>
-        <ol className="mt-3 grid grid-cols-3 gap-1.5" aria-label="Progresso">
+        <ol className="mt-3 grid grid-cols-4 gap-1.5" aria-label="Progresso">
           {STEPS.map((label, i) => (
             <li key={label}>
               <button type="button" disabled={i > step} onClick={() => setStep(i)} aria-label={label} className="block w-full py-1 disabled:cursor-default">
@@ -321,53 +332,68 @@ export function BookingWizard({
           {view === "data" && (
             <>
               <h1 className="font-display text-3xl sm:text-4xl">Quando fica bom?</h1>
-              <button type="button" onClick={nextFree} disabled={loadingSlots} className="mt-5 flex w-full items-center justify-between bg-brand-soft px-4 py-3.5 text-left">
-                <span>
-                  <span className="block text-xs text-muted-foreground">Sem pressa de escolher?</span>
-                  <span className="block font-semibold">Mostrar o próximo horário livre</span>
-                </span>
-                <span className="flex h-10 items-center rounded-full bg-pink px-4 text-sm font-semibold text-neutral-900">
-                  {loadingSlots ? <Loader2 className="size-4 animate-spin" /> : "Escolher"}
+              <button type="button" onClick={nextFree} disabled={loadingSlots} className="mt-5 flex w-full items-center justify-between gap-3 border border-brand/40 bg-brand-soft px-4 py-3 text-left">
+                <span className="text-sm font-semibold">Mostrar o próximo horário livre</span>
+                <span className="flex h-9 shrink-0 items-center rounded-full bg-pink px-4 text-sm font-semibold text-neutral-900">
+                  {loadingSlots ? <Loader2 className="size-4 animate-spin" /> : "Ver"}
                 </span>
               </button>
-              <div className="-mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:px-0" role="listbox" aria-label="Dias">
-                {days.map((d) => {
-                  const on = date && format(d, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
-                  return (
-                    <button
-                      key={d.toISOString()}
-                      type="button"
-                      role="option"
-                      aria-selected={Boolean(on)}
-                      onClick={() => { setDate(d); setSlot(undefined) }}
-                      className={cn("flex h-[74px] w-14 shrink-0 flex-col items-center justify-center border transition-colors", on ? "border-foreground bg-foreground text-background" : "bg-background hover:border-brand/50")}
-                    >
-                      <span className="text-[11px] uppercase opacity-70">{format(d, "EEE", { locale: ptBR }).slice(0, 3)}</span>
-                      <span className="mt-0.5 text-xl font-bold tabular-nums">{format(d, "d")}</span>
-                    </button>
-                  )
-                })}
+
+              <div className="mt-6 min-w-0">
+                <div className="flex items-center justify-between">
+                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))} disabled={month <= new Date(today.getFullYear(), today.getMonth(), 1)} aria-label="Mês anterior" className="flex size-11 items-center justify-center border bg-background disabled:opacity-30">
+                    <ChevronLeft className="size-5" />
+                  </button>
+                  <p className="font-display text-xl capitalize">{format(month, "MMMM 'de' yyyy", { locale: ptBR })}</p>
+                  <button type="button" onClick={() => setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))} disabled={new Date(month.getFullYear(), month.getMonth() + 1, 1) > lastDay} aria-label="Próximo mês" className="flex size-11 items-center justify-center border bg-background disabled:opacity-30">
+                    <ChevronRight className="size-5" />
+                  </button>
+                </div>
+                <div className="mt-3 grid grid-cols-7 text-center text-xs font-medium text-muted-foreground">
+                  {["D", "S", "T", "Q", "Q", "S", "S"].map((l, i) => <span key={i} className="py-2">{l}</span>)}
+                </div>
+                <div className="grid grid-cols-7 gap-1">
+                  {monthCells.map((d, i) => {
+                    if (!d) return <span key={`e${i}`} />
+                    const off = d < today || d > lastDay
+                    const on = date && isSameDay(d, date)
+                    return (
+                      <button
+                        key={d.toISOString()}
+                        type="button"
+                        disabled={off}
+                        aria-pressed={Boolean(on)}
+                        onClick={() => { setDate(d); setSlot(undefined) }}
+                        className={cn("flex aspect-square min-h-11 items-center justify-center text-[15px] tabular-nums transition-colors", on ? "bg-foreground font-bold text-background" : off ? "text-muted-foreground/35" : "bg-background font-medium hover:bg-brand-soft")}
+                      >
+                        {d.getDate()}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
-              <div className="mt-6">
+
+              <div className="mt-7">
                 {!date ? (
-                  <p className="border border-dashed p-6 text-sm text-muted-foreground">Escolha um dia para ver os horários livres.</p>
+                  <p className="border border-dashed p-5 text-sm text-muted-foreground">Escolha um dia para ver os horários livres.</p>
                 ) : loadingSlots || slots === null ? (
                   <div className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-                    {Array.from({ length: 9 }, (_, i) => <Skeleton key={i} className="h-12" />)}
+                    {Array.from({ length: 8 }, (_, i) => <Skeleton key={i} className="h-12" />)}
                   </div>
                 ) : slots.length === 0 ? (
-                  <div className="space-y-3 border border-dashed p-6 text-sm text-muted-foreground">
+                  <div className="space-y-3 border border-dashed p-5 text-sm text-muted-foreground">
                     <p>Nenhum horário livre neste dia. Tente outro dia ou entre na lista de espera.</p>
                     <WaitlistButton date={format(date, "yyyy-MM-dd")} serviceIds={selected} />
                   </div>
                 ) : (
                   <div className="space-y-5">
+                    <p className="text-sm font-semibold first-letter:uppercase">{format(date, "EEEE, d 'de' MMMM", { locale: ptBR })}</p>
                     {PERIODS.map(([label, test]) => {
                       const list = slots.filter((x) => test(hourOf(x)))
                       if (!list.length) return null
                       return (
                         <div key={label}>
-                          <p className="mb-2 text-sm font-semibold text-muted-foreground">{label}</p>
+                          <p className="mb-2 text-xs font-semibold tracking-wide text-muted-foreground uppercase">{label}</p>
                           <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-5" role="radiogroup" aria-label={`Horários da ${label.toLowerCase()}`}>
                             {list.map((x) => (
                               <button
@@ -376,7 +402,7 @@ export function BookingWizard({
                                 role="radio"
                                 aria-checked={slot === x}
                                 onClick={() => setSlot(x)}
-                                className={cn("h-12 border font-semibold tabular-nums transition-colors", slot === x ? "border-foreground bg-foreground text-background" : "bg-background hover:border-brand/50")}
+                                className={cn("h-12 border font-semibold tabular-nums transition-colors", slot === x ? "border-foreground bg-foreground text-background" : "bg-background hover:border-brand/60")}
                               >
                                 {fmtTime(x)}
                               </button>
@@ -385,41 +411,40 @@ export function BookingWizard({
                         </div>
                       )
                     })}
-                    <p className="text-sm text-muted-foreground">Sem horário bom? <span className="font-semibold text-brand"><WaitlistButton date={format(date, "yyyy-MM-dd")} serviceIds={selected} /></span></p>
+                    <div className="text-sm text-muted-foreground">Sem horário bom? <WaitlistButton date={format(date, "yyyy-MM-dd")} serviceIds={selected} /></div>
                   </div>
                 )}
               </div>
             </>
           )}
 
-          {view === "confirmar" && (
+          {view === "dados" && (
             <>
-              <h1 className="font-display text-3xl sm:text-4xl">Confirme seu horário</h1>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                <div className="grid gap-2 sm:col-span-2">
-                  <Label htmlFor="name">Nome</Label>
-                  <Input id="name" autoComplete="name" className="h-12 bg-background" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <h1 className="font-display text-3xl sm:text-4xl">Seus dados</h1>
+              <p className="mt-2 text-muted-foreground">Só o necessário para confirmar o horário.</p>
+              <div className="mt-6 grid gap-5">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Nome completo</Label>
+                  <Input id="name" autoComplete="name" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="phone">WhatsApp</Label>
-                  <Input id="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="(17) 99999-9999" className="h-12 bg-background" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+                  <Input id="phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="(17) 99999-9999" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="email">E-mail</Label>
-                  <Input id="email" type="email" inputMode="email" autoComplete="email" className="h-12 bg-background" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                  <Input id="email" type="email" inputMode="email" autoComplete="email" placeholder="voce@email.com" className="h-14 rounded-none border-foreground/25 bg-card px-4 text-base" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+                  <p className="text-xs text-muted-foreground">A confirmação chega por aqui.</p>
                 </div>
-                <div className="grid gap-2 sm:col-span-2">
-                  <Label htmlFor="notes">Observações (opcional)</Label>
-                  <Textarea id="notes" rows={2} className="bg-background" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
+                <div className="grid gap-2">
+                  <Label htmlFor="notes">Algo que devemos saber? <span className="font-normal text-muted-foreground">(opcional)</span></Label>
+                  <Textarea id="notes" rows={3} className="rounded-none border-foreground/25 bg-card px-4 py-3 text-base" value={form.notes} onChange={(e) => setForm({ ...form, notes: e.target.value })} />
                 </div>
               </div>
-              <p className="mt-6 mb-2 text-sm font-semibold">Pagamento</p>
-              <PaymentSegmented value={pay} onChange={setPay} />
-              <p className="mt-3 text-xs text-muted-foreground">
-                {pay === "local" ? "Você paga no dia do atendimento." : "Demonstração: o pagamento online é simulado e nenhum valor é cobrado."}
-              </p>
             </>
           )}
+
+          {view === "pagamento" && <PaymentChoice value={pay} onChange={setPay} total={totalPrice} />}
         </motion.div>
       </div>
 
@@ -445,7 +470,7 @@ export function BookingWizard({
           )}
           <Button size="lg" className="h-12 flex-1" disabled={!canNext || submitting} onClick={next}>
             {submitting && <Loader2 className="animate-spin" />}
-            {step === 0 ? "Escolher horário" : step < last ? "Continuar" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar horário"}
+            {step === 0 ? "Escolher horário" : step === 1 ? "Continuar" : step === 2 ? "Ir para o pagamento" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar horário"}
             {step < last && <ArrowRight />}
           </Button>
         </div>
@@ -464,7 +489,7 @@ export function BookingWizard({
           )}
           <Button size="lg" className="h-12 min-w-0 flex-1 basis-0 sm:flex-none sm:basis-auto" disabled={!canNext || submitting} onClick={next}>
             {submitting && <Loader2 className="animate-spin" />}
-            {step === 0 ? "Escolher horário" : step < last ? "Continuar" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar horário"}
+            {step === 0 ? "Escolher horário" : step === 1 ? "Continuar" : step === 2 ? "Ir para o pagamento" : pay === "pix" ? "Pagar com Pix" : pay === "mp" ? "Pagar com cartão" : "Confirmar horário"}
             {step < last && <ArrowRight />}
           </Button>
         </div>

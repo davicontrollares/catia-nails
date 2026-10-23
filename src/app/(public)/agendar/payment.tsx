@@ -64,12 +64,12 @@ export function PaymentChoice({ value, onChange, total }: { value: PayMethod; on
             key={id}
             htmlFor={`pay-${id}`}
             className={cn(
-              "flex min-h-20 cursor-pointer items-center gap-4 rounded-2xl border bg-background px-5 py-4 font-normal transition-colors hover:border-primary/40",
+              "flex min-h-20 cursor-pointer items-center gap-4 border bg-background px-5 py-4 font-normal transition-colors hover:border-primary/40",
               value === id && "border-primary bg-accent/60"
             )}
           >
             <RadioGroupItem id={`pay-${id}`} value={id} />
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-primary">
+            <span className="flex size-11 shrink-0 items-center justify-center bg-brand-soft text-brand">
               <Icon className="size-5" />
             </span>
             <span className="flex-1">
@@ -79,7 +79,7 @@ export function PaymentChoice({ value, onChange, total }: { value: PayMethod; on
           </Label>
         ))}
       </RadioGroup>
-      <p className="mt-4 rounded-xl bg-muted/60 px-4 py-3 text-xs text-muted-foreground">
+      <p className="mt-4 bg-muted/60 px-4 py-3 text-xs text-muted-foreground">
         Demonstração: o pagamento online é simulado e nenhum valor é cobrado.
       </p>
     </>
