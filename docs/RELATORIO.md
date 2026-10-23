@@ -56,4 +56,4 @@ Migrations em `supabase/migrations`, de `0001` a `0005`. A `0005` cria `services
 
 ## Demonstrações para outros estúdios
 
-Projeto separado, `demos-nails`, com três sites de conceito (Hope Nail Spa, Unique Nails, Katie's Nails & Spa), em inglês, com reserva simulada, mapa e botão para trocar a paleta (5 paletas). Estão em `hope-nail-spa.nailbooklink.com`, `unique-nails.nailbooklink.com` e `katies-nails-spa.nailbooklink.com`. São conceitos privados, não os sites oficiais dessas empresas, e usam fotos de exemplo.
+Projeto separado dentro da pasta `demos/` (veja `demos/README.md`), com três sites de conceito (Hope Nail Spa, Unique Nails, Katie's Nails & Spa), em inglês, com reserva simulada, mapa e botão para trocar a paleta (5 paletas). Estão em `hope-nail-spa.nailbooklink.com`, `unique-nails.nailbooklink.com` e `katies-nails-spa.nailbooklink.com`. São conceitos privados, não os sites oficiais dessas empresas, e usam fotos de exemplo.

@@ -69,4 +69,6 @@ O banco é o Supabase. Mudança de tabela vira um **novo arquivo** em `supabase/
 | Depoimentos (aparecem quando houver itens) | `src/lib/reviews.ts` |
 | Cores, vidro e fontes | `src/app/globals.css` e `src/app/layout.tsx` |
 
+Os três sites de demonstração para outros estúdios ficam na pasta `demos/` (veja `demos/README.md`).
+
 O relatório completo do que já foi feito está em `docs/RELATORIO.md`.
