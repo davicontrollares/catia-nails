@@ -28,6 +28,31 @@ const METHODS: { id: PayMethod; title: string; help: string; icon: React.Element
   { id: "local", title: "Pagar no studio", help: "Pix, dinheiro ou cartão no dia.", icon: Store },
 ]
 
+/** Escolha de pagamento em três botões, para o passo final. */
+export function PaymentSegmented({ value, onChange }: { value: PayMethod; onChange: (v: PayMethod) => void }) {
+  const order: PayMethod[] = ["local", "pix", "mp"]
+  const short: Record<PayMethod, string> = { local: "No studio", pix: "Pix", mp: "Cartão" }
+  return (
+    <div role="radiogroup" aria-label="Forma de pagamento" className="grid grid-cols-3 gap-1 border bg-card p-1">
+      {order.map((id) => (
+        <button
+          key={id}
+          type="button"
+          role="radio"
+          aria-checked={value === id}
+          onClick={() => onChange(id)}
+          className={cn(
+            "h-11 text-sm font-semibold transition-colors",
+            value === id ? "bg-foreground text-background" : "text-foreground hover:bg-muted"
+          )}
+        >
+          {short[id]}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function PaymentChoice({ value, onChange, total }: { value: PayMethod; onChange: (v: PayMethod) => void; total: number }) {
   return (
     <>
