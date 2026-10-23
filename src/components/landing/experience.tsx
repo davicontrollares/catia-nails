@@ -5,21 +5,21 @@ import { Reveal } from "@/components/landing/reveal"
 import { IMAGES } from "@/lib/images"
 
 const ITEMS = [
-  { title: "Manicure", text: "Perfeita em cada detalhe", img: IMAGES.gallery[0] },
-  { title: "Nail art", text: "Mostre o seu estilo", img: IMAGES.gallery[1] },
-  { title: "Gel e alongamento", text: "Força e elegância", img: IMAGES.gallery[2] },
+  { title: "Manicure", text: "Perfeita em cada detalhe", img: IMAGES.experience[0] },
+  { title: "Nail art", text: "Mostre o seu estilo", img: IMAGES.experience[1] },
+  { title: "Gel e alongamento", text: "Força e elegância", img: IMAGES.experience[2] },
 ]
 
 /** Faixa de três fotos altas, no estilo editorial das referências. */
 export function Experience() {
   return (
-    <section className="bg-brand-soft py-16 text-foreground md:py-24 dark:bg-[oklch(0.87_0.03_75)] dark:text-neutral-900">
+    <section className="bg-brand-soft py-16 text-foreground md:py-24">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-12 md:px-6">
         <Reveal className="md:col-span-4 md:self-center">
           <p className="text-[0.7rem] font-semibold tracking-[0.22em] uppercase opacity-70">Mais que unhas</p>
           <h2 className="mt-3 font-display text-4xl leading-tight md:text-5xl">É uma experiência</h2>
           <p className="mt-4 max-w-xs text-sm leading-relaxed opacity-80">Dos clássicos às ideias mais ousadas, criamos unhas tão únicas quanto você.</p>
-          <Link href="/agendar" className="mt-7 inline-flex h-12 items-center gap-2 rounded-md bg-foreground px-7 text-xs font-semibold tracking-[0.2em] text-background uppercase dark:bg-neutral-900 dark:text-white">
+          <Link href="/agendar" className="mt-7 inline-flex h-12 items-center gap-2 rounded-md bg-foreground px-7 text-xs font-semibold tracking-[0.2em] text-background uppercase">
             Agendar horário <ArrowUpRight className="size-4" />
           </Link>
         </Reveal>

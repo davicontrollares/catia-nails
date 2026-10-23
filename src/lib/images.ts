@@ -6,10 +6,15 @@ const px = (id: number, path?: string) =>
 export type Img = { src: string; alt: string }
 
 export const IMAGES = {
-  hero: { src: px(7664093), alt: "Mão com unhas delicadas sobre seda cor de pêssego" },
+  hero: { src: px(34311632, "pexels-photo-34311632/free-photo-of-elegant-jewelry-display-on-manicured-hands.jpeg"), alt: "Mãos com unhas delicadas e colar de brilhantes" },
   detail: { src: px(34941685, "pexels-photo-34941685/free-photo-of-elegant-close-up-of-hand-with-manicure-and-pearl-details.jpeg"), alt: "Unhas feitas com detalhes de pérolas" },
   about: { src: px(4783262), alt: "Atendimento de manicure no studio" },
   cta: { src: px(34941704, "pexels-photo-34941704/free-photo-of-elegant-hand-holding-decorative-white-poinsettia.jpeg"), alt: "Mão com unhas feitas segurando uma flor branca" },
+  experience: [
+    { src: px(16363470, "pexels-photo-16363470/free-photo-of-hands-with-professional-manicure-done.jpeg"), alt: "Unhas com glitter rosa sobre tecido rosa" },
+    { src: px(20758448, "pexels-photo-20758448/free-photo-of-pink-flower-on-hand-with-polished-nails.jpeg"), alt: "Unhas rosa segurando uma flor" },
+    { src: px(7664093), alt: "Mão com unhas delicadas sobre seda cor de pêssego" },
+  ] satisfies Img[],
   gallery: [
     { src: px(34871556, "pexels-photo-34871556/free-photo-of-stylish-red-manicure-on-fluffy-surface.jpeg"), alt: "Unhas vermelhas com detalhe ondulado" },
     { src: px(34997574, "pexels-photo-34997574/free-photo-of-elegant-hand-with-french-manicure-and-jewelry.jpeg"), alt: "Francesinha com anéis dourados" },
