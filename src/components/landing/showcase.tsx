@@ -29,7 +29,7 @@ export function Showcase({ photos, instagram }: { photos: Img[]; instagram: stri
           return (
             <div key={r.n} className="grid items-center gap-8 md:grid-cols-12 md:gap-0">
               <Reveal className={cn("md:col-span-7", flip ? "md:order-2 md:col-start-6" : "md:col-start-1")}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] bg-muted md:rounded-[2.5rem]">
+                <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                   <Image src={pic.src} alt={pic.alt} fill sizes="(min-width: 768px) 58vw, 100vw" className="object-cover" />
                 </div>
               </Reveal>
