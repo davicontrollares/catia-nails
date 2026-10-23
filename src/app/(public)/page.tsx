@@ -44,8 +44,8 @@ export default async function Home() {
       <Hero whatsapp={settings.whatsapp} />
 
       {/* Benefícios do agendamento */}
-      <section aria-label="Como funciona" className="mx-auto max-w-7xl px-4 md:px-6">
-        <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border bg-border md:grid-cols-4">
+      <section aria-label="Como funciona" className="relative z-10 mx-auto -mt-2 max-w-7xl px-4 md:-mt-10 md:px-10">
+        <ul className="glass-strong grid grid-cols-2 gap-px overflow-hidden rounded-3xl md:grid-cols-4">
           {[
             [CalendarCheck, "Agenda online", "Horários livres a qualquer hora"],
             [Mail, "Confirmação por e-mail", "Com botão para salvar na agenda"],
@@ -54,9 +54,9 @@ export default async function Home() {
           ].map(([Icon, title, text]) => {
             const I = Icon as typeof CalendarCheck
             return (
-              <li key={title as string} className="flex flex-col items-center gap-1.5 bg-card/80 px-4 py-6 text-center backdrop-blur">
+              <li key={title as string} className="flex flex-col items-center gap-2 px-4 py-6 text-center">
                 <I className="size-6 text-brand" strokeWidth={1.5} />
-                <p className="text-sm font-semibold">{title as string}</p>
+                <p className="text-[0.7rem] font-semibold tracking-[0.18em] uppercase">{title as string}</p>
                 <p className="text-xs text-muted-foreground">{text as string}</p>
               </li>
             )

@@ -6,11 +6,13 @@ const px = (id: number, path?: string) =>
 export type Img = { src: string; alt: string }
 
 export const IMAGES = {
-  hero: { src: px(6941115), alt: "Mãos com unhas nude sobre tecido branco" },
+  hero: { src: px(7664093), alt: "Mão com unhas delicadas sobre seda cor de pêssego" },
   detail: { src: px(34941685, "pexels-photo-34941685/free-photo-of-elegant-close-up-of-hand-with-manicure-and-pearl-details.jpeg"), alt: "Unhas feitas com detalhes de pérolas" },
   about: { src: px(4783262), alt: "Atendimento de manicure no studio" },
   cta: { src: px(34941704, "pexels-photo-34941704/free-photo-of-elegant-hand-holding-decorative-white-poinsettia.jpeg"), alt: "Mão com unhas feitas segurando uma flor branca" },
   gallery: [
+    { src: px(34871556, "pexels-photo-34871556/free-photo-of-stylish-red-manicure-on-fluffy-surface.jpeg"), alt: "Unhas vermelhas com detalhe ondulado" },
+    { src: px(34997574, "pexels-photo-34997574/free-photo-of-elegant-hand-with-french-manicure-and-jewelry.jpeg"), alt: "Francesinha com anéis dourados" },
     { src: px(35491156, "pexels-photo-35491156/free-photo-of-elegant-nude-and-glitter-manicure-close-up.jpeg"), alt: "Unhas nude com glitter e flor" },
     { src: px(19192220, "pexels-photo-19192220/free-photo-of-rings-on-woman-hands.jpeg"), alt: "Mãos com anéis e unhas feitas" },
     { src: px(20758448, "pexels-photo-20758448/free-photo-of-pink-flower-on-hand-with-polished-nails.jpeg"), alt: "Unhas rosa claro segurando flor" },

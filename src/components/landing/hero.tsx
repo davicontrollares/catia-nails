@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRef } from "react"
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, CalendarCheck, MessageCircle, Sparkles, Star } from "lucide-react"
+import { CalendarCheck, MessageCircle, Sparkles, Star } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 import { IMAGES } from "@/lib/images"
 import { cn } from "@/lib/utils"
@@ -17,20 +17,19 @@ const enter = (delay: number) => ({
   transition: { duration: 0.9, ease, delay },
 })
 
-/** Celular: foto cheia com texto por cima, no estilo de app. Desktop: texto e foto lado a lado. */
+/** Celular: foto cheia com texto por cima, no estilo de app. Desktop: faixa larga com foto à direita. */
 export function Hero({ whatsapp }: { whatsapp: string | null }) {
   const ref = useRef<HTMLElement>(null)
   const reduce = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] })
-  const imgY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 70])
-  const detailY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : -50])
+  const imgY = useTransform(scrollYProgress, [0, 1], [0, reduce ? 0 : 60])
 
   return (
-    <section ref={ref} className="mx-auto max-w-7xl px-4 pt-4 pb-10 md:px-6 md:pt-8 md:pb-16">
+    <section ref={ref} className="mx-auto max-w-7xl px-4 pt-4 pb-6 md:px-6 md:pt-6 md:pb-0">
       {/* Mobile */}
       <div className="relative isolate flex min-h-[calc(100dvh-9.5rem)] flex-col justify-end overflow-hidden rounded-[2rem] bg-muted md:hidden">
-        <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[oklch(0.2_0.03_350/0.88)] via-[oklch(0.2_0.03_350/0.35)] to-transparent" />
+        <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="100vw" className="-z-20 object-cover object-[center_20%]" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[oklch(0.2_0.03_350/0.88)] via-[oklch(0.2_0.03_350/0.3)] to-transparent" />
         <div className="p-6 pb-7 text-white">
           <motion.p {...enter(0)} className="mb-4 flex items-center gap-1.5 text-xs tracking-wide text-white/85">
             <Star className="size-3.5 fill-white text-white" />
@@ -61,80 +60,74 @@ export function Hero({ whatsapp }: { whatsapp: string | null }) {
         </div>
       </div>
 
-      {/* Desktop */}
-      <div className="hidden min-h-[calc(100dvh-10rem)] items-center gap-12 md:grid md:grid-cols-12">
-        <div className="md:col-span-6">
-          <motion.p {...enter(0)} className="mb-6 text-xs font-medium tracking-[0.22em] text-brand uppercase">
-            Nail studio · São José do Rio Preto
-          </motion.p>
-          <motion.h1 {...enter(0.08)} className="font-display text-[4.4rem] leading-[1.02] text-balance lg:text-[5.4rem]">
-            Unhas finas que parecem <span className="text-brand italic">naturais.</span>
-          </motion.h1>
-          <motion.p {...enter(0.18)} className="mt-6 max-w-md text-lg leading-relaxed text-muted-foreground">
-            Alongamento em fibra de vidro e banho em gel, com acabamento fino e atendimento com hora marcada.
-          </motion.p>
-          <motion.div {...enter(0.28)} className="mt-9 flex gap-3">
-            <Link href="/agendar" className={cn(buttonVariants({ size: "lg" }), "group h-13 rounded-full bg-pink px-8 text-base font-semibold text-neutral-900 hover:bg-pink/85")}>
-              Agendar horário
-              <ArrowRight className="transition-transform group-hover:translate-x-1" />
-            </Link>
-            {whatsapp && (
-              <a
-                href={`https://wa.me/${whatsapp}`}
-                target="_blank"
-                rel="noreferrer"
-                className={cn(buttonVariants({ size: "lg", variant: "outline" }), "h-13 bg-background/50 px-8 text-base backdrop-blur")}
+      {/* Desktop: faixa larga, texto sobre creme e foto à direita */}
+      <div className="relative hidden min-h-[36rem] overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-[oklch(0.975_0.02_40)] via-[oklch(0.96_0.03_20)] to-[oklch(0.93_0.05_5)] md:block lg:min-h-[40rem]">
+        <motion.div
+          style={{ y: imgY }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.3, ease }}
+          className="absolute inset-y-0 right-0 w-[62%] [mask-image:linear-gradient(to_right,transparent,black_38%)]"
+        >
+          <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="62vw" className="object-cover object-[center_30%]" />
+        </motion.div>
+
+        <div className="relative flex min-h-[inherit] items-center px-12 lg:px-20">
+          <div className="max-w-md py-16">
+            <motion.p {...enter(0)} className="font-display text-xl text-foreground/70 italic">
+              Nail studio · São José do Rio Preto
+            </motion.p>
+            <motion.h1 {...enter(0.08)} className="mt-3 font-display text-[4rem] leading-[1.02] text-balance lg:text-[4.8rem]">
+              Unhas finas que parecem <span className="text-brand italic">naturais.</span>
+            </motion.h1>
+            <motion.div {...enter(0.16)} className="mt-6 flex items-center gap-3 text-brand" aria-hidden>
+              <span className="h-px w-16 bg-current/40" />
+              <span className="size-1.5 rotate-45 bg-current" />
+              <span className="h-px w-16 bg-current/40" />
+            </motion.div>
+            <motion.p {...enter(0.22)} className="mt-6 text-base leading-relaxed text-muted-foreground">
+              Alongamento em fibra de vidro e banho em gel, com acabamento fino e atendimento com hora marcada.
+            </motion.p>
+            <motion.div {...enter(0.3)} className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href="/agendar"
+                className={cn(buttonVariants({ size: "lg" }), "h-13 rounded-md bg-foreground px-9 text-xs font-semibold tracking-[0.22em] text-background uppercase hover:bg-foreground/85")}
               >
-                WhatsApp
-              </a>
-            )}
-          </motion.div>
-          <motion.p {...enter(0.36)} className="mt-10 flex items-center gap-2 text-sm text-muted-foreground">
-            <span className="flex">
-              {Array.from({ length: 5 }, (_, i) => <Star key={i} className="size-4 fill-brand text-brand" />)}
-            </span>
-            5,0 no Google, mais de 100 avaliações
-          </motion.p>
+                Agendar horário
+              </Link>
+              {whatsapp && (
+                <a href={`https://wa.me/${whatsapp}`} target="_blank" rel="noreferrer" className="text-xs font-semibold tracking-[0.22em] uppercase underline underline-offset-8 hover:text-brand">
+                  WhatsApp
+                </a>
+              )}
+            </motion.div>
+            <motion.p {...enter(0.38)} className="mt-10 flex items-center gap-2 text-sm text-muted-foreground">
+              <span className="flex">
+                {Array.from({ length: 5 }, (_, i) => <Star key={i} className="size-4 fill-brand text-brand" />)}
+              </span>
+              5,0 no Google, mais de 100 avaliações
+            </motion.p>
+          </div>
         </div>
 
-        <div className="relative md:col-span-6">
-          <motion.div
-            style={{ y: imgY }}
-            initial={{ opacity: 0, scale: 1.04 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, ease }}
-            className="relative aspect-[5/6] overflow-hidden rounded-[2.5rem] bg-muted shadow-2xl shadow-primary/15"
-          >
-            <Image src={IMAGES.hero.src} alt={IMAGES.hero.alt} fill priority sizes="50vw" className="object-cover" />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease, delay: 0.6 }}
-            className="glass-strong absolute right-6 bottom-8 w-72 rounded-[1.75rem] p-5"
-          >
-            <p className="flex items-center gap-2 text-sm font-semibold">
-              <CalendarCheck className="size-4 text-brand" /> Seu horário em 1 minuto
-            </p>
-            <div className="mt-3 flex flex-wrap gap-1.5">
-              {["Serviço", "Data e hora", "Dados"].map((c) => (
-                <span key={c} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-foreground/80">{c}</span>
-              ))}
-            </div>
-            <Link href="/agendar" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-pink text-sm font-semibold text-neutral-900 transition hover:bg-pink/85">
-              <Sparkles className="size-4" /> Agendar agora
-            </Link>
-          </motion.div>
-          <motion.div
-            style={{ y: detailY }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease, delay: 0.45 }}
-            className="absolute -bottom-6 -left-10 aspect-square w-44 overflow-hidden rounded-3xl border-4 border-background shadow-xl shadow-foreground/10 lg:-left-16 lg:w-52"
-          >
-            <Image src={IMAGES.detail.src} alt={IMAGES.detail.alt} fill sizes="208px" className="object-cover" />
-          </motion.div>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease, delay: 0.6 }}
+          className="glass-strong absolute right-10 bottom-16 w-72 rounded-[1.75rem] p-5"
+        >
+          <p className="flex items-center gap-2 text-sm font-semibold">
+            <CalendarCheck className="size-4 text-brand" /> Seu horário em 1 minuto
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {["Serviço", "Data e hora", "Dados"].map((c) => (
+              <span key={c} className="rounded-full bg-brand-soft px-3 py-1 text-xs font-medium text-foreground/80">{c}</span>
+            ))}
+          </div>
+          <Link href="/agendar" className="mt-4 flex h-11 items-center justify-center gap-2 rounded-full bg-pink text-sm font-semibold text-neutral-900 transition hover:bg-pink/85">
+            <Sparkles className="size-4" /> Agendar agora
+          </Link>
+        </motion.div>
       </div>
     </section>
   )
