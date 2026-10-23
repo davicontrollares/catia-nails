@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Clock, Plus } from "lucide-react"
+import { ChevronLeft, ChevronRight, Clock, Plus } from "lucide-react"
 import { Reveal } from "@/components/landing/reveal"
 import { serviceImage } from "@/lib/images"
 import type { Service } from "@/lib/types"
@@ -14,6 +14,8 @@ export function ServiceCards({ services }: { services: Service[] }) {
   const categories = [...new Set(services.map((s) => s.category))]
   const [tab, setTab] = useState<string>("Todos")
   const list = tab === "Todos" ? services : services.filter((s) => s.category === tab)
+  const track = useRef<HTMLDivElement>(null)
+  const slide = (dir: 1 | -1) => track.current?.scrollBy({ left: dir * track.current.clientWidth * 0.8, behavior: "smooth" })
 
   return (
     <div>
@@ -36,11 +38,11 @@ export function ServiceCards({ services }: { services: Service[] }) {
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-5 sm:gap-y-10 lg:grid-cols-4">
+      <div ref={track} className="-mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-4 pb-2 [scrollbar-width:none] md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden">
         {list.map((s, i) => {
           const img = serviceImage(s.name, s.category)
           return (
-            <Reveal key={s.id} delay={(i % 4) * 0.05}>
+            <Reveal key={s.id} delay={(i % 4) * 0.05} className="w-[62%] shrink-0 snap-start sm:w-[42%] md:w-[31%] lg:w-[24%]">
               <Link href={`/agendar?servico=${s.id}`} className="group block">
                 <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-muted sm:rounded-[1.75rem]">
                   <Image
@@ -68,6 +70,15 @@ export function ServiceCards({ services }: { services: Service[] }) {
             </Reveal>
           )
         })}
+      </div>
+
+      <div className="mt-6 hidden justify-end gap-2 md:flex">
+        <button type="button" onClick={() => slide(-1)} aria-label="Serviços anteriores" className="flex size-11 items-center justify-center rounded-full border bg-card transition hover:bg-muted">
+          <ChevronLeft className="size-5" />
+        </button>
+        <button type="button" onClick={() => slide(1)} aria-label="Próximos serviços" className="flex size-11 items-center justify-center rounded-full border bg-card transition hover:bg-muted">
+          <ChevronRight className="size-5" />
+        </button>
       </div>
     </div>
   )
