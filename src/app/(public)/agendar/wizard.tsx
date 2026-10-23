@@ -20,11 +20,11 @@ import { buildIcs, googleCalendarUrl, outlookCalendarUrl, type CalendarEvent } f
 import { serviceImage } from "@/lib/images"
 import type { Professional, Service } from "@/lib/types"
 import { brl, cn, duration, TZ } from "@/lib/utils"
-import { bookAppointment, findLastBooking, getSlots } from "./actions"
+import { bookAppointment, getSlots } from "./actions"
 import { CardDialog, PAY_LABEL, PaymentChoice, PixDialog, type PayMethod } from "./payment"
 
-const STEPS = ["Seus dados", "Serviços", "Data e hora", "Pagamento"]
-const VIEWS = ["dados", "servicos", "data", "pagamento"] as const
+const STEPS = ["Serviços", "Data e hora", "Seus dados", "Pagamento"]
+const VIEWS = ["servicos", "data", "dados", "pagamento"] as const
 const fmtTime = (iso: string) => new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit", timeZone: TZ })
 const fmtDay = (iso: string) =>
   new Date(iso).toLocaleDateString("pt-BR", { weekday: "long", day: "numeric", month: "long", timeZone: TZ })
@@ -56,7 +56,6 @@ export function BookingWizard({
   const [done, setDone] = useState<string | null>(null)
   const [pay, setPay] = useState<PayMethod>("pix")
   const [payDialog, setPayDialog] = useState<"pix" | "mp" | null>(null)
-  const [repeated, setRepeated] = useState(false)
   const view = VIEWS[step]
   const [loadingSlots, startSlots] = useTransition()
   const [submitting, startSubmit] = useTransition()
@@ -99,18 +98,6 @@ export function BookingWizard({
   }
 
   function next() {
-    // ao sair do cadastro, procura o último atendimento e já marca os serviços
-    if (view === "dados" && !selected.length) {
-      startSubmit(async () => {
-        const res = await findLastBooking({ email: form.email, phone: form.phone })
-        if (res.ok) {
-          setSelected(res.serviceIds.filter((id) => services.some((s) => s.id === id)))
-          setRepeated(true)
-        }
-        setStep(1)
-      })
-      return
-    }
     if (step < last) return setStep(step + 1)
     if (pay === "local") book()
     else setPayDialog(pay)
@@ -221,12 +208,6 @@ export function BookingWizard({
               <>
                 <h1 className="font-display text-3xl sm:text-4xl">O que vamos fazer?</h1>
                 <p className="mt-2 text-muted-foreground">Escolha um ou mais serviços.</p>
-                {repeated && chosen.length > 0 && (
-                  <div className="mt-6 flex items-center justify-between gap-3 rounded-2xl bg-brand-soft px-4 py-3 text-sm">
-                    <span>Marcamos os serviços da sua última visita. Adicione ou tire o que quiser.</span>
-                    <Button variant="ghost" size="sm" onClick={() => setSelected([])}>Limpar</Button>
-                  </div>
-                )}
                 <div className="mt-6 grid gap-3">
                   {services.map((s) => {
                     const on = selected.includes(s.id)
@@ -317,7 +298,7 @@ export function BookingWizard({
             {view === "dados" && (
               <>
                 <h1 className="font-display text-3xl sm:text-4xl">Vamos começar</h1>
-                <p className="mt-2 text-muted-foreground">Se você já veio antes, trazemos seus serviços da última visita.</p>
+                <p className="mt-2 text-muted-foreground">Quase lá. Só precisamos de como falar com você.</p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   <div className="grid gap-2 sm:col-span-2">
                     <Label htmlFor="name">Nome</Label>
