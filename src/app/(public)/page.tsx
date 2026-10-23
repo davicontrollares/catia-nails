@@ -1,8 +1,11 @@
 import { BellRing, CalendarCheck, CreditCard, Mail } from "lucide-react"
+import { About } from "@/components/landing/about"
 import { Experience } from "@/components/landing/experience"
 import { Hero } from "@/components/landing/hero"
+import { HowItWorks } from "@/components/landing/how-it-works"
 import { Reveal } from "@/components/landing/reveal"
 import { Showcase } from "@/components/landing/showcase"
+import { Reviews } from "@/components/landing/reviews"
 import { ServiceCards } from "@/components/landing/service-cards"
 import { Visit } from "@/components/landing/visit"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
@@ -70,9 +73,15 @@ export default async function Home() {
         <ServiceCards services={services} />
       </section>
 
+      <HowItWorks />
+
       <Experience />
 
       <Showcase photos={photos} instagram={settings.instagram} />
+
+      <About />
+
+      <Reviews />
 
       {/* Dúvidas */}
       <section className="mx-auto max-w-3xl px-4 py-16 md:py-24">
